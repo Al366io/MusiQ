@@ -1,3 +1,9 @@
 .App {
   text-align: center;
 }
+
+@font-face {
+  font-family: 'PublicPixel' ;
+  src: local('PublicPixel-z84yD'),
+  url('./fonts/public-pixel-font/PublicPixel-z84yD.ttf') format('truetype');
+}

@@ -16,7 +16,7 @@ const Home = () => {
         ?
         <Link to="/login" class='login'>Get Started</Link> 
         : <div id='logged'>
-            <span id='hey-user'>Hey, {user.name.split(' ')[0]}</span>
+            <span id='hey-user'>Hey, {user.given_name}</span>
             <Link to='/owner' className="nologin">Create a Party?</Link>
           </div>
         }
@@ -32,7 +32,13 @@ const Home = () => {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#52B69A" fill-opacity="1" d="M0,128L40,128C80,128,160,128,240,112C320,96,400,64,480,48C560,32,640,32,720,58.7C800,85,880,139,960,154.7C1040,171,1120,149,1200,128C1280,107,1360,85,1400,74.7L1440,64L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path></svg>
       <div id="section-2">
         <div id="wrapper-section-2">
-
+          <span className='points-section-2'>Connect through Spotify</span>
+          <span className='down-arrow'>&#8595;</span>
+          <span className='points-section-2'>Create your party</span>
+          <span className='down-arrow'>&#8595;</span>
+          <span className='points-section-2'>Set some ground rules</span>
+          <span className='down-arrow'>&#8595;</span>
+          <span className='points-section-2'>Enjoy great MusiQ</span>
         </div>
       </div>
       <Footer/>

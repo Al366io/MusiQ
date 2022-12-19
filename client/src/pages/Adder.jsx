@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import './styles/Adder.css'
 
 const Adder = () => {
@@ -6,17 +6,12 @@ const Adder = () => {
   let {id} = useParams()
 
   return (
-    <div id="adder-wrapper">
-      <h1>Adder - Party {id}</h1>
-      <ul>Landing Page
-        <li>Login or username invention</li>
-        <li>Get Started button</li>
-      </ul>
-      <ul>List Page
-        <li>See Playing now</li>
-        <li>All List</li>
-        <li>Adding Button bottom</li>
-      </ul>
+    <div id="adding-background">
+      <div id="adder-container">
+        <h2 id="party-presenter">Party #{id}</h2>
+        <Link to={`/adding/${id}`} className="join-party">Join the Party</Link>
+        <Link to={`/adding/${id}`} className="join-party join-under">As Guest</Link>
+      </div>
     </div>
   );
 };
