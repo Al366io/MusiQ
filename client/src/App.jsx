@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/adder" element={<Adder />} />
+          <Route path="/adder/:id" element={<Adder />} />
           <Route path="/login" element={<Login />} />
           <Route path="/owner" element={<Owner />} />
           <Route path="*" element={<NoPage />} />
