@@ -12,6 +12,24 @@ import { useAuth0 } from "@auth0/auth0-react";
 function UserProfile() {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
+  // async function connectSpotify() {
+  //   // call the fetch method and await the response
+  //   const response = await fetch("http://localhost:3001/connectspotify", {
+  //     mode: 'cors', // no-cors, *cors, same-origin
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Access-Control-Allow-Origin': '*'
+  //     },
+  //   });
+  //   const data = await response.json();
+  //   console.log('response: ' + response);
+  //   console.log('data: ' + data);
+  //   // if response status from server is 200
+  //   if (response.status === 200) {
+
+  //   }
+  // }
+
   if (isLoading) {
     return <div>Loading ...</div>;
   }
@@ -22,9 +40,10 @@ function UserProfile() {
         <img src={user.picture} alt={user.name} />
         <h2>{user.name}</h2>
         <p>{user.email}</p>
+        <a href="http://localhost:3001/connectspotify">CONNECT YOUR SPOTIFY</a>
       </div>
     )
   );
-};
+}
 
 export default UserProfile;
