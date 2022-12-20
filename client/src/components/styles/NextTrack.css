@@ -1,0 +1,11 @@
+.next{
+  width: 100vw;
+  background-color: red;
+  color: white;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-column-gap: 20px;
+  align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
