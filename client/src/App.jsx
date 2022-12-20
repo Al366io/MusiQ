@@ -7,6 +7,7 @@ import Owner from "./pages/Owner";
 import NoPage from "./pages/NoPage";
 
 import './fonts/public-pixel-font/PublicPixel-z84yD.ttf'
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/owner" element={<Owner />} />
           <Route path="/adding/:id" element={<Adding />} />
+          <Route path="/dashboard/:id" element={<Dashboard />} />
           <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
