@@ -38,8 +38,7 @@ exports.logSpotifyUser = (req, res) => {
 // this function will be called as a callback from spotify when user accept or decline the auth
 exports.grabAuthToken = async (req, res) => {
   const client_id = "2b8732f64e5e4964bd06557c23889e56";
-  // REMOVE THIS WHEN PUSHING
-  const client_secret = "ur_client_secret";
+  const client_secret = "8c2b6074a66d4ec3af20e50017a9ecda";
   console.log("spotify response code is " + req.query.code);
   const code = req.query.code || null;
   const state = req.query.state || null;
