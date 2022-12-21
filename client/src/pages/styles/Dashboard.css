@@ -1,0 +1,10 @@
+.track-list-container{
+  width: 100vw;
+}
+
+@media screen and (min-width : 600px) {
+  .track-list-container{
+    width: 75vw;
+    align-self: center;
+  }
+}

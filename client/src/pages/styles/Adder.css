@@ -1,0 +1,42 @@
+#adding-background{
+  height: 100vh;
+  width: 100vw;
+  background-color: #0e2c44;
+}
+
+#party-presenter{
+  color: #0e2c44;
+}
+
+#adder-container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 100px;
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+  transform: translate(-50%,-50%);
+  background-color: white;
+  border-radius: 16px;
+}
+
+.join-party{
+  background-color: #0e2c44;
+  color: white;
+  text-decoration: none;
+  border:none;
+  padding: 10px 14px 10px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 3px 3px 6px 0px #0e2c44;
+  font-family:'PublicPixel';
+}
+
+.join-under{
+  margin-top: 10px;
+  font-size: 12px;
+}
