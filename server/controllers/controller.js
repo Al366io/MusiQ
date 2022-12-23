@@ -1,14 +1,12 @@
 const AuthTable = require("../models/model");
+const url = require('url');  
 const axios = require("axios");
-const generateRandomString = require("../helpers/helpers");
+const { generateRandomString } = require("../helpers/helpers");
 
-// ?????
-exports.passAuth0Info = (req, res) => {
-  console.log(req);
-  res.redirect("http://localhost:3000");
-};
+const tempUser = {};
 
 exports.logSpotifyUser = (req, res) => {
+  tempUser.user_email = req.params.email;
   const client_id = "2b8732f64e5e4964bd06557c23889e56";
   const state = generateRandomString(16);
   const scope =
@@ -38,9 +36,18 @@ exports.grabAuthToken = async (req, res) => {
   // console.log("spotify response code is " + req.query.code);
   const code = req.query.code || null;
   const state = req.query.state || null;
+  const error = req.query.error || null;
+
+  if (error) {
+    // user probably denied access to spotify
+    console.log("error");
+    res.redirect("http://localhost:3000");
+    return;
+  }
   if (state === null) {
     // error
-    res.redirect("/");
+    res.redirect("http://localhost:3000");
+    return;
   } else {
     const authToken_query_params = new URLSearchParams({
       grant_type: "authorization_code",
@@ -58,6 +65,20 @@ exports.grabAuthToken = async (req, res) => {
         },
       }
     );
-    console.log(spotifyResponse.data);
+    tempUser.access_token = spotifyResponse.data.access_token;
+    tempUser.refresh_token = spotifyResponse.data.refresh_token;
+    console.log(tempUser);
+
+    await AuthTable.create(tempUser);
+
+    res.redirect(
+      url.format({
+        pathname: "http://localhost:3000",
+        query: {
+          accessToken: tempUser.access_token,
+          refreshToken: tempUser.refresh_token
+        },
+      })
+    );
   }
 };
