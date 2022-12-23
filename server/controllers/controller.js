@@ -1,16 +1,12 @@
+const AuthTable = require("../models/model");
 const axios = require("axios");
-const querystring = require("querystring");
+const generateRandomString = require("../helpers/helpers");
 
-function generateRandomString(length) {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
+// ?????
+exports.passAuth0Info = (req, res) => {
+  console.log(req);
+  res.redirect("http://localhost:3000");
+};
 
 exports.logSpotifyUser = (req, res) => {
   const client_id = "2b8732f64e5e4964bd06557c23889e56";
@@ -39,7 +35,7 @@ exports.logSpotifyUser = (req, res) => {
 exports.grabAuthToken = async (req, res) => {
   const client_id = "2b8732f64e5e4964bd06557c23889e56";
   const client_secret = "8c2b6074a66d4ec3af20e50017a9ecda";
-  console.log("spotify response code is " + req.query.code);
+  // console.log("spotify response code is " + req.query.code);
   const code = req.query.code || null;
   const state = req.query.state || null;
   if (state === null) {
@@ -48,7 +44,7 @@ exports.grabAuthToken = async (req, res) => {
   } else {
     const authToken_query_params = new URLSearchParams({
       grant_type: "authorization_code",
-      code: req.query.code,
+      code: code,
       redirect_uri: "http://localhost:3001/auth/code",
     });
     const spotifyResponse = await axios.post(
