@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { createParty, logSpotifyUser, grabAuthToken } = require('./controllers/controller');
+const { createParty, logSpotifyUser, grabAuthToken, passAuth0Info } = require('./controllers/controller');
 
 
 /**
@@ -11,6 +11,9 @@ const { createParty, logSpotifyUser, grabAuthToken } = require('./controllers/co
  * 
  * 
  **/
+//????????
+router.get('/', passAuth0Info)
+
 router.get('/connectspotify', logSpotifyUser)
 router.get('/auth/code', grabAuthToken)
 
