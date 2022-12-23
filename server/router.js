@@ -5,16 +5,14 @@ const { createParty, logSpotifyUser, grabAuthToken, passAuth0Info } = require('.
 
 /**
  * endpoints:
- * 1 - user to login
- * 2 - user to register (hopefully with google)
- * 3 - user to create a party (will be given a party ID)
+ * 2 - user to connects Spotify ( grab the email, grab the tokens, insert the user in DB )
+ * 3 - user to create a party ( must provide the email of the user when calling this, and will be given a party ID )
  * 
  * 
  **/
-//????????
-router.get('/', passAuth0Info)
+router.get('/connectspotify/:email', logSpotifyUser)
 
-router.get('/connectspotify', logSpotifyUser)
+// this is called directly by the spotify API as a callback 
 router.get('/auth/code', grabAuthToken)
 
 // router.post('/party', createParty);
