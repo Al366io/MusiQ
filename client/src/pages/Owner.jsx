@@ -2,6 +2,7 @@ import './styles/Owner.css'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 const Owner = () => {
 
@@ -34,6 +35,8 @@ const Owner = () => {
   }
 
   return (
+    <>
+    <AnimatedBackground/>
     <div id='owner-wrapper'>
       <h1 id='owner-heading'>{user.given_name}, Decide on your Party</h1>
       <form action="" id="owner-options" onSubmit={handleSubmit}>
@@ -81,6 +84,7 @@ const Owner = () => {
 
       </form>
     </div>
+    </>
   );
 };
 
