@@ -1,11 +1,12 @@
 import './styles/Track.css'
 
-function Track() {
+function Track({
+  songName = 'Chocolate with Jesus',
+  genreList = ['Hardcore', 'Punk', 'Death Metal'],
+  artistName = 'Moses'}) {
 
-  // TODO Implement dynamic song/genre/artist/minutes
-  const songName = 'Chocolate with Jesus'
-  const genreList = ['Hardcore', 'Punk', 'Death Metal']
-  const artistName = 'Moses'
+  // TODO Implement dynamic song/genre/artist Get info from api and pass in props
+  // TODO Calculate minutes left with minutes left before previous song + length of song before
   const minutesLeft = 12
 
   return (

@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import './styles/Adder.css'
+import AnimatedBackground from "../components/AnimatedBackground";
 
 const Adder = () => {
 
@@ -7,6 +8,7 @@ const Adder = () => {
 
   return (
     <div id="adding-background">
+      <AnimatedBackground/>
       <div id="adder-container">
         <h2 id="party-presenter">Party #{id}</h2>
         <Link to={`/adding/${id}`} className="join-party">Join the Party</Link>

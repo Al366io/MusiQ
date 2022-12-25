@@ -35,10 +35,10 @@ const Owner = () => {
   }
 
   return (
-    <>
+    <div id='owner-background'>
     <AnimatedBackground/>
     <div id='owner-wrapper'>
-      <h1 id='owner-heading'>{user.given_name}, Decide on your Party</h1>
+      <h1 id='owner-heading'>You're the boss here</h1>
       <form action="" id="owner-options" onSubmit={handleSubmit}>
 
         <label htmlFor='visibility'> Visibility </label>
@@ -84,7 +84,7 @@ const Owner = () => {
 
       </form>
     </div>
-    </>
+    </div>
   );
 };
 
