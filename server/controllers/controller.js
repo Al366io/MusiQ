@@ -1,5 +1,5 @@
 const AuthTable = require("../models/model");
-const url = require('url');  
+const url = require("url");
 const axios = require("axios");
 const { generateRandomString } = require("../helpers/helpers");
 
@@ -69,16 +69,32 @@ exports.grabAuthToken = async (req, res) => {
     tempUser.refresh_token = spotifyResponse.data.refresh_token;
     console.log(tempUser);
 
-    await AuthTable.create(tempUser);
+    await updateOrCreate(tempUser);
 
     res.redirect(
       url.format({
         pathname: "http://localhost:3000",
         query: {
           accessToken: tempUser.access_token,
-          refreshToken: tempUser.refresh_token
+          refreshToken: tempUser.refresh_token,
         },
       })
     );
   }
 };
+
+async function updateOrCreate(user) {
+  const alreadyInDb = await AuthTable.findOne({
+    where: {user_email: user.user_email}
+  });
+  if (alreadyInDb) {
+    AuthTable.update({
+      access_token: user.access_token,
+      refresh_token: user.refresh_token
+    },{
+      where: {id: alreadyInDb.id}
+    })
+  } else {
+    AuthTable.create(user);
+  }
+}
