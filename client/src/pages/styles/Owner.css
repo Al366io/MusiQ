@@ -3,6 +3,11 @@ h1#owner-heading{
   color: white;
 }
 
+#owner-background{
+  height: 100vh;
+  background-color: #1e453a;
+}
+
 form#owner-options{
   display : flex;
   flex-direction : column;

@@ -1,12 +1,12 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function LoginButton() {
+function LoginButton({text}) {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
 
   return (
     !isAuthenticated && (
-      <button onClick={() => loginWithRedirect()}> LOGIN </button>
+      <button className="login" onClick={() => loginWithRedirect()}>{text}</button>
     )
   );
 }

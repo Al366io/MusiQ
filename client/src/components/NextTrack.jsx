@@ -1,11 +1,13 @@
 import './styles/NextTrack.css'
 
-function Track() {
+function NextTrack({
+songName = 'Chocolate with Jesus',
+genreList = ['Hardcore', 'Punk', 'Death Metal'],
+artistName = 'Moses'}) {
+
+  console.log(songName)
 
   // TODO Implement dynamic song/genre/artist/minutes
-  const songName = 'Chocolate with Jesus'
-  const genreList = ['Hardcore', 'Punk', 'Death Metal']
-  const artistName = 'Moses'
   const minutesLeft = 12
 
   return (
@@ -31,4 +33,4 @@ function Track() {
   );
 };
 
-export default Track;
+export default NextTrack;

@@ -1,22 +1,27 @@
 import { useParams } from "react-router-dom";
 import './styles/Adding.css'
+import Track from '../components/Track'
+import NextTrack from '../components/NextTrack'
+import AddButton from "../components/Adding/AddButton";
 
 const Adding = () => {
 
   let {id} = useParams()
 
-  return (
-    <div id="adding-wrapper">
-      <h1>Adder - Party {id}</h1>
-      <ul>Landing Page
-        <li>Login or username invention</li>
-        <li>Get Started button</li>
-      </ul>
-      <ul>List Page
-        <li>See Playing now</li>
-        <li>All List</li>
-        <li>Adding Button bottom</li>
-      </ul>
+  return(
+    <div id="dash-back">
+      <div className="adding-inner-container">
+        <div className="dashboard-container">
+          <h1>Room {id}</h1>
+          <div className="next-track-container">
+            <NextTrack/>
+          </div>
+          <div className="track-list-container">
+            <Track></Track>
+          </div>
+        </div>
+        <AddButton/>
+      </div>
     </div>
   );
 };
