@@ -16,7 +16,7 @@
 
 .adding-inner-container{
   background-color: #555555;
-  width: 75vw;
+  width: 100vw;
   height: 100vh;
   display : flex;
   flex-direction : column;

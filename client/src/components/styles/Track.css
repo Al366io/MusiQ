@@ -2,11 +2,12 @@
   background-color: black;
   color: white;
   display: grid;
-  grid-template-columns: 75px auto 75px;
-  grid-column-gap: 20px;
+  grid-template-columns: 75px minmax(120px, auto) 75px;
+  grid-column-gap: minmax(20px,50px);
   align-items: center;
   justify-items: center;
-  width: 70vw;
+  min-width: 75vw;
+  max-width: 70vw;
 }
 
 .central-info-list{
@@ -14,6 +15,7 @@
   flex-direction : column;
   justify-content : center;
   align-items : center;
+  min-width: 150px;
 }
 
 .minutes-left-list{
@@ -27,14 +29,8 @@
   font-weight: 700;
 }
 
-.artist-cover-list{
-  height: 75px;
+@media screen and (max-width : 650px) {
+  .track-container{
+    min-width: 100vw;
+  }
 }
-
-/* 
-.cover-track{
-  min-height: 75px;
-  min-width: 75px;
-  max-height: 75px;
-  max-width: 75px;
-}  */
