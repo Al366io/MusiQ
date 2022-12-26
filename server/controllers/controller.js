@@ -1,13 +1,17 @@
 const AuthTable = require("../models/model");
 const url = require("url");
 const axios = require("axios");
-const { generateRandomString } = require("../helpers/helpers");
+const {
+  generateRandomString,
+  checkTokenValidity,
+  refreshExpiredToken,
+} = require("../helpers/helpers");
+const { CLIENT_ID, CLIENT_SECRET } = require("../config");
 
 const tempUser = {};
 
 exports.logSpotifyUser = (req, res) => {
   tempUser.user_email = req.params.email;
-  const client_id = "2b8732f64e5e4964bd06557c23889e56";
   const state = generateRandomString(16);
   const scope =
     "user-read-private " +
@@ -18,7 +22,7 @@ exports.logSpotifyUser = (req, res) => {
 
   const auth_query_parameters = new URLSearchParams({
     response_type: "code",
-    client_id: client_id,
+    client_id: CLIENT_ID,
     scope: scope,
     redirect_uri: "http://localhost:3001/auth/code",
     state: state,
@@ -31,8 +35,6 @@ exports.logSpotifyUser = (req, res) => {
 
 // this function will be called as a callback from spotify when user accept or decline the auth
 exports.grabAuthToken = async (req, res) => {
-  const client_id = "2b8732f64e5e4964bd06557c23889e56";
-  const client_secret = "8c2b6074a66d4ec3af20e50017a9ecda";
   // console.log("spotify response code is " + req.query.code);
   const code = req.query.code || null;
   const state = req.query.state || null;
@@ -61,7 +63,7 @@ exports.grabAuthToken = async (req, res) => {
         headers: {
           Authorization:
             "Basic " +
-            new Buffer.from(client_id + ":" + client_secret).toString("base64"),
+            new Buffer.from(CLIENT_ID + ":" + CLIENT_SECRET).toString("base64"),
         },
       }
     );
@@ -85,16 +87,57 @@ exports.grabAuthToken = async (req, res) => {
 
 async function updateOrCreate(user) {
   const alreadyInDb = await AuthTable.findOne({
-    where: {user_email: user.user_email}
+    where: { user_email: user.user_email },
   });
   if (alreadyInDb) {
-    AuthTable.update({
-      access_token: user.access_token,
-      refresh_token: user.refresh_token
-    },{
-      where: {id: alreadyInDb.id}
-    })
+    AuthTable.update(
+      {
+        access_token: user.access_token,
+        refresh_token: user.refresh_token,
+      },
+      {
+        where: { id: alreadyInDb.id },
+      }
+    );
   } else {
     AuthTable.create(user);
   }
 }
+// res.status(200);
+// res.send(data);
+
+exports.checkIfHasToken = async (req, res) => {
+  try {
+    const userEmail = req.params.email;
+    if (!userEmail) res.sendStatus(400);
+
+    const userInDb = await AuthTable.findOne({
+      where: { user_email: userEmail },
+    });
+
+    if (userInDb.access_token) {
+      // user and token found. Check for token validity.
+      const isTokenValid = await checkTokenValidity(userInDb.access_token);
+      if (!isTokenValid) {
+        // if token is not valid, ask for a new one
+        const response = await refreshExpiredToken(userInDb.refresh_token);
+        console.log(response);
+        // here insert new access_token in DB
+        userInDb.access_token = response;
+        // TODO : dont use updateOrCreate one, just update it.
+        await updateOrCreate(userInDb);
+      }
+      res.status(200);
+      res.send(userInDb.access_token);
+    } else {
+      // user not found in DB
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    // here probably refreshExpiredToken faild so we jump here and send unauthorized
+    // because: we had user in db. He had a token and a refresh token. Token was expired so
+    // we tried to ask spotify for another one, but spotify said ERROR !
+    // so 1) spotify's problem or 2) most likely user has remove the access to our app from Spotify.
+    res.sendStatus(401);
+  }
+};
