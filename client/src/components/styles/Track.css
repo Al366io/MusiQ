@@ -2,15 +2,11 @@
   background-color: black;
   color: white;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 75px auto 75px;
   grid-column-gap: 20px;
   align-items: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.artist-cover-list{
-  padding-left: 7px;
+  justify-items: center;
+  width: 70vw;
 }
 
 .central-info-list{
@@ -25,9 +21,20 @@
   flex-direction : column;
   justify-content : center;
   align-items : center;
-  padding-right: 7px;
 }
 
 .minutes-left-num {
   font-weight: 700;
 }
+
+.artist-cover-list{
+  height: 75px;
+}
+
+/* 
+.cover-track{
+  min-height: 75px;
+  min-width: 75px;
+  max-height: 75px;
+  max-width: 75px;
+}  */

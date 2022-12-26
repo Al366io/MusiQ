@@ -1,10 +1,21 @@
-.next{
-  background-color: red;
-  color: white;
-  display: grid;
-  grid-template-columns: auto auto auto;
+.track-next{
+  background-color: #52B69A;
   grid-column-gap: 20px;
-  align-items: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-width: 75vw;
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+  color: white;
+}
+
+img.cover-next{
+  min-height:200px;
+  min-width:200px;
+  max-height:200px;
+  max-width:200px;
+  line-height: 50px;
+  text-align: center;
 }
