@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import './styles/Adding.css'
-import Track from '../components/Track'
-import NextTrack from '../components/NextTrack'
+import Track from '../components/Adding/Track'
+import NextTrack from '../components/Adding/NextTrack'
 import AddButton from "../components/Adding/AddButton";
 
 const Adding = () => {

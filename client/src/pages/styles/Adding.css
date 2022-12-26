@@ -16,6 +16,11 @@
 
 .adding-inner-container{
   background-color: #555555;
-  width: 80vw;
-  height: 90vh;
+  width: 75vw;
+  height: 100vh;
+  display : flex;
+  flex-direction : column;
+  justify-content:space-between;
+  align-items : center;
+  padding-bottom: 50px;
 }
