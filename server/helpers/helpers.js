@@ -11,8 +11,16 @@ exports.generateRandomString = function (length) {
   return result;
 };
 
-exports.checkTokenValidity = (access_token) => {
-  // make any call to an endpoint and check response status. If it is 401, token has expired.
+exports.checkTokenValidity = async (access_token) => {
+  // make any call to an endpoint and check response status. If it is not 200, token has expired or some other error (if expired is 401)
+  const response = await fetch("https://api.spotify.com/v1/me", {
+    // simple call to ask for user info
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  return response.status === 200 ? 1 : 0;
 };
 
 exports.refreshExpiredToken = async (RT) => {
@@ -33,8 +41,7 @@ exports.refreshExpiredToken = async (RT) => {
           new Buffer.from(client_id + ":" + client_secret).toString("base64"),
       },
     }
-  )
-  console.log(spotifyResponse.data);
+  );
   const newToken = spotifyResponse.data.access_token;
   return newToken;
 };

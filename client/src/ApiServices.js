@@ -4,6 +4,7 @@
 // if token in DB is expired it will refresh it and send it new
 exports.getTokensFromDb = async (user_email) => {
   const response = await fetch(`http://localhost:3001/users/token/${user_email}`);
+  console.log(response);
   if(response.status === 200) return response;
   return null;
 }
