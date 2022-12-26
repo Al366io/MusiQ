@@ -1,7 +1,11 @@
 const AuthTable = require("../models/model");
 const url = require("url");
 const axios = require("axios");
-const { generateRandomString } = require("../helpers/helpers");
+const {
+  generateRandomString,
+  checkTokenValidity,
+  refreshExpiredToken,
+} = require("../helpers/helpers");
 
 const tempUser = {};
 
@@ -85,16 +89,56 @@ exports.grabAuthToken = async (req, res) => {
 
 async function updateOrCreate(user) {
   const alreadyInDb = await AuthTable.findOne({
-    where: {user_email: user.user_email}
+    where: { user_email: user.user_email },
   });
   if (alreadyInDb) {
-    AuthTable.update({
-      access_token: user.access_token,
-      refresh_token: user.refresh_token
-    },{
-      where: {id: alreadyInDb.id}
-    })
+    AuthTable.update(
+      {
+        access_token: user.access_token,
+        refresh_token: user.refresh_token,
+      },
+      {
+        where: { id: alreadyInDb.id },
+      }
+    );
   } else {
     AuthTable.create(user);
   }
 }
+// res.status(200);
+// res.send(data);
+
+exports.checkIfHasToken = async (req, res) => {
+  try {
+    const userEmail = req.params.email;
+    if (!userEmail) res.sendStatus(400);
+
+    const userInDb = await AuthTable.findOne({
+      where: { user_email: userEmail },
+    });
+
+    if (userInDb.access_token) {
+      // user and token found. Check for token validity.
+
+      // TODO : check validity of token before refreshing it
+
+      // if (!checkTokenValidity(userInDb.access_token)) {
+        // if token is not valid, ask for a new one
+        const response = await refreshExpiredToken(userInDb.refresh_token);
+        // here insert new access_token in DB
+        userInDb.access_token = response;
+
+        // TODO : dont use updateOrCreate one, just update it.
+        await updateOrCreate(userInDb);
+      // }
+      res.status(201);
+      res.send(userInDb.access_token)
+    } else {
+      // user not found in DB
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    res.send('error')
+    res.status(500);
+  }
+};

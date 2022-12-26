@@ -4,16 +4,30 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import LoginButton from "../components/LoginButton";
+import { getTokensFromDb } from "../ApiServices";
 
 const Home = () => {
   const { logout, user, isAuthenticated } = useAuth0();
+  const [isSpotifyLoggedIn, setIsSpotifyLoggedIn] = useState(false);
 
+  // when state of user changes (so basically when someone logs in)
+  // call the db to see if they have a token
+  useEffect(() => {
+    getTokenAndUpdateStatus();
+  }, [user]);
 
   useEffect(() => {
     handleTokenFromQueryParams();
   }, []);
 
-  const [isSpotifyLoggedIn, setIsSpotifyLoggedIn] = useState(false);
+  const getTokenAndUpdateStatus = async () => {
+    if (user) {
+      let newToken = await getTokensFromDb(user.email);
+      console.log(newToken);
+      if (newToken) setIsSpotifyLoggedIn(true);
+      else setIsSpotifyLoggedIn(false);
+    }
+  }
 
   // calculate expiration date of token
   const newExpirationDate = () => {
@@ -22,7 +36,7 @@ const Home = () => {
     return expiration;
   };
 
-  //inserts auth token and refresh token in session storage
+  //inserts auth token and refresh token in session storage || TODO : Do wee need them here??
   const storeTokenData = async (token, refreshToken, expirationDate) => {
     sessionStorage.setItem("accessToken", token);
     sessionStorage.setItem("refreshToken", refreshToken);
@@ -35,13 +49,13 @@ const Home = () => {
     const accessToken = query.get("accessToken");
     const refreshToken = query.get("refreshToken");
     const expirationDate = newExpirationDate();
-    console.log("App.js 30 | expiration Date", expirationDate);
     if (accessToken && refreshToken) {
+      // TODO : try to validate access token before actually setting isSpotifyLoggedIn to true ??
       storeTokenData(accessToken, refreshToken, expirationDate);
       setIsSpotifyLoggedIn(true);
     }
-    // now if URL contains the accessToken, delete the query params 
-    if(window.location.href.includes('accessToken')) {
+    // now if URL contains the accessToken, delete the query params
+    if (window.location.href.includes("accessToken")) {
       window.history.pushState({}, document.title, window.location.pathname);
     }
 
@@ -58,11 +72,10 @@ const Home = () => {
           Welcome to <span className="musiq">MusiQ</span>
         </h1>
         {!isAuthenticated ? (
-                <LoginButton text={'Get Started'} />
+          <LoginButton text={"Get Started"} />
         ) : (
           <div id="logged">
             <span id="hey-user">Hey, {user.given_name}</span>
-            {/* <Link to='/owner' className="nologin">Create a Party?</Link>  Party to be created when user connects spotify */}
             {isSpotifyLoggedIn ? (
               <Link to="/owner" className="nologin">
                 Create a Party?
@@ -76,8 +89,7 @@ const Home = () => {
               className="nologin"
               onClick={() => logout({ returnTo: window.location.origin })}
             >
-              {" "}
-              LOGOUT{" "}
+              LOGOUT
             </button>
           </div>
         )}
