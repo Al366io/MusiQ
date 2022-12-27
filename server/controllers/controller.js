@@ -121,7 +121,6 @@ exports.checkIfHasToken = async (req, res) => {
       if (!isTokenValid) {
         // if token is not valid, ask for a new one
         const response = await refreshExpiredToken(userInDb.refresh_token);
-        console.log(response);
         // here insert new access_token in DB
         userInDb.access_token = response;
         // TODO : dont use updateOrCreate one, just update it.
@@ -140,4 +139,46 @@ exports.checkIfHasToken = async (req, res) => {
     // so 1) spotify's problem or 2) most likely user has remove the access to our app from Spotify.
     res.sendStatus(401);
   }
+};
+
+exports.getSpotifyUser = async (req, res) => {
+  const userEmail = req.params.email;
+  // take auth code from DB
+  const userInDb = await AuthTable.findOne({
+    where: { user_email: userEmail },
+  });
+  try {
+    fetch("https://api.spotify.com/v1/me", {
+      headers: {
+        Authorization: `Bearer ${userInDb.access_token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        res.send(response);
+        res.status(200);
+      });
+  } catch (error) {}
+
+  // here means token has expired. fastly refresh it - update db - make request again
+  // if (response.status === 401) {
+  //   const newToken = await refreshExpiredToken(userInDb.refresh_token);
+  //   userInDb.access_token = newToken;
+  //   // update user in db ( TODO UPDATE U SON OF A BITCH NOT CREATE )
+  //   await updateOrCreate(userInDb);
+  //   response = await fetch("https://api.spotify.com/v1/me", {
+  //     headers: {
+  //       Authorization: `Bearer ${userInDb.access_token}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  // }
+  // if (response.status === 200) {
+  //   res.send(response.body);
+  //   res.status(200);
+  // } else {
+  //   res.sendStatus(500);
+  // }
 };

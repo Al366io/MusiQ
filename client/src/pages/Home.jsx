@@ -4,12 +4,12 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import LoginButton from "../components/LoginButton";
-import { getTokensFromDb } from "../ApiServices";
+import { getTokensFromDb, getSpotifyUserInfo } from "../ApiServices";
 
 const Home = () => {
   const { logout, user, isAuthenticated } = useAuth0();
   const [isSpotifyLoggedIn, setIsSpotifyLoggedIn] = useState(false);
-
+  const [spotifyUser, setSpotifyUser] = useState({});
   // when state of user changes (so basically when someone logs in)
   // call the db to see if they have a token
   useEffect(() => {
@@ -20,14 +20,24 @@ const Home = () => {
     handleTokenFromQueryParams();
   }, []);
 
+  useEffect(() => {
+    // get user info if authenticated
+    getUser();
+  }, [isSpotifyLoggedIn]);
+
+  const getUser = async () => {
+    if (isAuthenticated) {
+      let spotiUser = await getSpotifyUserInfo(user.email);
+      setSpotifyUser(spotiUser);
+    }
+  };
   const getTokenAndUpdateStatus = async () => {
     if (user) {
       let newToken = await getTokensFromDb(user.email);
-      console.log(newToken);
       if (newToken) setIsSpotifyLoggedIn(true);
       else setIsSpotifyLoggedIn(false);
     }
-  }
+  };
 
   // calculate expiration date of token
   const newExpirationDate = () => {
@@ -76,6 +86,11 @@ const Home = () => {
         ) : (
           <div id="logged">
             <span id="hey-user">Hey, {user.given_name}</span>
+            {spotifyUser ? (
+              <span id="hey-user">Hey, {spotifyUser.display_name}</span>
+            ) : (
+              ""
+            )}
             {isSpotifyLoggedIn ? (
               <Link to="/owner" className="nologin">
                 Create a Party?
