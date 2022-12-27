@@ -1,4 +1,4 @@
-const AuthTable = require("../models/model");
+const { AuthTable, PartiesTable } = require("../models/model");
 const url = require("url");
 const axios = require("axios");
 const {
@@ -117,15 +117,15 @@ exports.checkIfHasToken = async (req, res) => {
 
     if (userInDb.access_token) {
       // user and token found. Check for token validity.
-      const isTokenValid = await checkTokenValidity(userInDb.access_token);
-      if (!isTokenValid) {
-        // if token is not valid, ask for a new one
-        const response = await refreshExpiredToken(userInDb.refresh_token);
-        // here insert new access_token in DB
-        userInDb.access_token = response;
-        // TODO : dont use updateOrCreate one, just update it.
-        await updateOrCreate(userInDb);
-      }
+      // const isTokenValid = await checkTokenValidity(userInDb.access_token);
+      // if (!isTokenValid) {
+      // if token is not valid, ask for a new one
+      const response = await refreshExpiredToken(userInDb.refresh_token);
+      // here insert new access_token in DB
+      userInDb.access_token = response;
+      // TODO : dont use updateOrCreate one, just update it.
+      await updateOrCreate(userInDb);
+      // }
       res.status(200);
       res.send(userInDb.access_token);
     } else {
@@ -137,6 +137,7 @@ exports.checkIfHasToken = async (req, res) => {
     // because: we had user in db. He had a token and a refresh token. Token was expired so
     // we tried to ask spotify for another one, but spotify said ERROR !
     // so 1) spotify's problem or 2) most likely user has remove the access to our app from Spotify.
+    console.log(error);
     res.sendStatus(401);
   }
 };
@@ -156,29 +157,54 @@ exports.getSpotifyUser = async (req, res) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         res.send(response);
         res.status(200);
       });
-  } catch (error) {}
+  } catch (error) {
+    res.sendStatus(500);
+  }
+};
 
-  // here means token has expired. fastly refresh it - update db - make request again
-  // if (response.status === 401) {
-  //   const newToken = await refreshExpiredToken(userInDb.refresh_token);
-  //   userInDb.access_token = newToken;
-  //   // update user in db ( TODO UPDATE U SON OF A BITCH NOT CREATE )
-  //   await updateOrCreate(userInDb);
-  //   response = await fetch("https://api.spotify.com/v1/me", {
-  //     headers: {
-  //       Authorization: `Bearer ${userInDb.access_token}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  // }
-  // if (response.status === 200) {
-  //   res.send(response.body);
-  //   res.status(200);
-  // } else {
-  //   res.sendStatus(500);
-  // }
+exports.createParty = async (req, res) => {
+  const userEmail = req.params.email;
+  if (!userEmail) {
+    // invalid request
+    res.sendStatus(400);
+    return;
+  }
+  const partyId = generateRandomString(5);
+  // TODO : search in db if the party id just generated already exists - if yes, generate another string
+  const alreadyInDb = await AuthTable.findOne({
+    where: { user_email: userEmail },
+  });
+  try {
+    console.log("party id: " + partyId);
+
+    await AuthTable.update(
+      {
+        party_id: partyId,
+      },
+      {
+        where: { user_email: userEmail },
+      }
+    );
+
+    let buffParty = req.body;
+    let newParty = {};
+    newParty.visible = buffParty.visible === "visible" ? true : false;
+    newParty.private = buffParty.private === "members" ? true : false;
+    newParty.genre = buffParty.genre;
+    newParty.duplicate_timeout = buffParty.timeout;
+    newParty.upvote_allowed = buffParty.upvote === "Allowed" ? true : false;
+    newParty.owner_email = userEmail;
+    newParty.party_id = partyId;
+
+    await PartiesTable.create(newParty);
+
+    res.send(partyId);
+    res.status(201);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 };

@@ -10,9 +10,20 @@ exports.getTokensFromDb = async (user_email) => {
 };
 
 exports.getSpotifyUserInfo = async (user_email) => {
-  const response = fetch(
-    `http://localhost:3001/users/info/${user_email}`
-  )
-  .then((response) => response.json())
+  const response = fetch(`http://localhost:3001/users/info/${user_email}`).then(
+    (response) => response.json()
+  );
+  return response;
+};
+
+exports.createParty = async (user_email, ownerOptions) => {
+  const response = fetch(`http://localhost:3001/party/create/${user_email}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json, text/plain",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(ownerOptions)
+  }).then((response) => response.text());
   return response;
 };
