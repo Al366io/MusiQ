@@ -20,6 +20,7 @@ exports.checkTokenValidity = async (access_token) => {
       "Content-Type": "application/json",
     },
   });
+  console.log(response.status);
   return response.status === 200 ? 1 : 0;
 };
 

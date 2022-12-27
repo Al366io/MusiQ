@@ -20,14 +20,52 @@ const AuthTable = sequelize.define('AuthTable', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  partyId: {
+  party_id: {
     type: DataTypes.STRING,
     allowNull: true
   }
 })
 
+const PartiesTable = sequelize.define('PartiesTable', {
+  owner_email: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false
+  },
+  party_id: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  private: { // members only or not 
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  },
+  upvote_allowed: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  },
+  visible: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  },
+  genre: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  duplicate_timeout: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
+})
+
 async function synchronize() {
   await AuthTable.sync();
+  await PartiesTable.sync();
 } synchronize();
 
-module.exports = AuthTable;
+module.exports = {AuthTable, PartiesTable};
