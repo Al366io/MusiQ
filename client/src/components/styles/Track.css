@@ -1,5 +1,6 @@
 .track-container{
-  background-color: black;
+  background: rgba(0,0,0,0.2);
+  border-radius: 6px;
   color: white;
   display: grid;
   grid-template-columns: 75px minmax(120px, auto) 75px;
@@ -8,6 +9,10 @@
   justify-items: center;
   min-width: 75vw;
   max-width: 70vw;
+}
+
+.artist-cover-list{
+  max-height: 75px;
 }
 
 .central-info-list{

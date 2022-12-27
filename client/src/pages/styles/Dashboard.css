@@ -1,10 +1,76 @@
-.dash-back{
-  background-color: #123;
-}
-
-.dashboard-container{
+#dash-container{
   display : flex;
   flex-direction : column;
   justify-content : center;
   align-items : center;
+  height: 100vh;
+  background-color: #000000;
+}
+
+h3#room-dash{
+  font-size: 20px;
+}
+
+#container-dash-top{
+  display : flex;
+  flex-direction : row;
+  justify-content : center;
+  align-items : center;
+  gap: 10vw;
+}
+
+#container-dash-left{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+}
+
+#container-dash-right{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+}
+
+.track-dash-container{
+  margin-top: 40px;
+  padding: 20px;
+  border: 2px white solid;
+  border-radius: 10px;
+  overflow-y: scroll;
+  height: 265px;
+  display : flex;
+  flex-direction : column;
+  gap: 10px;
+}
+
+.track-dash-container:before {
+  content: 'Queue';
+  position: fixed;
+  color: white;
+  font-size: 18px;
+  width: 100px;
+  height: 20px;
+  text-align: center;
+  background-color: #000;
+  top: 434px;
+  left: 418px;
+}
+
+.button-dash{
+  margin-top: 15px;
+  color: white;
+  font-size: 18px;
+  padding: 6px;
+  width: 170px;
+  border: 2px white solid;
+  border-radius: 6px;
+  background-color: black;
+  cursor: pointer;
+}
+
+#room-dash{
+  color: white;
+  align-self: center;
 }

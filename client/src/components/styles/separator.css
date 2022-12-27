@@ -1,0 +1,7 @@
+#track-separator{
+  width: 500px;
+  min-height: 2px;
+  max-height: 2px;
+  background-color: rgb(60, 60, 60, 0.5);
+  align-self: center;
+}
