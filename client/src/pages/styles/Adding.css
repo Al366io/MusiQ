@@ -1,3 +1,8 @@
+#adding-dash{
+  text-align: center;
+  font-size: 24px;
+}
+
 #adding-wrapper{
   display : flex;
   flex-direction : column;
@@ -15,7 +20,7 @@
 }
 
 .adding-inner-container{
-  background-color: #555555;
+  /* background-color: #555555; */
   width: 100vw;
   height: 100vh;
   display : flex;
@@ -23,4 +28,10 @@
   justify-content:space-between;
   align-items : center;
   padding-bottom: 50px;
+}
+
+.track-list-container{
+  display : flex;
+  flex-direction : column;
+  gap: 5px;
 }

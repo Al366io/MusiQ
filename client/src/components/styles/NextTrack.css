@@ -1,5 +1,8 @@
 .track-next{
-  /* background-color: #52B69A; */
+  background: rgba(0,0,0,0.2);
+  margin-bottom: 5px;
+  border-radius: 10px;
+  border: 2px white solid;
   grid-column-gap: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
