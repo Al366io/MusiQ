@@ -16,11 +16,11 @@ const Adding = () => {
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
 
   useEffect(()=>{
-    async function a() {
+    async function currentHandler() {
       let response = await getCurrentlyPlaying(id)
       setCurrentlyPlaying(response)
     }
-    a();
+    currentHandler();
   }, [])
 
   return(
