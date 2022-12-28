@@ -60,7 +60,6 @@ const Home = () => {
     const refreshToken = query.get("refreshToken");
     const expirationDate = newExpirationDate();
     if (accessToken && refreshToken) {
-      // TODO : try to validate access token before actually setting isSpotifyLoggedIn to true ??
       storeTokenData(accessToken, refreshToken, expirationDate);
       setIsSpotifyLoggedIn(true);
     }
@@ -92,6 +91,7 @@ const Home = () => {
               ""
             )}
             {isSpotifyLoggedIn ? (
+              // TODO : IF USER ALREADY HAVE A PARTY ROOM, HE SHOULD BE ABLE TO GO INTO THAT FROM HERE
               <Link to="/owner" className="nologin">
                 Create a Party?
               </Link>

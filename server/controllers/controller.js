@@ -3,7 +3,6 @@ const url = require("url");
 const axios = require("axios");
 const {
   generateRandomString,
-  checkTokenValidity,
   refreshExpiredToken,
 } = require("../helpers/helpers");
 const { CLIENT_ID, CLIENT_SECRET } = require("../config");
