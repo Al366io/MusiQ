@@ -48,6 +48,7 @@ div#owner-wrapper{
   padding: 30px;
   border-radius: 12px;
   background-color: #52B69A;
+  border: 2px white solid;
 }
 
 input#submit-party{
@@ -58,7 +59,7 @@ input#submit-party{
 }
 
 
-@media screen and (max-width : 750px) {
+@media screen and (max-width : 650px) {
   div#owner-wrapper{
     width: 75vw;
   }

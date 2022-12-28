@@ -1,8 +1,12 @@
 import { Link, useParams } from "react-router-dom";
 import './styles/Adder.css'
 import AnimatedBackground from "../components/AnimatedBackground";
+import LoginButton from '../components/LoginButton'
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Adder = () => {
+
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
 
   let {id} = useParams()
 
@@ -11,7 +15,11 @@ const Adder = () => {
       <AnimatedBackground/>
       <div id="adder-container">
         <h2 id="party-presenter">Party #{id}</h2>
-        <Link to={`/adding/${id}`} className="join-party">Join the Party</Link>
+        {isAuthenticated ?
+        <Link to={`/adding/${id}`} className="join-party">Join as {user.given_name}</Link>
+        :
+        <button className="join-party" onClick={() => loginWithRedirect()}>Join the Party</button>
+        }
         <Link to={`/adding/${id}`} className="join-party join-under">As Guest</Link>
       </div>
     </div>
