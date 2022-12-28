@@ -37,5 +37,6 @@
 @media screen and (max-width : 650px) {
   .track-container{
     min-width: 100vw;
+    max-width: 99vw;
   }
 }

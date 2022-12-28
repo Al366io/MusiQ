@@ -25,6 +25,6 @@ img.cover-next{
 
 @media screen and (max-width : 650px) {
   .track-next{
-    min-width: 100vw;
+    min-width: 99vw;
   }
 }

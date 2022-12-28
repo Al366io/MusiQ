@@ -16,7 +16,7 @@ const Adding = () => {
   return(
     <div id="dash-back">
       <div className="adding-inner-container"  style={{backgroundColor : BGcolor}}>
-        <div className="dashboard-container">
+        <div className="adding-container">
           <h3 id="adding-dash"># {id} #</h3>
           <div className="next-track-container">
             <NextTrack/>
