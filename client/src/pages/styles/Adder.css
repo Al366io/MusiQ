@@ -5,7 +5,7 @@
 }
 
 #party-presenter{
-  color: #0e2c44;
+  color: #fff;
 }
 
 #adder-container{
@@ -18,7 +18,8 @@
   justify-content : center;
   align-items : center;
   transform: translate(-50%,-50%);
-  background-color: white;
+  background-color: #2889d85f;
+  border: 2px white solid ;
   border-radius: 16px;
 }
 
