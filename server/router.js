@@ -5,6 +5,7 @@ const {
   grabAuthToken,
   getSpotifyUser,
   createParty,
+  getPlayingSong,
 } = require("./controllers/controller");
 
 
@@ -26,5 +27,8 @@ router.get("/users/info/:email", getSpotifyUser);
 //user to create a party ( must provide the email of the user when calling this, and will be given a party ID )
 router.post('/party/create/:email', createParty);
 
+// to get currently playing song in a party 
+// receive the party id, returns the currently playing song
+router.get('/party/playing/:id', getPlayingSong)
 
 module.exports = router;

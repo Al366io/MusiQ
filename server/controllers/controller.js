@@ -4,6 +4,7 @@ const axios = require("axios");
 const {
   generateRandomString,
   refreshExpiredToken,
+  getPartyToken,
 } = require("../helpers/helpers");
 const { CLIENT_ID, CLIENT_SECRET } = require("../config");
 
@@ -204,6 +205,43 @@ exports.createParty = async (req, res) => {
     res.status(201);
   } catch (error) {
     console.log(error);
+    res.sendStatus(500);
+  }
+};
+
+// TODO fix problem where no song is playing the app crashes
+exports.getPlayingSong = async (req, res) => {
+  const partyId = req.params.id;
+  const token = await getPartyToken(partyId);
+
+  console.log(partyId);
+  try {
+    fetch("https://api.spotify.com/v1/me/player", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 204) {
+          console.log('a');
+          res.send(JSON.stringify({ error: "No song playing" }));
+          res.status(204);
+        } else return response.json();
+      })
+      .then((response) => {
+        console.log(response);
+        // console.log('Song: ' + response.item.name + ' Artist ' + JSON.stringify(response.item.artists[0].name));
+        const songPlaying = {
+          title: response.item.name,
+          artist: response.item.artists[0].name,
+          cover: response.item.album.images[0].url,
+          playing: 1,
+        };
+        res.send(JSON.stringify(songPlaying));
+        res.status(200);
+      });
+  } catch (error) {
     res.sendStatus(500);
   }
 };
