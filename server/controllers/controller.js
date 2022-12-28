@@ -4,6 +4,7 @@ const axios = require("axios");
 const {
   generateRandomString,
   refreshExpiredToken,
+  getPartyToken,
 } = require("../helpers/helpers");
 const { CLIENT_ID, CLIENT_SECRET } = require("../config");
 
@@ -207,3 +208,32 @@ exports.createParty = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+exports.getPlayingSong = async (req, res) => {
+  const partyId = req.params.id;
+  const token = await getPartyToken(partyId)
+
+  console.log(partyId);
+  try {
+    fetch("https://api.spotify.com/v1/me/player", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        // console.log('Song: ' + response.item.name + ' Artist ' + JSON.stringify(response.item.artists[0].name));
+        const songPlaying = {
+          title: response.item.name,
+          artist: response.item.artists[0].name,
+          cover: response.item.album.images[0].url
+        }
+        res.send(JSON.stringify(songPlaying));
+        res.status(200);
+      });
+  } catch (error) {
+    res.sendStatus(500);
+  }
+  
+}

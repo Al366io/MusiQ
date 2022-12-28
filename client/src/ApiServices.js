@@ -27,3 +27,10 @@ exports.createParty = async (user_email, ownerOptions) => {
   }).then((response) => response.text());
   return response;
 };
+
+exports.getCurrentlyPlaying = (id) => {
+  const response = fetch(`http://localhost:3001/party/playing/${id}`).then(
+    (response) => response.json()
+  );
+  return response;
+}

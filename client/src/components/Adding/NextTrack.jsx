@@ -5,24 +5,22 @@ import { useContext } from "react";
 import { BGContext } from "../../App";
 
 
-function NextTrack({
-  songName = 'Chocolate with Jesus',
-  artistName = 'Purple Floyd',
-  coverArt = 'https://upload.wikimedia.org/wikipedia/en/b/b7/Machine_Gun_Kelly_-_Mainstream_Sellout.png'},) 
-  {
+function NextTrack({currentlyPlaying}) {
     
   const {setBGColor} = useContext(BGContext);
   const fac = new FastAverageColor();
 
   const [coverColor, setCoverColor] = useState()
+  // const coverArt = props.currentlyPlaying.
+  const coverArt = currentlyPlaying.cover;
 
   useEffect(()=> {
-    fac.getColorAsync(coverArt)
+    fac.getColorAsync(currentlyPlaying.cover)
       .then(color => {
         setCoverColor(color.hex)
         setBGColor(color.hex)
       })
-  }, [])
+  }, [currentlyPlaying])
 
   // TODO Implement dynamic song/genre/artist/minutes
 
@@ -32,8 +30,8 @@ function NextTrack({
         <img className='cover-next' src={coverArt} alt="Cover" />
       </div>
       <div className="central-info-list">
-        <span className="song-list">{songName}</span>
-        <span className="artist-list">{artistName}</span>
+        <span className="song-list">{currentlyPlaying.title}</span>
+        <span className="artist-list">{currentlyPlaying.artist}</span>
       </div>
     </div>
   );
