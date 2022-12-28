@@ -69,7 +69,7 @@ exports.getPartyToken = async (partyId) => {
 
     const isValid = await this.checkTokenValidity(token);
     if (!isValid) {
-      token = await this.refreshExpiredToken(token);
+      token = await this.refreshExpiredToken(user.refresh_token);
     }
 
     // send back a non-expired token

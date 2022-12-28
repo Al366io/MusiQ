@@ -29,8 +29,13 @@ exports.createParty = async (user_email, ownerOptions) => {
 };
 
 exports.getCurrentlyPlaying = (id) => {
-  const response = fetch(`http://localhost:3001/party/playing/${id}`).then(
-    (response) => response.json()
-  );
-  return response;
+  try {
+    const response = fetch(`http://localhost:3001/party/playing/${id}`).then(
+      (response) => response.json()
+    );
+    if (response) return response;
+    return {playing: 0};
+  } catch (error) {
+    return {playing: 0};
+  }
 }
