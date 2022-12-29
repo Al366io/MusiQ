@@ -1,21 +1,19 @@
 import "../styles/NextTrack.css";
 import { FastAverageColor } from "fast-average-color";
 import { useEffect, useState } from "react";
-import { useContext } from "react";
-import { BGContext } from "../../App";
 
-function NextTrack({ currentlyPlaying }) {
-  const { setBGColor } = useContext(BGContext);
+function NextTrack({ currentlyPlaying, BGsetter }) {
+
   const fac = new FastAverageColor();
 
-  const [coverColor, setCoverColor] = useState();
+  const [setCoverColor] = useState();
   const coverArt = currentlyPlaying.cover;
 
   useEffect(() => {
     if (!currentlyPlaying.playing) {
       fac.getColorAsync(currentlyPlaying.cover).then((color) => {
         setCoverColor(color.hex);
-        setBGColor(color.hex);
+        BGsetter(color.hex);
       });
     }
   }, [currentlyPlaying]);

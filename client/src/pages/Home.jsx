@@ -84,11 +84,10 @@ const Home = () => {
           <LoginButton text={"Get Started"} />
         ) : (
           <div id="logged">
-            <span id="hey-user">Hey, {user.given_name}</span>
-            {spotifyUser ? (
+            {isSpotifyLoggedIn ? (
               <span id="hey-user">Hey, {spotifyUser.display_name}</span>
-            ) : (
-              ""
+              ) : (
+                <span id="hey-user">Hey, {user.given_name}</span>
             )}
             {isSpotifyLoggedIn ? (
               // TODO : IF USER ALREADY HAVE A PARTY ROOM, HE SHOULD BE ABLE TO GO INTO THAT FROM HERE

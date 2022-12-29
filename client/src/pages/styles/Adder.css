@@ -6,6 +6,7 @@
 
 #party-presenter{
   color: #fff;
+  text-align: center;
 }
 
 #adder-container{
@@ -33,6 +34,7 @@
   font-weight: 700;
   font-size: 16px;
   cursor: pointer;
+  text-align: center;
   box-shadow: 3px 3px 6px 0px #0e2c44;
   font-family:'PublicPixel';
 }
@@ -40,4 +42,18 @@
 .join-under{
   margin-top: 10px;
   font-size: 12px;
+}
+
+@media screen and (max-width : 600px) {
+  
+  #adding-background{
+    overflow: hidden;
+  }
+
+  #adder-container{
+    height: 100vh;
+    width: 100vw;
+    border-radius: 16px;
+    overflow: hidden;
+    }
 }

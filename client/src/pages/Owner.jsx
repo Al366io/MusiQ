@@ -38,9 +38,9 @@ const Owner = () => {
     <div id="owner-background">
       <AnimatedBackground />
       <div id="owner-wrapper">
-        <h1 id="owner-heading">You're the boss here</h1>
+        <h1 id="owner-heading">Your Party your Choice</h1>
         <form action="" id="owner-options" onSubmit={handleSubmit}>
-          <label htmlFor="visibility"> Visibility </label>
+          <label htmlFor="visibility" className="label-option"> Queue </label>
           <select
             name="visibility"
             id="visibility"
@@ -52,7 +52,7 @@ const Owner = () => {
             <option value="invisible">Invisible</option>
           </select>
 
-          <label htmlFor="members"> Members Only </label>
+          <label htmlFor="members" className="label-option"> Join the party </label>
           <select
             name="members"
             id="members"
@@ -64,7 +64,7 @@ const Owner = () => {
             <option value="anyone">Anyone</option>
           </select>
 
-          <label htmlFor="genre-respect"> Genre Respect </label>
+          <label htmlFor="genre-respect" className="label-option"> Genre Respect </label>
           <select
             name="genre-respect"
             id="genre-respect"
@@ -80,7 +80,7 @@ const Owner = () => {
             <option value="techno">Techno</option>
           </select>
 
-          <label htmlFor="duplicate-timeout"> Duplicate Timeout </label>
+          <label htmlFor="duplicate-timeout" className="label-option"> Duplicate Timeout </label>
           <input
             type="number"
             min="1"
@@ -93,7 +93,7 @@ const Owner = () => {
             }}
           ></input>
 
-          <label htmlFor="upvote-toggle"> Upvote-Downvote </label>
+          <label htmlFor="upvote-toggle" className="label-option"> Upvote-Downvote </label>
           <select
             name="upvote-toggle"
             id="upvote-toggle"
