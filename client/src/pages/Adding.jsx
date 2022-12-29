@@ -10,7 +10,7 @@ import {getCurrentlyPlaying} from '../ApiServices'
 
 const Adding = () => {
 
-  const {BGcolor} = useContext(BGContext);
+  const [BGcolor, setBGColor] = useState('#000')
   let {id} = useParams()
 
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
@@ -30,7 +30,7 @@ const Adding = () => {
           <h3 id="adding-dash"># Room ID: {id} #</h3>
           <div className="next-track-container">
             <h1>Currently Playing: </h1>
-            <NextTrack currentlyPlaying={currentlyPlaying}/>
+            <NextTrack currentlyPlaying={currentlyPlaying} BGsetter = {setBGColor}/>
             {/* instead of NextTrack this should be the currently playing song in my opinion, and below the queue */}
           </div>
           <div className="track-list-container">

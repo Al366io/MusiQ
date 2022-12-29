@@ -5,16 +5,13 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Owner from "./pages/Owner";
 import NoPage from "./pages/NoPage";
-import { createContext, useState } from "react";
 
 import './fonts/public-pixel-font/PublicPixel-z84yD.ttf'
 import Dashboard from "./pages/Dashboard";
-export const BGContext = createContext();
 
 function App() {
-  const [BGcolor, setBGColor] = useState('#000')
+
   return (
-    <BGContext.Provider value={{BGcolor, setBGColor}}>
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Home />} />
@@ -26,7 +23,6 @@ function App() {
           <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
-    </BGContext.Provider>
   );
 }
 
