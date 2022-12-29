@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import '../styles/Track.css'
 
 function Track({
@@ -17,10 +18,10 @@ function Track({
       </div>
       <div className="central-info-list">
         {
-          songName.split('').length<45?
+          songName.split('').length<60?
           <span className="song-list">{songName}</span>
           :
-          <marquee className="song-list">{songName}</marquee>
+          <span className="song-list">{songName.slice(0,30) + '[...]'}</span>
         }
         <span className="genres-list">{genreList.slice(0,2).join('-')}</span>
         <span className="artist-list">{artistName}</span>

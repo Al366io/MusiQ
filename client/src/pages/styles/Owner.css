@@ -48,18 +48,46 @@ div#owner-wrapper{
   padding: 30px;
   border-radius: 12px;
   background-color: #52B69A;
+  border: 2px white solid;
 }
 
 input#submit-party{
   background-color: white;
   font-family:'PublicPixel';
-  padding: 10px 20px 10px 20px;
+  padding: 10px 40px 10px 40px;
   margin-top: 20px;
 }
 
 
-@media screen and (max-width : 750px) {
-  div#owner-wrapper{
-    width: 75vw;
+@media screen and (max-width : 650px) {
+
+  h1#owner-heading{
+    font-size: 36px;
   }
+
+  div#owner-wrapper{
+    width: 100vw;
+    height: 100vh;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
+    gap: 40px;
+  }
+
+  #owner-options{
+    border: 2px white solid;
+    padding: 30px;
+    border-radius: 12px;
+  }
+
+  .label-option{
+    padding-right: 175px;
+  }
+
+  input#submit-party{
+    margin-top: 35px;
+    padding: 10px 40px 10px 40px;
+  }
+
 }

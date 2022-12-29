@@ -84,11 +84,10 @@ const Home = () => {
           <LoginButton text={"Get Started"} />
         ) : (
           <div id="logged">
-            <span id="hey-user">Hey, {user.given_name}</span>
-            {spotifyUser ? (
+            {isSpotifyLoggedIn ? (
               <span id="hey-user">Hey, {spotifyUser.display_name}</span>
-            ) : (
-              ""
+              ) : (
+                <span id="hey-user">Hey, {user.given_name}</span>
             )}
             {isSpotifyLoggedIn ? (
               // TODO : IF USER ALREADY HAVE A PARTY ROOM, HE SHOULD BE ABLE TO GO INTO THAT FROM HERE
@@ -149,6 +148,18 @@ const Home = () => {
           <span className="points-section-2">Set some ground rules</span>
           <span className="down-arrow">&#8595;</span>
           <span className="points-section-2">Enjoy great MusiQ</span>
+        </div>
+      </div>
+      <div id="section-3">
+        <div id="wrapper-left-section-3">
+          <button>Visibility</button>
+          <button>Who can join</button>
+          <button>Genre Respect</button>
+          <button>Duplicate Timeout</button>
+          <button>Upvote/Downvote</button>
+        </div>
+        <div id="wrapper-right-section-3">
+
         </div>
       </div>
       <Footer />

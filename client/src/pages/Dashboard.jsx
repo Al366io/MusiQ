@@ -11,7 +11,7 @@ const Dashboard = () => {
   const {id} = useParams()
 
   const handleclick = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/adding/${id}`)
+    navigator.clipboard.writeText(`http://localhost:3000/adder/${id}`)
     setCopied(true)
   }
 
@@ -20,7 +20,7 @@ const Dashboard = () => {
         <h3 id="room-dash">Room {id}</h3>
         <div id="container-dash-top">
           <div id="container-dash-left">
-            <QRCodeSVG size='200px' value={`http://localhost:3000/dashboard/${id}`} />
+            <QRCodeSVG size='200px' value={`http://localhost:3000/adder/${id}`} />
             <button className="button-dash" onClick={handleclick}>
               {copied ? 
               <span>Copied!</span>

@@ -45,19 +45,18 @@ h3#room-dash{
   display : flex;
   flex-direction : column;
   gap: 10px;
-  max-width: 99vw;
 }
 
 .track-dash-container:before {
   content: 'Queue';
-  position: fixed;
+  position: absolute;
   color: white;
   font-size: 18px;
   width: 100px;
   height: 20px;
   text-align: center;
   background-color: #000;
-  top: 52.8%;
+  top: 54%;
   left: 50%;
   transform: translate(-50%,-50%);
 }
@@ -80,10 +79,7 @@ h3#room-dash{
 }
 
 @media screen and (max-width : 650px) {
-  .button-dash{
-    width: 30vw;
-  }
   .track-dash-container{
-    max-width: 85vw;
+    max-width: 80vw;
   }
 }
