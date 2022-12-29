@@ -32,6 +32,7 @@ h3#room-dash{
   flex-direction : column;
   justify-content : center;
   align-items : center;
+  min-width: 40vw;
 }
 
 .track-dash-container{

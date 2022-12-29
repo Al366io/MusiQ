@@ -1,14 +1,26 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Track from '../components/Adding/Track'
 import Separator from "../components/Adding/Separator";
+import NextTrack from '../components/Adding/NextTrack'
 import './styles/Dashboard.css'
 import {QRCodeSVG} from 'qrcode.react';
+import {getCurrentlyPlaying} from '../ApiServices'
 
 const Dashboard = () => {
 
   const [copied, setCopied] = useState(false)
   const {id} = useParams()
+
+  const [currentlyPlaying, setCurrentlyPlaying] = useState({});
+
+  useEffect(()=>{
+    async function currentHandler() {
+      let response = await getCurrentlyPlaying(id)
+      setCurrentlyPlaying(response)
+    }
+    currentHandler();
+  }, [])
 
   const handleclick = () => {
     navigator.clipboard.writeText(`http://localhost:3000/adder/${id}`)
@@ -30,7 +42,7 @@ const Dashboard = () => {
               </button>
           </div>
           <div id="container-dash-right">
-            <button className="button-dash">Change Options</button>
+          <NextTrack currentlyPlaying={currentlyPlaying}/>
           </div>
         </div>
           <div className="track-dash-container">
