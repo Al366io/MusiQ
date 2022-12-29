@@ -223,24 +223,29 @@ exports.getPlayingSong = async (req, res) => {
       },
     })
       .then((response) => {
+        console.log(response);
         if (response.status === 204) {
-          res.send(JSON.stringify({ error: "No song playing" }));
-          res.status(204);
+          return 0;
         } else return response.json();
       })
       .then((response) => {
-        console.log(response);
-        // console.log('Song: ' + response.item.name + ' Artist ' + JSON.stringify(response.item.artists[0].name));
-        const songPlaying = {
-          title: response.item.name,
-          artist: response.item.artists[0].name,
-          cover: response.item.album.images[0].url,
-          playing: 1,
-        };
-        res.send(JSON.stringify(songPlaying));
-        res.status(200);
+        if (response) {
+          // console.log('Song: ' + response.item.name + ' Artist ' + JSON.stringify(response.item.artists[0].name));
+          const songPlaying = {
+            title: response.item.name,
+            artist: response.item.artists[0].name,
+            cover: response.item.album.images[0].url,
+            playing: 1,
+          };
+          res.send(JSON.stringify(songPlaying));
+          res.status(200);
+        } else {
+          res.send(JSON.stringify({ playing: 0 }));
+          res.status(204);
+        }
       });
   } catch (error) {
+    console.log(error);
     res.sendStatus(500);
   }
 };
