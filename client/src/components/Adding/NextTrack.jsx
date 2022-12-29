@@ -1,12 +1,12 @@
 import "../styles/NextTrack.css";
 import { FastAverageColor } from "fast-average-color";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function NextTrack({ currentlyPlaying, BGsetter }) {
 
   const fac = new FastAverageColor();
 
-  const [coverColor, setCoverColor] = useState();
+  const [setCoverColor] = useState();
 
   const handleLoaded = async () => {
     fac.getColorAsync(currentlyPlaying.cover).then((color) => {
@@ -22,9 +22,12 @@ function NextTrack({ currentlyPlaying, BGsetter }) {
       <div className="artist-cover-next">
         <img className="cover-next" src={currentlyPlaying.cover} alt="Cover" onLoad={handleLoaded} />
       </div>
-      <div className="central-info-list">
+      <div className="central-info-list next-central">
         {currentlyPlaying.playing ? (
-          <span className="song-list">{currentlyPlaying.title}</span>
+          currentlyPlaying.title.split('').length<60?
+          <span className="next-song-name song-list">{currentlyPlaying.title}</span>
+          :
+          <span className="next-song-name song-list">{currentlyPlaying.title.slice(0,60) + '[...]'}</span>
         ) : (
           ""
         )}

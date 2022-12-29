@@ -4,14 +4,23 @@
   border-radius: 10px;
   border: 2px white solid;
   grid-column-gap: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  min-width: 75vw;
+  padding-top: 25px;
+  padding-bottom: 15px;
+  min-width: 30vw;
   display : flex;
   flex-direction : column;
   justify-content : center;
   align-items : center;
   color: white;
+}
+
+.next-central{
+  margin-top: 10px;
+}
+
+.next-song-name{
+  font-weight: 600;
+  font-size: 20px;
 }
 
 img.cover-next{

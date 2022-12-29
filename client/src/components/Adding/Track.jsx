@@ -21,7 +21,7 @@ function Track({
           songName.split('').length<60?
           <span className="song-list">{songName}</span>
           :
-          <span className="song-list">{songName.slice(0,30) + '[...]'}</span>
+          <span className="song-list">{songName.slice(0,60) + '[...]'}</span>
         }
         <span className="genres-list">{genreList.slice(0,2).join('-')}</span>
         <span className="artist-list">{artistName}</span>

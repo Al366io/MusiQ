@@ -4,8 +4,7 @@ import Track from '../components/Adding/Track'
 import NextTrack from '../components/Adding/NextTrack'
 import AddButton from "../components/Adding/AddButton";
 import Separator from "../components/Adding/Separator";
-import { useContext, useState, useEffect } from "react";
-import { BGContext } from "../App";
+import { useState, useEffect } from "react";
 import {getCurrentlyPlaying} from '../ApiServices'
 
 const Adding = () => {
