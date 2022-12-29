@@ -267,3 +267,46 @@ exports.getOwnerOfParty = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+exports.triggerSocketGetPlayingSong = (req, res) => {
+  const partyId = req.params.id;
+  setInterval(()=>{
+    this.socketIoGetPlayingSong(partyId)
+  }, 2000)
+  res.sendStatus(204);
+}
+
+exports.socketIoGetPlayingSong = async (partyId) => {
+  const token = await getPartyToken(partyId);
+  try {
+    let a = await fetch("https://api.spotify.com/v1/me/player", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else return 0;
+      })
+      .then( async (response) => {
+        if (response?.is_playing !== false) {
+          let genreString = await getArtistGenre(response.item.artists[0].id, token)
+          const songPlaying = {
+            title: response.item.name,
+            artist: response.item.artists[0].name,
+            cover: response.item.album.images[0].url,
+            genres: genreString,
+            playing: 1,
+          };
+          return songPlaying;
+        } else {
+          return ({ playing: 0 });
+        }
+      });
+      io.to('songs-room').emit('currentlyPlaying', a)
+  } catch (error) {
+    console.log(error);
+  }
+};

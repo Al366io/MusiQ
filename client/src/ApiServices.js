@@ -52,3 +52,15 @@ exports.getOwnerParty = (id) => {
     return '';
   }
 }
+
+exports.triggerGetPlayingSong = (id) => {
+  try {
+    const response = fetch(`http://localhost:3001/party/update/${id}`).then(
+      (response) => response.text()
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return '';
+  }
+}
