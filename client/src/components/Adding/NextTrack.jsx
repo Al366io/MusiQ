@@ -12,7 +12,7 @@ function NextTrack({ currentlyPlaying }) {
   const coverArt = currentlyPlaying.cover;
 
   useEffect(() => {
-    if (!currentlyPlaying.playing) {
+    if (currentlyPlaying.playing) {
       fac.getColorAsync(currentlyPlaying.cover).then((color) => {
         setCoverColor(color.hex);
         setBGColor(color.hex);

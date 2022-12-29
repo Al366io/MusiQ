@@ -6,6 +6,7 @@ const {
   getSpotifyUser,
   createParty,
   getPlayingSong,
+  getOwnerOfParty,
 } = require("./controllers/controller");
 
 
@@ -30,5 +31,10 @@ router.post('/party/create/:email', createParty);
 // to get currently playing song in a party 
 // receive the party id, returns the currently playing song
 router.get('/party/playing/:id', getPlayingSong)
+
+// to get owner of party
+// receives party id, returns owner of party
+router.get('/party/owner/:id', getOwnerOfParty)
+
 
 module.exports = router;
