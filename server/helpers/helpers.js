@@ -79,3 +79,22 @@ exports.getPartyToken = async (partyId) => {
     console.log(error);
   }
 };
+
+exports.getArtistGenre = (id, token) => {
+  try {
+    // call spotofy api on https://api.spotify.com/v1/artists/:id - return response.genres (its an array)
+    let ret = fetch(`https://api.spotify.com/v1/artists/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          return response.genres.slice(0,3).join(' - ');
+        });
+        return ret;
+  } catch (error) {
+    return []
+  }
+}
