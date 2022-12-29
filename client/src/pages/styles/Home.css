@@ -131,6 +131,16 @@ h2#section-1-header{
   font-weight: 400;
 }
 
+#section-3{
+  background-color: #105e48;
+  display : flex;
+  flex-direction : row;
+  justify-content : center;
+  align-items : center;
+  padding-bottom: 60px;
+  color: white;
+ }
+
 @media screen and (min-width : 620px) {
   
   #logged{

@@ -150,6 +150,18 @@ const Home = () => {
           <span className="points-section-2">Enjoy great MusiQ</span>
         </div>
       </div>
+      <div id="section-3">
+        <div id="wrapper-left-section-3">
+          <button>Visibility</button>
+          <button>Who can join</button>
+          <button>Genre Respect</button>
+          <button>Duplicate Timeout</button>
+          <button>Upvote/Downvote</button>
+        </div>
+        <div id="wrapper-right-section-3">
+
+        </div>
+      </div>
       <Footer />
     </div>
   );

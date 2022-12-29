@@ -6,24 +6,21 @@ function NextTrack({ currentlyPlaying, BGsetter }) {
 
   const fac = new FastAverageColor();
 
-  const [setCoverColor] = useState();
-  const coverArt = currentlyPlaying.cover;
+  const [coverColor, setCoverColor] = useState();
 
-  useEffect(() => {
-    if (!currentlyPlaying.playing) {
-      fac.getColorAsync(currentlyPlaying.cover).then((color) => {
-        setCoverColor(color.hex);
-        BGsetter(color.hex);
-      });
-    }
-  }, [currentlyPlaying]);
+  const handleLoaded = async () => {
+    fac.getColorAsync(currentlyPlaying.cover).then((color) => {
+      setCoverColor(color.hex);
+      BGsetter(color.hex);
+  })
+}
 
   // TODO Implement dynamic song/genre/artist/minutes
 
   return (
     <div className="track-next">
       <div className="artist-cover-next">
-        <img className="cover-next" src={coverArt} alt="Cover" />
+        <img className="cover-next" src={currentlyPlaying.cover} alt="Cover" onLoad={handleLoaded} />
       </div>
       <div className="central-info-list">
         {currentlyPlaying.playing ? (
