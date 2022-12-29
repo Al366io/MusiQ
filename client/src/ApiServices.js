@@ -39,3 +39,16 @@ exports.getCurrentlyPlaying = (id) => {
     return {playing: 0};
   }
 }
+
+// call this passing partyId as parameter, gives u back the name of owner as a string
+exports.getOwnerParty = (id) => {
+  try {
+    const response = fetch(`http://localhost:3001/party/owner/${id}`).then(
+      (response) => response.text()
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return '';
+  }
+}

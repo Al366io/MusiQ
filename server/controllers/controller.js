@@ -69,7 +69,7 @@ exports.grabAuthToken = async (req, res) => {
     );
     tempUser.access_token = spotifyResponse.data.access_token;
     tempUser.refresh_token = spotifyResponse.data.refresh_token;
-    console.log(tempUser);
+    // console.log(tempUser);
 
     await updateOrCreate(tempUser);
 
@@ -224,7 +224,6 @@ exports.getPlayingSong = async (req, res) => {
     })
       .then((response) => {
         if (response.status === 204) {
-          console.log('a');
           res.send(JSON.stringify({ error: "No song playing" }));
           res.status(204);
         } else return response.json();
@@ -239,6 +238,26 @@ exports.getPlayingSong = async (req, res) => {
           playing: 1,
         };
         res.send(JSON.stringify(songPlaying));
+        res.status(200);
+      });
+  } catch (error) {
+    res.sendStatus(500);
+  }
+};
+
+exports.getOwnerOfParty = async (req, res) => {
+  const partyId = req.params.id;
+  const token = await getPartyToken(partyId);
+  try {
+    fetch("https://api.spotify.com/v1/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        res.send(response.display_name);
         res.status(200);
       });
   } catch (error) {
