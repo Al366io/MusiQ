@@ -137,9 +137,41 @@ h2#section-1-header{
   flex-direction : row;
   justify-content : center;
   align-items : center;
+  gap: 30px;
   padding-bottom: 60px;
+  padding-top: 60px;
   color: white;
  }
+
+#wrapper-left-section-3{
+  display : flex;
+  flex-direction : column;
+  gap: 10px;
+  justify-content : center;
+  align-items : flex-start;
+}
+
+#wrapper-right-section-3{
+  width: 50vw;
+  height: 25vh;
+  border: 2px white solid;
+  border-radius: 10px;
+}
+
+
+.option-button-home{
+  border: none;
+  background: none;
+  color: white;
+  font-size: 20px;
+  transition: all .2s;
+}
+
+.option-button-home:hover{
+  text-decoration: underline;
+  cursor: pointer;
+  color: rgb(231, 231, 231);
+}
 
 @media screen and (min-width : 620px) {
   
