@@ -152,14 +152,14 @@ const Home = () => {
       </div>
       <div id="section-3">
         <div id="wrapper-left-section-3">
-          <button>Visibility</button>
-          <button>Who can join</button>
-          <button>Genre Respect</button>
-          <button>Duplicate Timeout</button>
-          <button>Upvote/Downvote</button>
+          <button className="option-button-home">Visibility</button>
+          <button className="option-button-home">Who can join</button>
+          <button className="option-button-home">Genre Respect</button>
+          <button className="option-button-home">Duplicate Timeout</button>
+          <button className="option-button-home">Upvote/Downvote</button>
         </div>
         <div id="wrapper-right-section-3">
-
+          <div></div>
         </div>
       </div>
       <Footer />

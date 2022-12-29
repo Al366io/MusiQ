@@ -14,6 +14,11 @@ function NextTrack({ currentlyPlaying, BGsetter = ()=>{} }) {
     });
   };
 
+  const capitalize = (str) => {
+    let arr = str.split(' - ')
+    return arr.map(string => string.charAt(0).toUpperCase() + string.slice(1)).join(' - ')
+  }
+
   // TODO Implement dynamic song/genre/artist/minutes
 
   return (
@@ -36,7 +41,8 @@ function NextTrack({ currentlyPlaying, BGsetter = ()=>{} }) {
             <>
               <span className="next-song-name song-list">
                 {currentlyPlaying.title}
-              </span>{" "}
+              </span>
+              { currentlyPlaying.genres ? <span className="genre-list"> {capitalize(currentlyPlaying.genres)} </span> : ''}
               <span className="artist-list">{currentlyPlaying.artist}</span>
             </>
           ) : (
@@ -47,7 +53,6 @@ function NextTrack({ currentlyPlaying, BGsetter = ()=>{} }) {
               <span className="artist-list">{currentlyPlaying.artist}</span>
             </>
           )}
-          { currentlyPlaying.genres ? <div> {currentlyPlaying.genres} </div> : ''}
           </>
         ) : (
           ""

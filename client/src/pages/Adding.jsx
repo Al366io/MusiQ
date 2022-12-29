@@ -5,25 +5,35 @@ import NextTrack from '../components/Adding/NextTrack'
 import AddButton from "../components/Adding/AddButton";
 import Separator from "../components/Adding/Separator";
 import { useState, useEffect } from "react";
-import {getCurrentlyPlaying} from '../ApiServices'
 import { getOwnerParty } from "../ApiServices";
+import { io } from "socket.io-client";
+import { triggerGetPlayingSong } from '../ApiServices'
 
 const Adding = () => {
 
   const [BGcolor, setBGColor] = useState('#000')
   let {id} = useParams()
 
+  const [dataFromSocket, setDataFromSocket] = useState({});
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
   const [ownerName, setOwnerName] = useState('');
 
   useEffect(()=>{
-    async function currentHandler() {
-      let response = await getCurrentlyPlaying(id)
-      setCurrentlyPlaying(response)
-    }
+    const socket = io("http://localhost:3001");
+    socket.on("connect_error", () => {
+      setTimeout(() => socket.connect(), 3001);
+    });
+    socket.on("currentlyPlaying", (data) => setDataFromSocket(data));
+    socket.on("disconnect", () => setCurrentlyPlaying({error: 'error'}));
+
+    // triggers setInterval in backend 
+    triggerGetPlayingSong(id)
     getOwnerParty(id).then(res => setOwnerName(res))
-    currentHandler();
   }, [])
+
+  useEffect(()=>{
+    setCurrentlyPlaying(dataFromSocket)
+  }, [dataFromSocket])
 
   return(
     <div id="dash-back">

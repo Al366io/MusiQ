@@ -16,7 +16,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     const socket = io("http://localhost:3001");
-    // socket.on("connect", () => console.log(socket.id));
     socket.on("connect_error", () => {
       setTimeout(() => socket.connect(), 3001);
     });
@@ -31,7 +30,7 @@ const Dashboard = () => {
     setCurrentlyPlaying(dataFromSocket)
   }, [dataFromSocket])
 
-  const handleclick = () => {
+  const handleCopyLink = () => {
     navigator.clipboard.writeText(`http://localhost:3000/adder/${id}`);
     setCopied(true);
   };
@@ -43,7 +42,7 @@ const Dashboard = () => {
       <div id="container-dash-top">
         <div id="container-dash-left">
           <QRCodeSVG size="200px" value={`http://localhost:3000/adder/${id}`} />
-          <button className="button-dash" onClick={handleclick}>
+          <button className="button-dash" onClick={handleCopyLink}>
             {copied ? <span>Copied!</span> : <span>Copy Link</span>}
           </button>
         </div>
