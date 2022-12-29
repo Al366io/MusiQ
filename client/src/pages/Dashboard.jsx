@@ -29,7 +29,7 @@ const Dashboard = () => {
 
     return(
       <div id="dash-container">
-        <h3 id="room-dash">Room {id}</h3>
+        <h3 id="room-dash">Room #{id}#</h3>
         <div id="container-dash-top">
           <div id="container-dash-left">
             <QRCodeSVG size='200px' value={`http://localhost:3000/adder/${id}`} />

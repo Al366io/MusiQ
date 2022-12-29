@@ -1,6 +1,15 @@
 #adding-dash{
   text-align: center;
   font-size: 24px;
+  color: white;
+  margin-bottom: 0px;
+}
+
+#sub-header-adding{
+  color: white;
+  margin-top: 0px;
+  padding: 0px;
+  text-align: center;
 }
 
 .adding-container{
@@ -21,6 +30,10 @@
   flex-direction : column;
   justify-content : center;
   align-items : center;
+}
+
+.next-track-container{
+  margin-bottom: 20px;
 }
 
 .adding-inner-container{
