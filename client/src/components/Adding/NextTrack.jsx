@@ -31,21 +31,24 @@ function NextTrack({ currentlyPlaying, BGsetter }) {
         )}
       </div>
       <div className="central-info-list next-central">
-        {currentlyPlaying.playing ? (
+        {currentlyPlaying.playing ? ( <> {
           currentlyPlaying.title.split("").length < 60 ? (
-            <span className="next-song-name song-list">
-              {currentlyPlaying.title}
-            </span>
+            <>
+              <span className="next-song-name song-list">
+                {currentlyPlaying.title}
+              </span>{" "}
+              <span className="artist-list">{currentlyPlaying.artist}</span>
+            </>
           ) : (
-            <span className="next-song-name song-list">
-              {currentlyPlaying.title.slice(0, 60) + "[...]"}
-            </span>
-          )
-        ) : (
-          ""
-        )}
-        {currentlyPlaying.playing ? (
-          <span className="artist-list">{currentlyPlaying.artist}</span>
+            <>
+              <span className="next-song-name song-list">
+                {currentlyPlaying.title.slice(0, 60) + "[...]"}
+              </span>
+              <span className="artist-list">{currentlyPlaying.artist}</span>
+            </>
+          )}
+          { currentlyPlaying.genres ? <div> {currentlyPlaying.genres} </div> : ''}
+          </>
         ) : (
           ""
         )}
