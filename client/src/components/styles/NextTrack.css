@@ -24,16 +24,20 @@
 }
 
 img.cover-next{
-  min-height:200px;
-  min-width:200px;
-  max-height:200px;
-  max-width:200px;
+  height: 200px;
+  width: 200px;
   line-height: 50px;
   text-align: center;
 }
 
 @media screen and (max-width : 650px) {
   .track-next{
-    min-width: 99vw;
+    min-width: 40vw;
+  }
+  img.cover-next{
+    height: 100px;
+    width: 100px;
+    line-height: 50px;
+    text-align: center;
   }
 }

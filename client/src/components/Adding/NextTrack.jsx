@@ -2,10 +2,10 @@ import "../styles/NextTrack.css";
 import { FastAverageColor } from "fast-average-color";
 import { useState } from "react";
 
-function NextTrack({ currentlyPlaying, BGsetter }) {
+function NextTrack({ currentlyPlaying, BGsetter = ()=>{} }) {
   const fac = new FastAverageColor();
 
-  const [setCoverColor] = useState();
+  const [coverColor, setCoverColor] = useState();
 
   const handleLoaded = async () => {
     fac.getColorAsync(currentlyPlaying.cover).then((color) => {

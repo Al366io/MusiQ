@@ -97,12 +97,13 @@ const Owner = () => {
           <select
             name="upvote-toggle"
             id="upvote-toggle"
+            disabled={ownerOptions.visible === 'invisible'}
             onChange={(e) => {
               setUpvote(e.target.value);
             }}
           >
             <option value="Allowed">Allowed</option>
-            <option value="Disabled">Disabled</option>
+            <option selected={ownerOptions.visible === 'invisible'} value="Disabled">Disabled</option>
           </select>
 
           <input type="submit" id="submit-party" value="CREATE" />

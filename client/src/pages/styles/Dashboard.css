@@ -10,6 +10,8 @@
 
 h3#room-dash{
   font-size: 20px;
+  margin-bottom: 50px;
+  text-transform: uppercase;
 }
 
 #container-dash-top{
@@ -57,7 +59,7 @@ h3#room-dash{
   height: 20px;
   text-align: center;
   background-color: #000;
-  top: 54%;
+  top: 58.6%;
   left: 50%;
   transform: translate(-50%,-50%);
 }
@@ -80,7 +82,29 @@ h3#room-dash{
 }
 
 @media screen and (max-width : 650px) {
+  h3#room-dash{
+    margin-bottom: 20px;
+  }
+
   .track-dash-container{
     max-width: 80vw;
+  }
+  #container-dash-top{
+    flex-direction : column;
+  }
+  #dash-container{
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
+    height: 100vh;
+    background-color: #000000;
+  }
+  .button-dash{
+    width: 45vw;
+  }
+  .track-dash-container:before {
+    top: 71.8%;
+    left: 50%;
   }
 }

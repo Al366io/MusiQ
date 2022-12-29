@@ -36,6 +36,7 @@ const Dashboard = () => {
     setCopied(true);
   };
 
+
   return (
     <div id="dash-container">
       <h3 id="room-dash">Room {id}</h3>
