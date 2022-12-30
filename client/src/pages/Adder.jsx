@@ -5,18 +5,19 @@ import LoginButton from '../components/LoginButton'
 import { checkRoom } from "../ApiServices";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
+import NoPage from "./NoPage";
 
 const Adder = () => {
 
-  const [exists, setExist] = useState(false)
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
+  const [exists, setExist] = useState(false)
 
   let {id} = useParams()
 
   checkRoom(id).then(response => {setExist(response)})
 
   if (exists) {
-
+    
     return (
       <div id="adding-background">
         <AnimatedBackground/>
@@ -33,7 +34,7 @@ const Adder = () => {
     );
   } else {
     return (
-      <span>Nope</span>
+      <NoPage/>
     )
   }
 };
