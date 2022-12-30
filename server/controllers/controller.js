@@ -358,6 +358,8 @@ exports.checkIfRoomExists = async (req, res) => {
   }
 };
 
+// TODO : if this gets called 2 times (you refresh the page, frontend calls backend api another time)
+// then we will have 2 setInterval sending same function. Too many requests. FIX IT
 exports.triggerSocketGetQueue = (req, res) => {
   const partyId = req.params.id;
   setInterval(() => {
@@ -365,7 +367,7 @@ exports.triggerSocketGetQueue = (req, res) => {
   }, 2000);
   res.sendStatus(204);
 };
-// get queue
+
 exports.socketIoGetQueue = async (partyId) => {
   const token = await getPartyToken(partyId);
   try {

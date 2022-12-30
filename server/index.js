@@ -1,16 +1,8 @@
-const {
-  generateRandomString,
-  refreshExpiredToken,
-  getPartyToken,
-  getArtistGenre,
-} = require("./helpers/helpers");
-
 const express = require('express');
 const cors = require('cors');
 const router = require('./router');
 const app = express();
 const port = 3001;
-const {socketIoGetPlayingSong} = require('./controllers/controller')
 const http = require('http');
 const server = http.createServer(app);
 const socketIo = require("socket.io")
