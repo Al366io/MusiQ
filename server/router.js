@@ -7,7 +7,8 @@ const {
   createParty,
   getPlayingSong,
   getOwnerOfParty,
-  triggerSocketGetPlayingSong
+  triggerSocketGetPlayingSong,
+  checkIfUserHasParty,
 } = require("./controllers/controller");
 
 // user to connects Spotify ( grab the email, grab the tokens, insert the user in DB )
@@ -36,7 +37,14 @@ router.get("/party/playing/:id", getPlayingSong);
 // receives party id, returns owner of party
 router.get("/party/owner/:id", getOwnerOfParty);
 
-// triggers set interval for the sent room
+// triggers set interval to gather info about song currently playing.
+// receives party id as param and then starts a setInterval that sends 
+// the currently playing song every 2 seconds through socket.io
 router.get("/party/update/:id", triggerSocketGetPlayingSong);
+
+// checks if user has already a party opened
+router.get('/users/info/party/:email', checkIfUserHasParty)
+
+
 
 module.exports = router;

@@ -23,6 +23,7 @@ const Dashboard = () => {
     socket.on("disconnect", () => setCurrentlyPlaying({error: 'error'}));
 
     // triggers setInterval in backend 
+    // TODO : trigger this ONLY if the room actually exists. Imagine if you mess with the url and insert a random party id. Unexpected behaviour.
     triggerGetPlayingSong(id)
   }, []);
 
@@ -37,6 +38,7 @@ const Dashboard = () => {
 
 
   return (
+    // TODO : RETURN ALL OF THIS ONLY IF ROOM EXISTS
     <div id="dash-container">
       <h3 id="room-dash">Room {id}</h3>
       <div id="container-dash-top">

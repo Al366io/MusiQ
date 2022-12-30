@@ -64,3 +64,15 @@ exports.triggerGetPlayingSong = (id) => {
     return '';
   }
 }
+
+exports.getUserRoom = async (email) => {
+  try {
+    const response = fetch(`http://localhost:3001/users/info/party/${email}`).then(
+      (response) => response.text()
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return '';
+  }
+}

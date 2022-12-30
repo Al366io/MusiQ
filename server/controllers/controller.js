@@ -310,3 +310,25 @@ exports.socketIoGetPlayingSong = async (partyId) => {
     console.log(error);
   }
 };
+
+exports.checkIfUserHasParty = async (req, res) => {
+  try {
+    const userEmail = req.params.email;
+    const user = await AuthTable.findOne({
+      where: { user_email: userEmail },
+    });
+    if(user.party_id) {
+      // console.log('found');
+      res.send(user.party_id)
+      res.status(200);
+    } else {
+      // user in db, but no partyId
+      // console.log('not found');
+      res.send('')
+      res.status(204)
+    }
+  } catch (error) {
+    //user not in db OR server error (1st one more likely)
+    res.sendStatus(404);
+  }
+}
