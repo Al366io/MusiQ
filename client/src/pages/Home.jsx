@@ -4,12 +4,17 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import LoginButton from "../components/LoginButton";
-import { getTokensFromDb, getSpotifyUserInfo } from "../ApiServices";
+import {
+  getTokensFromDb,
+  getSpotifyUserInfo,
+  getUserRoom,
+} from "../ApiServices";
 
 const Home = () => {
   const { logout, user, isAuthenticated } = useAuth0();
   const [isSpotifyLoggedIn, setIsSpotifyLoggedIn] = useState(false);
   const [spotifyUser, setSpotifyUser] = useState({});
+  const [userRoom, serUserRoom] = useState("");
   // when state of user changes (so basically when someone logs in)
   // call the db to see if they have a token
   useEffect(() => {
@@ -22,6 +27,7 @@ const Home = () => {
 
   useEffect(() => {
     // get user info if authenticated
+    // this also gets the user Room if it has one
     getUser();
   }, [isSpotifyLoggedIn]);
 
@@ -29,6 +35,8 @@ const Home = () => {
     if (isAuthenticated) {
       let spotiUser = await getSpotifyUserInfo(user.email);
       setSpotifyUser(spotiUser);
+      let party = await getUserRoom(user.email);
+      serUserRoom(party);
     }
   };
   const getTokenAndUpdateStatus = async () => {
@@ -86,14 +94,17 @@ const Home = () => {
           <div id="logged">
             {isSpotifyLoggedIn ? (
               <span id="hey-user">Hey, {spotifyUser.display_name}</span>
-              ) : (
-                <span id="hey-user">Hey, {user.given_name}</span>
+            ) : (
+              <span id="hey-user">Hey, {user.given_name}</span>
             )}
             {isSpotifyLoggedIn ? (
-              // TODO : IF USER ALREADY HAVE A PARTY ROOM, HE SHOULD BE ABLE TO GO INTO THAT FROM HERE
+              // Here userRoom is the PartId of that users room if it has one already :)
+              <>
+              <div> {userRoom} </div>
               <Link to="/owner" className="nologin">
                 Create a Party?
               </Link>
+              </>
             ) : (
               <a href={`http://localhost:3001/connectspotify/${user.email}`}>
                 CONNECT YOUR SPOTIFY
