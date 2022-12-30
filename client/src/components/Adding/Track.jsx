@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import '../styles/Track.css'
 
-function Track({
-  songName = 'Chocolate with Jesus and Everyone Else From Home',
-  genreList = ['Hardcore', 'Punk', 'Death Metal'],
-  artistName = 'Moses',
-  coverArt = 'https://i.scdn.co/image/ab6761610000e5eb361cc22b5c6ebc155a058cc4'}) {
-
+function Track(
+  // {songName = 'Chocolate with Jesus and Everyone Else From Home',
+  // genreList = ['Hardcore', 'Punk', 'Death Metal'],
+  // artistName = 'Moses',
+  // coverArt = 'https://i.scdn.co/image/ab6761610000e5eb361cc22b5c6ebc155a058cc4'}
+  {song}) {
+  const songName = song.name
+  const artistName = song.artist
+  const coverArt = song.image
   // TODO Implement dynamic song/genre/artist Get info from api and pass in props
   // TODO Calculate minutes left with minutes left before previous song + length of song before
   const minutesLeft = 12
@@ -23,7 +26,7 @@ function Track({
           :
           <span className="song-list">{songName.slice(0,60) + '[...]'}</span>
         }
-        <span className="genres-list">{genreList.slice(0,2).join('-')}</span>
+        {/* <span className="genres-list">{genreList.slice(0,2).join('-')}</span> */}
         <span className="artist-list">{artistName}</span>
       </div>
       <div className="minutes-left-list">

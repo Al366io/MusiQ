@@ -93,6 +93,7 @@ exports.getArtistGenre = (id, token) => {
         .then((response) => {
           return response.genres.slice(0,3).join(' - ');
         });
+
         return ret;
   } catch (error) {
     return []

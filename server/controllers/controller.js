@@ -295,10 +295,7 @@ exports.socketIoGetPlayingSong = async (partyId) => {
       })
       .then(async (response) => {
         if (response?.is_playing !== false) {
-          let genreString = await getArtistGenre(
-            response.item.artists[0].id,
-            token
-          );
+          let genreString = await getArtistGenre(response.item.artists[0].id, token);
           const songPlaying = {
             title: response.item.name,
             artist: response.item.artists[0].name,
@@ -391,6 +388,7 @@ exports.socketIoGetQueue = async (partyId) => {
           buff.name = song.name;
           buff.artist = song.artists[0].name;
           buff.image = song.album.images[0].url;
+          buff.id = song.id;
           q.push(buff);
         })
         return q;
