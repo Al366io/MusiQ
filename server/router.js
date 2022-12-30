@@ -10,6 +10,7 @@ const {
   triggerSocketGetPlayingSong,
   checkIfUserHasParty,
   checkIfRoomExists,
+  triggerSocketGetQueue,
 } = require("./controllers/controller");
 
 // user to connects Spotify ( grab the email, grab the tokens, insert the user in DB )
@@ -42,6 +43,11 @@ router.get("/party/owner/:id", getOwnerOfParty);
 // receives party id as param and then starts a setInterval that sends 
 // the currently playing song every 2 seconds through socket.io
 router.get("/party/update/:id", triggerSocketGetPlayingSong);
+
+// triggers set interval to gather info about queue of party
+// receives party id as param and then starts a setInterval that sends 
+// the current queue song every 2 seconds through socket.io
+router.get("/party/queue/:id", triggerSocketGetQueue);
 
 // checks if user has already a party opened
 // gets email and return the partyId as a string if the user has a party id

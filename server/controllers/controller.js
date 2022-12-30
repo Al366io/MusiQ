@@ -225,9 +225,12 @@ exports.getPlayingSong = async (req, res) => {
           return response.json();
         } else return 0;
       })
-      .then( async (response) => {
+      .then(async (response) => {
         if (response?.is_playing !== false) {
-          let genreString = await getArtistGenre(response.item.artists[0].id, token)
+          let genreString = await getArtistGenre(
+            response.item.artists[0].id,
+            token
+          );
           const songPlaying = {
             title: response.item.name,
             artist: response.item.artists[0].name,
@@ -270,11 +273,11 @@ exports.getOwnerOfParty = async (req, res) => {
 
 exports.triggerSocketGetPlayingSong = (req, res) => {
   const partyId = req.params.id;
-  setInterval(()=>{
-    this.socketIoGetPlayingSong(partyId)
-  }, 2000)
+  setInterval(() => {
+    this.socketIoGetPlayingSong(partyId);
+  }, 2000);
   res.sendStatus(204);
-}
+};
 
 exports.socketIoGetPlayingSong = async (partyId) => {
   const token = await getPartyToken(partyId);
@@ -290,9 +293,12 @@ exports.socketIoGetPlayingSong = async (partyId) => {
           return response.json();
         } else return 0;
       })
-      .then( async (response) => {
+      .then(async (response) => {
         if (response?.is_playing !== false) {
-          let genreString = await getArtistGenre(response.item.artists[0].id, token)
+          let genreString = await getArtistGenre(
+            response.item.artists[0].id,
+            token
+          );
           const songPlaying = {
             title: response.item.name,
             artist: response.item.artists[0].name,
@@ -302,10 +308,10 @@ exports.socketIoGetPlayingSong = async (partyId) => {
           };
           return songPlaying;
         } else {
-          return ({ playing: 0 });
+          return { playing: 0 };
         }
       });
-      io.to('songs-room').emit('currentlyPlaying', a)
+    io.to("songs-room").emit("currentlyPlaying", a);
   } catch (error) {
     console.log(error);
   }
@@ -317,21 +323,21 @@ exports.checkIfUserHasParty = async (req, res) => {
     const user = await AuthTable.findOne({
       where: { user_email: userEmail },
     });
-    if(user.party_id) {
+    if (user.party_id) {
       // console.log('found');
-      res.send(user.party_id)
+      res.send(user.party_id);
       res.status(200);
     } else {
       // user in db, but no partyId
       // console.log('not found');
-      res.send('')
-      res.status(204)
+      res.send("");
+      res.status(204);
     }
   } catch (error) {
     //user not in db OR server error (1st one more likely)
     res.sendStatus(404);
   }
-}
+};
 
 exports.checkIfRoomExists = async (req, res) => {
   try {
@@ -339,18 +345,58 @@ exports.checkIfRoomExists = async (req, res) => {
     const user = await AuthTable.findOne({
       where: { party_id: id },
     });
-    if(user) {
+    if (user) {
       // console.log('found');
       res.status(200);
-      res.send('true')
+      res.send("true");
     } else {
       // console.log('not found');
-      res.status(280) // made up code to say that it's all ok but party is not there
-      res.send('false')
+      res.status(280); // made up code to say that it's all ok but party is not there
+      res.send("false");
     }
   } catch (error) {
     // doesnt exist
-    res.status(500)
-    res.send(error)
+    res.status(500);
+    res.send(error);
   }
-}
+};
+
+exports.triggerSocketGetQueue = (req, res) => {
+  const partyId = req.params.id;
+  setInterval(() => {
+    this.socketIoGetQueue(partyId);
+  }, 2000);
+  res.sendStatus(204);
+};
+// get queue
+exports.socketIoGetQueue = async (partyId) => {
+  const token = await getPartyToken(partyId);
+  try {
+    let queueArray = await fetch("https://api.spotify.com/v1/me/player/queue", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else return 0;
+      })
+      .then((response) => {
+        let q = [];
+        let arrayTenElemQueue = response.queue.slice(0, 10);
+        arrayTenElemQueue.forEach((song) => {
+          let buff = {};
+          buff.name = song.name;
+          buff.artist = song.artists[0].name;
+          buff.image = song.album.images[0].url;
+          q.push(buff);
+        })
+        return q;
+      });
+    io.to('songs-room').emit('queue', queueArray)
+  } catch (error) {
+    console.log(error);
+  }
+};

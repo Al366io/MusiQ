@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import LoginButton from "../components/LoginButton";
+import { useNavigate } from "react-router-dom";
 import {
   getTokensFromDb,
   getSpotifyUserInfo,
@@ -11,6 +12,7 @@ import {
 } from "../ApiServices";
 
 const Home = () => {
+  const navigate = useNavigate();
   const { logout, user, isAuthenticated } = useAuth0();
   const [isSpotifyLoggedIn, setIsSpotifyLoggedIn] = useState(false);
   const [spotifyUser, setSpotifyUser] = useState({});
@@ -81,6 +83,9 @@ const Home = () => {
     // When user then create a party, partyId will be inserted in database in the same object that holds
     // user_email and accessToken so we can use the access token when using that partyId
   };
+const goToRoom = () => {
+  navigate(`/dashboard/${userRoom}`)
+}
 
   return (
     <div id="home-wrapper">
@@ -100,7 +105,7 @@ const Home = () => {
             {isSpotifyLoggedIn ? (
               // Here userRoom is the PartId of that users room if it has one already :)
               <>
-              <div> {userRoom} </div>
+              <div onClick={goToRoom}> GO TO YOUR ROOM </div>
               <Link to="/owner" className="nologin">
                 Create a Party?
               </Link>
