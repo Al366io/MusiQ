@@ -9,6 +9,7 @@ const {
   getOwnerOfParty,
   triggerSocketGetPlayingSong,
   checkIfUserHasParty,
+  checkIfRoomExists,
 } = require("./controllers/controller");
 
 // user to connects Spotify ( grab the email, grab the tokens, insert the user in DB )
@@ -43,8 +44,11 @@ router.get("/party/owner/:id", getOwnerOfParty);
 router.get("/party/update/:id", triggerSocketGetPlayingSong);
 
 // checks if user has already a party opened
+// gets email and return the partyId as a string if the user has a party id
 router.get('/users/info/party/:email', checkIfUserHasParty)
 
-
+// checks if room exists
+// gets partyId and returns true or false
+router.get('/party/:id', checkIfRoomExists)
 
 module.exports = router;
