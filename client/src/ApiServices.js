@@ -76,3 +76,15 @@ exports.getUserRoom = async (email) => {
     return '';
   }
 }
+
+exports.triggerGetQueue = async (id) => {
+  try {
+    const response = fetch(`http://localhost:3001/party/queue/${id}`).then(
+      (response) => response.json()
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
