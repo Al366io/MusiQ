@@ -22,7 +22,7 @@ const Dashboard = () => {
       setTimeout(() => socket.connect(), 3001);
     });
     socket.on("currentlyPlaying", (data) => setDataFromSocket(data));
-    socket.on("queue", (data) => setQueue(data));
+    socket.on("queue", (data2) => setQueue(data2));
     socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
 
     // triggers setInterval in backend
