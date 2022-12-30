@@ -332,3 +332,25 @@ exports.checkIfUserHasParty = async (req, res) => {
     res.sendStatus(404);
   }
 }
+
+exports.checkIfRoomExists = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await AuthTable.findOne({
+      where: { party_id: id },
+    });
+    if(user) {
+      // console.log('found');
+      res.status(200);
+      res.send('true')
+    } else {
+      // console.log('not found');
+      res.status(280) // made up code to say that it's all ok but party is not there
+      res.send('false')
+    }
+  } catch (error) {
+    // doesnt exist
+    res.status(500)
+    res.send(error)
+  }
+}
