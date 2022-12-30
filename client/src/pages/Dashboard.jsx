@@ -6,13 +6,14 @@ import NextTrack from "../components/Adding/NextTrack";
 import "./styles/Dashboard.css";
 import { QRCodeSVG } from "qrcode.react";
 import { io } from "socket.io-client";
-import { triggerGetPlayingSong } from '../ApiServices'
+import { triggerGetPlayingSong } from "../ApiServices";
 
 const Dashboard = () => {
   const [dataFromSocket, setDataFromSocket] = useState({});
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
+  const [queue, setQueue] = useState([]);
   const [copied, setCopied] = useState(false);
-  const { id } = useParams();  
+  const { id } = useParams();
 
   useEffect(() => {
     const socket = io("http://localhost:3001");
@@ -20,22 +21,22 @@ const Dashboard = () => {
       setTimeout(() => socket.connect(), 3001);
     });
     socket.on("currentlyPlaying", (data) => setDataFromSocket(data));
-    socket.on("disconnect", () => setCurrentlyPlaying({error: 'error'}));
+    socket.on("queue", (data) => setQueue(data));
+    socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
 
-    // triggers setInterval in backend 
+    // triggers setInterval in backend
     // TODO : trigger this ONLY if the room actually exists. Imagine if you mess with the url and insert a random party id. Unexpected behaviour.
-    triggerGetPlayingSong(id)
+    triggerGetPlayingSong(id);
   }, []);
 
-  useEffect(()=>{
-    setCurrentlyPlaying(dataFromSocket)
-  }, [dataFromSocket])
+  useEffect(() => {
+    setCurrentlyPlaying(dataFromSocket);
+  }, [dataFromSocket]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`http://localhost:3000/adder/${id}`);
     setCopied(true);
   };
-
 
   return (
     // TODO : RETURN ALL OF THIS ONLY IF ROOM EXISTS
@@ -53,7 +54,21 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="track-dash-container">
-        <Track songName="I love being a little pokemon Man" />
+        {!queue.length ? (
+          <h1> 😞 No songs in Queue 😞 </h1>
+        ) : (
+          queue.map((song) => {
+            return (
+              <Track
+                key={song.id}
+                song={song}
+                // songName="I love being a little pokemon Man"
+              />
+            );
+          })
+        )}
+        {/* ADD SEPARATOR INSIDE TRACK COMPONENT */}
+        {/* <Track />
         <Separator />
         <Track />
         <Separator />
@@ -61,9 +76,7 @@ const Dashboard = () => {
         <Separator />
         <Track />
         <Separator />
-        <Track />
-        <Separator />
-        <Track />
+        <Track /> */}
         {/* {MAP TRACKS AND ADD SEPARATOR} */}
       </div>
     </div>
