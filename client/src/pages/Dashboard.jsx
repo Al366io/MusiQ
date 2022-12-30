@@ -6,7 +6,8 @@ import NextTrack from "../components/Adding/NextTrack";
 import "./styles/Dashboard.css";
 import { QRCodeSVG } from "qrcode.react";
 import { io } from "socket.io-client";
-import { triggerGetPlayingSong } from "../ApiServices";
+import { triggerGetPlayingSong, triggerGetQueue } from "../ApiServices";
+
 
 const Dashboard = () => {
   const [dataFromSocket, setDataFromSocket] = useState({});
@@ -27,6 +28,7 @@ const Dashboard = () => {
     // triggers setInterval in backend
     // TODO : trigger this ONLY if the room actually exists. Imagine if you mess with the url and insert a random party id. Unexpected behaviour.
     triggerGetPlayingSong(id);
+    triggerGetQueue(id);
   }, []);
 
   useEffect(() => {
