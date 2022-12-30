@@ -80,7 +80,7 @@ exports.getUserRoom = async (email) => {
 exports.triggerGetQueue = async (id) => {
   try {
     const response = fetch(`http://localhost:3001/party/queue/${id}`).then(
-      (response) => response.json()
+      (response) => response
     );
     return response;
   } catch (error) {
