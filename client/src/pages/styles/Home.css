@@ -18,6 +18,14 @@ h1#top-header {
   align-items : center;
 }
 
+.logout{
+  border: none;
+  margin-top: 5px;
+  background: none;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 #svg-top{
   margin-top: -1px;
 }
@@ -137,7 +145,7 @@ h2#section-1-header{
   flex-direction : row;
   justify-content : center;
   align-items : center;
-  gap: 30px;
+  gap: 20vw;
   padding-bottom: 60px;
   padding-top: 60px;
   color: white;
@@ -146,31 +154,62 @@ h2#section-1-header{
 #wrapper-left-section-3{
   display : flex;
   flex-direction : column;
-  gap: 10px;
+  gap: 40px;
   justify-content : center;
   align-items : flex-start;
 }
 
 #wrapper-right-section-3{
-  width: 50vw;
-  height: 25vh;
-  border: 2px white solid;
-  border-radius: 10px;
+  position: relative;
+  width: 20vw;
+  aspect-ratio: 1 / 2;
+  background-color: #136a51;
+  border-radius: 38.5px;
 }
 
+#top-phone-home{
+  width: 100px;
+  height: 22px;
+  background-color: #105e48;
+  left: 50%;
+  transform: translate(-50%);
+  border-radius: 0px 0px 15px 15px;
+  position: relative;
+}
+
+#speaker-phone-home{
+  width: 40%;
+  height: 5px;
+  top: 50%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background-color: #136a51;
+  position: absolute;
+}
+
+#camera-phone-home{
+  width: 7px;
+  height: 7px;
+  top: 50%;
+  left: 73%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background-color: #136a51;
+  position: absolute;
+}
 
 .option-button-home{
   border: none;
   background: none;
   color: white;
-  font-size: 20px;
+  font-size: 24px;
   transition: all .2s;
 }
 
 .option-button-home:hover{
   text-decoration: underline;
   cursor: pointer;
-  color: rgb(231, 231, 231);
 }
 
 @media screen and (min-width : 620px) {
