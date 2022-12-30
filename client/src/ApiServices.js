@@ -88,3 +88,15 @@ exports.triggerGetQueue = async (id) => {
     return [];
   }
 }
+
+exports.checkRoom = async (id) => {
+  try {
+    const response = fetch(`http://localhost:3001/party/${id}`).then(
+      (response) => response.json()
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return 'error';
+  }
+}

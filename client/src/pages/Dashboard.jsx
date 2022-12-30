@@ -6,12 +6,14 @@ import NextTrack from "../components/Adding/NextTrack";
 import "./styles/Dashboard.css";
 import { QRCodeSVG } from "qrcode.react";
 import { io } from "socket.io-client";
-import { triggerGetPlayingSong, triggerGetQueue } from "../ApiServices";
-
+import { triggerGetPlayingSong, triggerGetQueue, checkRoom } from "../ApiServices";
+import NoPage from "./NoPage";
 
 const Dashboard = () => {
+  
   const [dataFromSocket, setDataFromSocket] = useState({});
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
+  const [exists, setExist] = useState(false)
   const [queue, setQueue] = useState([]);
   const [copied, setCopied] = useState(false);
   const { id } = useParams();
@@ -29,6 +31,7 @@ const Dashboard = () => {
     // TODO : trigger this ONLY if the room actually exists. Imagine if you mess with the url and insert a random party id. Unexpected behaviour.
     triggerGetPlayingSong(id);
     triggerGetQueue(id);
+    checkRoom(id).then(response => {setExist(response)})
   }, []);
 
   useEffect(() => {
@@ -40,49 +43,57 @@ const Dashboard = () => {
     setCopied(true);
   };
 
-  return (
-    // TODO : RETURN ALL OF THIS ONLY IF ROOM EXISTS
-    <div id="dash-container">
-      <h3 id="room-dash">Room {id}</h3>
-      <div id="container-dash-top">
-        <div id="container-dash-left">
-          <QRCodeSVG size="200px" value={`http://localhost:3000/adder/${id}`} />
-          <button className="button-dash" onClick={handleCopyLink}>
-            {copied ? <span>Copied!</span> : <span>Copy Link</span>}
-          </button>
+  if (exists) {
+      return (
+        // TODO : RETURN ALL OF THIS ONLY IF ROOM EXISTS
+        <div id="dash-container">
+          <h3 id="room-dash">Room {id}</h3>
+          <div id="container-dash-top">
+            <div id="container-dash-left">
+              <QRCodeSVG size="200px" value={`http://localhost:3000/adder/${id}`} />
+              <button className="button-dash" onClick={handleCopyLink}>
+                {copied ? <span>Copied!</span> : <span>Copy Link</span>}
+              </button>
+            </div>
+            <div id="container-dash-right">
+              <NextTrack currentlyPlaying={currentlyPlaying} />
+            </div>
+          </div>
+          <div className="track-dash-container">
+            {!queue.length ? (
+              <h1> 😞 No songs in Queue 😞 </h1>
+            ) : (
+              queue.map((song) => {
+                return (
+                  <Track
+                    key={song.id}
+                    song={song}
+                    // songName="I love being a little pokemon Man"
+                  />
+                );
+              })
+            )}
+            {/* ADD SEPARATOR INSIDE TRACK COMPONENT */}
+            {/* <Track />
+            <Separator />
+            <Track />
+            <Separator />
+            <Track />
+            <Separator />
+            <Track />
+            <Separator />
+            <Track /> */}
+            {/* {MAP TRACKS AND ADD SEPARATOR} */}
+          </div>
         </div>
-        <div id="container-dash-right">
-          <NextTrack currentlyPlaying={currentlyPlaying} />
-        </div>
-      </div>
-      <div className="track-dash-container">
-        {!queue.length ? (
-          <h1> 😞 No songs in Queue 😞 </h1>
-        ) : (
-          queue.map((song) => {
-            return (
-              <Track
-                key={song.id}
-                song={song}
-                // songName="I love being a little pokemon Man"
-              />
-            );
-          })
-        )}
-        {/* ADD SEPARATOR INSIDE TRACK COMPONENT */}
-        {/* <Track />
-        <Separator />
-        <Track />
-        <Separator />
-        <Track />
-        <Separator />
-        <Track />
-        <Separator />
-        <Track /> */}
-        {/* {MAP TRACKS AND ADD SEPARATOR} */}
-      </div>
-    </div>
-  );
+      );
+  } else {
+    return (
+      <NoPage/>
+    )
+  }
+
+  
 };
 
 export default Dashboard;

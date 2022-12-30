@@ -5,13 +5,14 @@ import NextTrack from '../components/Adding/NextTrack'
 import AddButton from "../components/Adding/AddButton";
 import Separator from "../components/Adding/Separator";
 import { useState, useEffect } from "react";
-import { getOwnerParty } from "../ApiServices";
 import { io } from "socket.io-client";
-import { triggerGetPlayingSong } from '../ApiServices'
+import NoPage from "./NoPage";
+import { getOwnerParty, triggerGetPlayingSong, checkRoom } from '../ApiServices'
 
 const Adding = () => {
 
   const [BGcolor, setBGColor] = useState('#000')
+  const [exists, setExist] = useState(false)
   let {id} = useParams()
 
   const [dataFromSocket, setDataFromSocket] = useState({});
@@ -29,34 +30,41 @@ const Adding = () => {
     // triggers setInterval in backend 
     triggerGetPlayingSong(id)
     getOwnerParty(id).then(res => setOwnerName(res))
+    checkRoom(id).then(response => {setExist(response)})
   }, [])
 
   useEffect(()=>{
     setCurrentlyPlaying(dataFromSocket)
   }, [dataFromSocket])
 
-  return(
-    <div id="dash-back">
-      <div className="adding-inner-container"  style={{backgroundColor : BGcolor}}>
-        <div className="adding-container">
-          <h3 id="adding-dash">{ownerName + "'s Room"}</h3>
-          <h6 id="sub-header-adding">#{id}#</h6>
-          <div className="next-track-container">
-            <NextTrack currentlyPlaying={currentlyPlaying} BGsetter = {setBGColor}/>
-            {/* instead of NextTrack this should be the currently playing song in my opinion, and below the queue */}
+  if (exists) {
+    return(
+      <div id="dash-back">
+        <div className="adding-inner-container"  style={{backgroundColor : BGcolor}}>
+          <div className="adding-container">
+            <h3 id="adding-dash">{ownerName + "'s Room"}</h3>
+            <h6 id="sub-header-adding">#{id}#</h6>
+            <div className="next-track-container">
+              <NextTrack currentlyPlaying={currentlyPlaying} BGsetter = {setBGColor}/>
+              {/* instead of NextTrack this should be the currently playing song in my opinion, and below the queue */}
+            </div>
+            <div className="track-list-container">
+              <Track />
+              <Separator />
+              <Track />
+              <Separator />
+              <Track />
+            </div>
           </div>
-          <div className="track-list-container">
-            <Track />
-            <Separator />
-            <Track />
-            <Separator />
-            <Track />
-          </div>
+          <AddButton/>
         </div>
-        <AddButton/>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <NoPage />
+    )
+  }
 };
 
 export default Adding;
