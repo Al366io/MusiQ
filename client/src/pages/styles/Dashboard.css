@@ -39,8 +39,9 @@ h3#room-dash{
 }
 
 .track-dash-container{
+  position: relative;
   margin-top: 40px;
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
   border: 2px white solid;
   border-radius: 10px;
   overflow-y: scroll;
@@ -49,10 +50,10 @@ h3#room-dash{
   display : flex;
   flex-direction : column;
   gap: 10px;
+  z-index: 1;
 }
 
-.track-dash-container:before {
-  content: 'Queue';
+#queue-text {
   position: absolute;
   color: white;
   font-size: 18px;
@@ -60,9 +61,10 @@ h3#room-dash{
   height: 20px;
   text-align: center;
   background-color: #000;
-  top: 58.6%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  top: -5%;
+  transform: translate(-50%);
+  z-index: 10;
 }
 
 .button-dash{

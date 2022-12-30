@@ -3,14 +3,13 @@ import { useState, useEffect } from "react";
 import Track from "../components/Adding/Track";
 import Separator from "../components/Adding/Separator";
 import NextTrack from "../components/Adding/NextTrack";
+import NoPage from "./NoPage";
 import "./styles/Dashboard.css";
 import { QRCodeSVG } from "qrcode.react";
 import { io } from "socket.io-client";
 import { triggerGetPlayingSong, triggerGetQueue, checkRoom } from "../ApiServices";
-import NoPage from "./NoPage";
 
 const Dashboard = () => {
-  
   const [dataFromSocket, setDataFromSocket] = useState({});
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
   const [exists, setExist] = useState(false)
@@ -24,7 +23,13 @@ const Dashboard = () => {
       setTimeout(() => socket.connect(), 3001);
     });
     socket.on("currentlyPlaying", (data) => setDataFromSocket(data));
-    socket.on("queue", (data2) => setQueue(data2));
+    socket.on("queue", (data) => {
+      if(queue.length === 0) {
+        setQueue(data)
+      } else if (data[0].name !== queue[0].name && data.length >= queue.length) {
+        console.log(data.length)
+        setQueue(data)}
+      })
     socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
 
     // triggers setInterval in backend
@@ -36,6 +41,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     setCurrentlyPlaying(dataFromSocket);
+    console.log(currentlyPlaying)
   }, [dataFromSocket]);
 
   const handleCopyLink = () => {
@@ -60,6 +66,9 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="track-dash-container">
+            <div id="extend-container">
+              <span id="queue-text">Queue</span>
+            </div>
             {!queue.length ? (
               <h1> 😞 No songs in Queue 😞 </h1>
             ) : (

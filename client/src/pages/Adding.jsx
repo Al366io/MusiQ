@@ -12,11 +12,11 @@ import { getOwnerParty, triggerGetPlayingSong, checkRoom } from '../ApiServices'
 const Adding = () => {
 
   const [BGcolor, setBGColor] = useState('#000')
-  const [exists, setExist] = useState(false)
-  let {id} = useParams()
-
+  const [queue, setQueue] = useState([]);
   const [dataFromSocket, setDataFromSocket] = useState({});
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
+  const [exists, setExist] = useState(false)
+  let {id} = useParams()
   const [ownerName, setOwnerName] = useState('');
 
   useEffect(()=>{
@@ -25,6 +25,13 @@ const Adding = () => {
       setTimeout(() => socket.connect(), 3001);
     });
     socket.on("currentlyPlaying", (data) => setDataFromSocket(data));
+    socket.on("queue", (data) => {
+      if(queue.length == 0) {
+        setQueue(data)
+      } else if (data[0].name != queue[0].name && data.length >= queue.length) {
+        console.log(data.length)
+        setQueue(data)}
+      })
     socket.on("disconnect", () => setCurrentlyPlaying({error: 'error'}));
 
     // triggers setInterval in backend 
@@ -49,11 +56,19 @@ const Adding = () => {
               {/* instead of NextTrack this should be the currently playing song in my opinion, and below the queue */}
             </div>
             <div className="track-list-container">
-              <Track />
-              <Separator />
-              <Track />
-              <Separator />
-              <Track />
+            {!queue.length ? (
+              <h1> 😞 No songs in Queue 😞 </h1>
+            ) : (
+              queue.map((song) => {
+                return (
+                  <Track
+                    key={song.id}
+                    song={song}
+                    // songName="I love being a little pokemon Man"
+                  />
+                );
+              })
+            )}
             </div>
           </div>
           <AddButton/>

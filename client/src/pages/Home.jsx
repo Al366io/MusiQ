@@ -83,9 +83,6 @@ const Home = () => {
     // When user then create a party, partyId will be inserted in database in the same object that holds
     // user_email and accessToken so we can use the access token when using that partyId
   };
-const goToRoom = () => {
-  navigate(`/dashboard/${userRoom}`)
-}
 
   return (
     <div id="home-wrapper">
@@ -105,10 +102,13 @@ const goToRoom = () => {
             {isSpotifyLoggedIn ? (
               // Here userRoom is the PartId of that users room if it has one already :)
               <>
-              <div onClick={goToRoom}> GO TO YOUR ROOM </div>
+                {userRoom ?
+                <Link className="nologin" to={`/dashboard/${userRoom}`}> GO TO YOUR ROOM </Link>
+                : 
               <Link to="/owner" className="nologin">
                 Create a Party?
               </Link>
+                }
               </>
             ) : (
               <a href={`http://localhost:3001/connectspotify/${user.email}`}>
@@ -116,7 +116,7 @@ const goToRoom = () => {
               </a>
             )}
             <button
-              className="nologin"
+            className="logout"
               onClick={() => logout({ returnTo: window.location.origin })}
             >
               LOGOUT
@@ -175,7 +175,10 @@ const goToRoom = () => {
           <button className="option-button-home">Upvote/Downvote</button>
         </div>
         <div id="wrapper-right-section-3">
-          <div></div>
+          <div id="top-phone-home">
+            <div id="speaker-phone-home"></div>
+            <div id="camera-phone-home"></div>
+          </div>
         </div>
       </div>
       <Footer />

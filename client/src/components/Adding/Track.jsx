@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
 import '../styles/Track.css'
+import Separator from './Separator'
 
-function Track(
-  // {songName = 'Chocolate with Jesus and Everyone Else From Home',
-  // genreList = ['Hardcore', 'Punk', 'Death Metal'],
-  // artistName = 'Moses',
-  // coverArt = 'https://i.scdn.co/image/ab6761610000e5eb361cc22b5c6ebc155a058cc4'}
-  {song}) {
+function Track({song, last = false}) {
   const songName = song.name
   const artistName = song.artist
   const coverArt = song.image
@@ -15,30 +11,33 @@ function Track(
   const minutesLeft = 12
 
   return (
-    <div className="track-container">
-      <div className="artist-cover-list">
-        <img className='cover-track' src={coverArt} alt="Cover" width='75' height='75' />
-      </div>
-      <div className="central-info-list">
-        {
-          songName.split('').length<60?
-          <span className="song-list">{songName}</span>
+    <>
+      <div className="track-container">
+        <div className="artist-cover-list">
+          <img className='cover-track' src={coverArt} alt="Cover" width='75' height='75' />
+        </div>
+        <div className="central-info-list">
+          {
+            songName.split('').length<60?
+            <span className="song-list">{songName}</span>
+            :
+            <span className="song-list">{songName.slice(0,60) + '[...]'}</span>
+          }
+          {/* <span className="genres-list">{genreList.slice(0,2).join('-')}</span> */}
+          <span className="artist-list">{artistName}</span>
+        </div>
+        <div className="minutes-left-list">
+          <span className='minutes-left-num'>{minutesLeft}</span>
+          { 
+          minutesLeft > 1 ?
+            <span className='minutes-left-min'>mins</span>
           :
-          <span className="song-list">{songName.slice(0,60) + '[...]'}</span>
-        }
-        {/* <span className="genres-list">{genreList.slice(0,2).join('-')}</span> */}
-        <span className="artist-list">{artistName}</span>
+            <span className='minutes-left-min'>min</span>
+          }
+        </div>
       </div>
-      <div className="minutes-left-list">
-        <span className='minutes-left-num'>{minutesLeft}</span>
-        { 
-        minutesLeft > 1 ?
-          <span className='minutes-left-min'>mins</span>
-        :
-          <span className='minutes-left-min'>min</span>
-        }
-      </div>
-    </div>
+      <Separator/>
+    </>
   );
 };
 
