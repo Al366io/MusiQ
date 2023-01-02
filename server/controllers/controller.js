@@ -316,32 +316,30 @@ exports.checkIfRoomExists = async (req, res) => {
 
 exports.getSocketIdRoom = async (req, res) => {
   try {
-    console.log('entra nel try');
+    console.log("entra nel try");
     const partyId = req.params.partyId;
     let party = await PartiesTable.findOne({
-      where: {party_id: partyId}
-    })
-    console.log('fine try, socket: ', party.socket_room_id);
-    res.status(200)
-    res.send(party.socket_room_id)
+      where: { party_id: partyId },
+    });
+    console.log("fine try, socket: ", party.socket_room_id);
+    res.status(200);
+    res.send(party.socket_room_id);
   } catch (error) {
     console.log(error);
-    res.sendStatus(500)    
+    res.sendStatus(500);
   }
-}
+};
 
 /** --------------- START OF SOCKET IO FUNCTIONS --------------- **/
 
-exports.triggerSocket = async(partyId, socketRoom) => {
+exports.triggerSocket = async (socketRoom, partyId) => {
   setInterval(() => {
-    this.socketIoGetQueue(partyId, socketRoom);
+    this.socketIoGetQueue(socketRoom, partyId);
   }, 2000);
   return;
-}
+};
 
-exports.socketIoGetQueue = async (partyId, socketRoomId) => {
-  console.log(partyId);
-  console.log(socketRoomId);
+exports.socketIoGetQueue = async (socketRoomId, partyId) => {
   const token = await getPartyToken(partyId);
   try {
     let queueArray = await fetch("https://api.spotify.com/v1/me/player/queue", {
@@ -365,17 +363,17 @@ exports.socketIoGetQueue = async (partyId, socketRoomId) => {
           buff.image = song.album.images[0].url;
           buff.id = song.id;
           q.push(buff);
-        })
+        });
         let playing = {
           name: response.currently_playing.name,
           artist: response.currently_playing.artists[0].name,
           image: response.currently_playing.album.images[0].url,
           id: response.currently_playing.id,
-        }
-        q.unshift(playing)
+        };
+        q.unshift(playing);
         return q;
       });
-    io.to(socketRoomId).emit('queue', queueArray)
+    io.to(socketRoomId).emit("queue", queueArray);
   } catch (error) {
     console.log(error);
   }
@@ -384,8 +382,47 @@ exports.socketIoGetQueue = async (partyId, socketRoomId) => {
 exports.startSetIntervals = async () => {
   // go into partiesTable, take every party_id, with every socket_room_id
   // and call socketIoGetQueue on them.
-  let parties = await PartiesTable.findAll()
-  for(party of parties) {
-    this.triggerSocket(party.dataValues.party_id, party.dataValues.socket_room_id);
+  let parties = await PartiesTable.findAll();
+  for (party of parties) {
+    this.triggerSocket(
+      party.dataValues.socket_room_id,
+      party.dataValues.party_id
+    );
   }
-}
+};
+
+exports.searchSong = async (req, res) => {
+  const partyId = req.params.partyId;
+  const query = req.params.query;
+  const token = await getPartyToken(partyId);
+  searchQuery = query.replace(" ", "%20");
+  try {
+    let queryList = await fetch(
+      `https://api.spotify.com/v1/search?q=${searchQuery}&type=track&limit=8`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else return 0;
+    });
+    let arrayOfSongs = []
+    queryList.tracks.items.forEach((song) => { 
+      let buff = {}
+      buff.name = song.name;
+      buff.artist = song.artists[0].name;
+      buff.image = song.album.images[0].url;
+      buff.id = song.id;
+      arrayOfSongs.push(buff)
+    })
+    res.status(200)
+    res.send(arrayOfSongs)
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500)
+  }
+};

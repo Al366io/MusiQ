@@ -77,11 +77,6 @@ const Home = () => {
     if (window.location.href.includes("accessToken")) {
       window.history.pushState({}, document.title, window.location.pathname);
     }
-
-    // AT THIS POINT WE EITHER HAVE ACCESS TOKEN AND REFRESH TOKEN BOTH IN SESSION STORAGE FOR
-    // FAST USAGE FOR OWNER AND IN DATABASE, LINKED TO USER EMAIL.
-    // When user then create a party, partyId will be inserted in database in the same object that holds
-    // user_email and accessToken so we can use the access token when using that partyId
   };
 
   return (
