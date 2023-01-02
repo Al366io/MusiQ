@@ -10,3 +10,10 @@
   font-size: xx-large;
   border: 2px white solid;
 }
+
+.queryResults {
+  width: 700px;
+  height: 300px;
+  background-color: none;
+  border-style: double;
+}

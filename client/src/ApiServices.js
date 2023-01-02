@@ -88,3 +88,15 @@ exports.getSocketRoomId = async (partyId) => {
     return '';
   }
 }
+
+exports.getQueryResult = (partyId, query) => {
+  try {
+    const response = fetch(`http://localhost:3001/party/search/${partyId}/${query}`).then(
+      (response) => response.json()
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
