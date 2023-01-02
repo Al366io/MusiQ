@@ -7,7 +7,7 @@ import NoPage from "./NoPage";
 import "./styles/Dashboard.css";
 import { QRCodeSVG } from "qrcode.react";
 import { io } from "socket.io-client";
-import { triggerGetPlayingSong, triggerGetQueue, checkRoom } from "../ApiServices";
+import { triggerGetPlayingSong, triggerGetQueue, checkRoom, getSocketRoomId } from "../ApiServices";
 
 const Dashboard = () => {
   const [dataFromSocket, setDataFromSocket] = useState({});
@@ -22,26 +22,27 @@ const Dashboard = () => {
     socket.on("connect_error", () => {
       setTimeout(() => socket.connect(), 3001);
     });
-    socket.on("currentlyPlaying", (data) => setDataFromSocket(data));
-    socket.on("queue", (data) => {
-      if(queue.length === 0) {
-        setQueue(data)
-      } else if (data[0].name !== queue[0].name && data.length >= queue.length) {
-        console.log(data.length)
-        setQueue(data)}
-      })
-    socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
 
-    // triggers setInterval in backend
-    // TODO : trigger this ONLY if the room actually exists. Imagine if you mess with the url and insert a random party id. Unexpected behaviour.
-    triggerGetPlayingSong(id);
-    triggerGetQueue(id);
+    async function fetchSocketRoomId() {
+      const socketRoomId = await getSocketRoomId(id);
+      socket.emit('join-room', socketRoomId)
+    }
+    fetchSocketRoomId();
+    
+    socket.on("queue", (data) => {
+      setCurrentlyPlaying(data[0]);
+      if(queue.length === 0) {
+        setQueue(data.slice(1))
+      } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {
+        setQueue(data.slice(1))
+      }
+    })
+    socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
     checkRoom(id).then(response => {setExist(response)})
   }, []);
 
   useEffect(() => {
     setCurrentlyPlaying(dataFromSocket);
-    console.log(currentlyPlaying)
   }, [dataFromSocket]);
 
   const handleCopyLink = () => {

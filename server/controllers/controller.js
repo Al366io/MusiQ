@@ -1,4 +1,4 @@
-const { AuthTable, PartiesTable } = require("../models/model");
+const { AuthTable, PartiesTable, IntervalTable } = require("../models/model");
 const url = require("url");
 const axios = require("axios");
 const {
@@ -173,14 +173,10 @@ exports.createParty = async (req, res) => {
     res.sendStatus(400);
     return;
   }
-  const partyId = generateRandomString(5);
-  // TODO : search in db if the party id just generated already exists - if yes, generate another string
-  const alreadyInDb = await AuthTable.findOne({
-    where: { user_email: userEmail },
-  });
+  // with 6 digits, assuming we have 10000 parties, probability of generating 2 equal strings is 0,46%
+  const partyId = generateRandomString(6);
+  const socketIoRoomId = generateRandomString(12);
   try {
-    console.log("party id: " + partyId);
-
     await AuthTable.update(
       {
         party_id: partyId,
@@ -189,7 +185,6 @@ exports.createParty = async (req, res) => {
         where: { user_email: userEmail },
       }
     );
-
     let buffParty = req.body;
     let newParty = {};
     newParty.visible = buffParty.visible === "visible" ? true : false;
@@ -199,8 +194,12 @@ exports.createParty = async (req, res) => {
     newParty.upvote_allowed = buffParty.upvote === "Allowed" ? true : false;
     newParty.owner_email = userEmail;
     newParty.party_id = partyId;
+    newParty.socket_room_id = socketIoRoomId;
 
     await PartiesTable.create(newParty);
+    console.log(newParty);
+    // here call the function that will set the interval to update this particular room
+    this.triggerSocket(partyId, socketIoRoomId);
 
     res.send(partyId);
     res.status(201);
@@ -271,49 +270,6 @@ exports.getOwnerOfParty = async (req, res) => {
   }
 };
 
-exports.triggerSocketGetPlayingSong = (req, res) => {
-  const partyId = req.params.id;
-  setInterval(() => {
-    this.socketIoGetPlayingSong(partyId);
-  }, 2000);
-  res.sendStatus(204);
-};
-
-exports.socketIoGetPlayingSong = async (partyId) => {
-  const token = await getPartyToken(partyId);
-  try {
-    let a = await fetch("https://api.spotify.com/v1/me/player", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else return 0;
-      })
-      .then(async (response) => {
-        if (response?.is_playing !== false) {
-          let genreString = await getArtistGenre(response.item.artists[0].id, token);
-          const songPlaying = {
-            title: response.item.name,
-            artist: response.item.artists[0].name,
-            cover: response.item.album.images[0].url,
-            genres: genreString,
-            playing: 1,
-          };
-          return songPlaying;
-        } else {
-          return { playing: 0 };
-        }
-      });
-    io.to("songs-room").emit("currentlyPlaying", a);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 exports.checkIfUserHasParty = async (req, res) => {
   try {
     const userEmail = req.params.email;
@@ -358,17 +314,34 @@ exports.checkIfRoomExists = async (req, res) => {
   }
 };
 
-// TODO : if this gets called 2 times (you refresh the page, frontend calls backend api another time)
-// then we will have 2 setInterval sending same function. Too many requests. FIX IT
-exports.triggerSocketGetQueue = (req, res) => {
-  const partyId = req.params.id;
-  setInterval(() => {
-    this.socketIoGetQueue(partyId);
-  }, 2000);
-  res.sendStatus(204);
-};
+exports.getSocketIdRoom = async (req, res) => {
+  try {
+    console.log('entra nel try');
+    const partyId = req.params.partyId;
+    let party = await PartiesTable.findOne({
+      where: {party_id: partyId}
+    })
+    console.log('fine try, socket: ', party.socket_room_id);
+    res.status(200)
+    res.send(party.socket_room_id)
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500)    
+  }
+}
 
-exports.socketIoGetQueue = async (partyId) => {
+/** --------------- START OF SOCKET IO FUNCTIONS --------------- **/
+
+exports.triggerSocket = async(partyId, socketRoom) => {
+  setInterval(() => {
+    this.socketIoGetQueue(partyId, socketRoom);
+  }, 2000);
+  return;
+}
+
+exports.socketIoGetQueue = async (partyId, socketRoomId) => {
+  console.log(partyId);
+  console.log(socketRoomId);
   const token = await getPartyToken(partyId);
   try {
     let queueArray = await fetch("https://api.spotify.com/v1/me/player/queue", {
@@ -393,10 +366,26 @@ exports.socketIoGetQueue = async (partyId) => {
           buff.id = song.id;
           q.push(buff);
         })
+        let playing = {
+          name: response.currently_playing.name,
+          artist: response.currently_playing.artists[0].name,
+          image: response.currently_playing.album.images[0].url,
+          id: response.currently_playing.id,
+        }
+        q.unshift(playing)
         return q;
       });
-    io.to('songs-room').emit('queue', queueArray)
+    io.to(socketRoomId).emit('queue', queueArray)
   } catch (error) {
     console.log(error);
   }
 };
+
+exports.startSetIntervals = async () => {
+  // go into partiesTable, take every party_id, with every socket_room_id
+  // and call socketIoGetQueue on them.
+  let parties = await PartiesTable.findAll()
+  for(party of parties) {
+    this.socketIoGetQueue(party.dataValues.party_id, party.dataValues.socket_room_id);
+  }
+}
