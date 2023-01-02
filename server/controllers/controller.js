@@ -386,6 +386,6 @@ exports.startSetIntervals = async () => {
   // and call socketIoGetQueue on them.
   let parties = await PartiesTable.findAll()
   for(party of parties) {
-    this.socketIoGetQueue(party.dataValues.party_id, party.dataValues.socket_room_id);
+    this.triggerSocket(party.dataValues.party_id, party.dataValues.socket_room_id);
   }
 }
