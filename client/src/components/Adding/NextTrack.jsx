@@ -8,7 +8,7 @@ function NextTrack({ currentlyPlaying, BGsetter = ()=>{} }) {
   const [coverColor, setCoverColor] = useState();
 
   const handleLoaded = async () => {
-    fac.getColorAsync(currentlyPlaying.cover).then((color) => {
+    fac.getColorAsync(currentlyPlaying.image).then((color) => {
       setCoverColor(color.hex);
       BGsetter(color.hex);
     });
@@ -18,27 +18,26 @@ function NextTrack({ currentlyPlaying, BGsetter = ()=>{} }) {
     let arr = str.split(' - ')
     return arr.map(string => string.charAt(0).toUpperCase() + string.slice(1)).slice(0,2).join(' - ')
   }
-
+// console.log(currentlyPlaying);
   // TODO Implement dynamic song/genre/artist/minutes
-  console.log(currentlyPlaying)
   return (
     <div className="track-next">
-        {currentlyPlaying.playing ? (
+        {currentlyPlaying.name ? (
           <>
             <img
               className="cover-next"
-              src={currentlyPlaying.cover}
+              src={currentlyPlaying.image}
               alt="Cover"
               onLoad={handleLoaded}
             />
             <div className="central-info-list next-central">
-            {currentlyPlaying.title.split("").length < 35 ? (
+            {currentlyPlaying.name.split('').length < 35 ? (
               <span className="next-song-name song-list">
-                {currentlyPlaying.title}
+                {currentlyPlaying.name}
               </span>
               ) : (
               <span className="next-song-name song-list">
-                {currentlyPlaying.title}
+                {currentlyPlaying.name}
               </span>
               )}
               { currentlyPlaying.genres ? <span className="genre-list"> {capitalize(currentlyPlaying.genres)} </span> : ''}

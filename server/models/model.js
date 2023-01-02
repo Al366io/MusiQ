@@ -31,6 +31,10 @@ const PartiesTable = sequelize.define('PartiesTable', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  socket_room_id: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,

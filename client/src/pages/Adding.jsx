@@ -7,10 +7,9 @@ import Separator from "../components/Adding/Separator";
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 import NoPage from "./NoPage";
-import { getOwnerParty, triggerGetPlayingSong, checkRoom } from '../ApiServices'
+import { getOwnerParty, checkRoom, getSocketRoomId } from '../ApiServices'
 
 const Adding = () => {
-
   const [BGcolor, setBGColor] = useState('#000')
   const [queue, setQueue] = useState([]);
   const [dataFromSocket, setDataFromSocket] = useState({});
@@ -19,26 +18,29 @@ const Adding = () => {
   let {id} = useParams()
   const [ownerName, setOwnerName] = useState('');
 
-  useEffect(()=>{
+  useEffect(() => {
     const socket = io("http://localhost:3001");
     socket.on("connect_error", () => {
       setTimeout(() => socket.connect(), 3001);
     });
-    socket.on("currentlyPlaying", (data) => setDataFromSocket(data));
-    socket.on("queue", (data) => {
-      if(queue.length == 0) {
-        setQueue(data)
-      } else if (data[0].name != queue[0].name && data.length >= queue.length) {
-        console.log(data.length)
-        setQueue(data)}
-      })
-    socket.on("disconnect", () => setCurrentlyPlaying({error: 'error'}));
 
-    // triggers setInterval in backend 
-    triggerGetPlayingSong(id)
-    getOwnerParty(id).then(res => setOwnerName(res))
+    async function fetchSocketRoomId() {
+      const socketRoomId = await getSocketRoomId(id);
+      socket.emit('join-room', socketRoomId)
+    }
+    fetchSocketRoomId();
+    
+    socket.on("queue", (data) => {
+      setCurrentlyPlaying(data[0]);
+      if(queue.length === 0) {
+        setQueue(data.slice(1))
+      } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {
+        setQueue(data.slice(1))
+      }
+    })
+    socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
     checkRoom(id).then(response => {setExist(response)})
-  }, [])
+  }, []);
 
   useEffect(()=>{
     setCurrentlyPlaying(dataFromSocket)

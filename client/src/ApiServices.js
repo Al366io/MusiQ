@@ -53,18 +53,6 @@ exports.getOwnerParty = (id) => {
   }
 }
 
-exports.triggerGetPlayingSong = (id) => {
-  try {
-    const response = fetch(`http://localhost:3001/party/update/${id}`).then(
-      (response) => response.text()
-    );
-    return response;
-  } catch (error) {
-    console.log(error);
-    return '';
-  }
-}
-
 exports.getUserRoom = async (email) => {
   try {
     const response = fetch(`http://localhost:3001/users/info/party/${email}`).then(
@@ -77,18 +65,6 @@ exports.getUserRoom = async (email) => {
   }
 }
 
-exports.triggerGetQueue = async (id) => {
-  try {
-    const response = fetch(`http://localhost:3001/party/queue/${id}`).then(
-      (response) => response
-    );
-    return response;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-}
-
 exports.checkRoom = async (id) => {
   try {
     const response = fetch(`http://localhost:3001/party/${id}`).then(
@@ -98,5 +74,17 @@ exports.checkRoom = async (id) => {
   } catch (error) {
     console.log(error);
     return 'error';
+  }
+}
+
+exports.getSocketRoomId = async (partyId) => {
+  try {
+    const response = fetch(`http://localhost:3001/party/socketRoom/${partyId}`).then(
+      (response) => response.text()
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return '';
   }
 }
