@@ -10,7 +10,8 @@ const {
   checkIfUserHasParty,
   checkIfRoomExists,
   getSocketIdRoom,
-  searchSong
+  searchSong,
+  addSongToQueue,
 } = require("./controllers/controller");
 
 // user to connects Spotify ( grab the email, grab the tokens, insert the user in DB )
@@ -50,5 +51,10 @@ router.get('/party/:id', checkIfRoomExists)
 // returns socketIo Room Id to client, this is to let client connect to the created room.
 router.get('/party/socketRoom/:partyId', getSocketIdRoom)
 
+// to let adders search for a song.
+// receive partyId and a query, and returns an array of obj with the songs
 router.get('/party/search/:partyId/:query', searchSong)
+
+
+router.get('/party/queue/add/:partyId/:songId', addSongToQueue)
 module.exports = router;

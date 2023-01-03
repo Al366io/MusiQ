@@ -12,6 +12,7 @@ import {
   checkRoom,
   getSocketRoomId,
   getQueryResult,
+  addSongToQueue,
 } from "../ApiServices";
 
 const Adding = () => {
@@ -65,7 +66,7 @@ const Adding = () => {
       let res = await getQueryResult(id, query);
       setSearchResponse(res);
     }
-    if (search !== "") {
+    if (query) {
       search();
     }
   }, [query]);
@@ -74,6 +75,10 @@ const Adding = () => {
     e.preventDefault();
     let res = await getQueryResult(id, query);
     setSearchResponse(res);
+  }
+
+  function add(songId) {
+    addSongToQueue(id, songId);
   }
   if (exists) {
     return (
@@ -121,10 +126,11 @@ const Adding = () => {
             <div className="queryResults">
               {searchResponse.map((song) => {
                 return (
-                  <div key={song.id}>
-                    {" "}
-                    {song.artist} - {song.name}
-                  </div>
+                  <Track
+                  key={song.id}
+                  song={song}
+                  // onClick={add(song.id)}
+                />
                 );
               })}
             </div>

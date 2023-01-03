@@ -100,3 +100,13 @@ exports.getQueryResult = (partyId, query) => {
     return [];
   }
 }
+
+exports.addSongToQueue = (partyId, songId) => {
+  try {
+    const response = fetch(`http://localhost:3001/party/queue/add/${partyId}/${songId}`).then(
+      (response) => response.json()
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
