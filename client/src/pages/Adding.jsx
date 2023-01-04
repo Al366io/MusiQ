@@ -16,11 +16,12 @@ import {
 const Adding = () => {
   const [BGcolor, setBGColor] = useState("#000");
   const [queue, setQueue] = useState([]);
-  const [dataFromSocket, setDataFromSocket] = useState({});
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
-  const [exists, setExist] = useState(false);
-  let { id } = useParams();
+  const [exists, setExist] = useState(true);
   const [ownerName, setOwnerName] = useState("");
+  const [addSong, setAddSong] = useState({})
+
+  let { id } = useParams();
 
   useEffect(() => {
     const socket = io("http://localhost:3001");
@@ -55,14 +56,8 @@ const Adding = () => {
   }, []);
 
   useEffect(() => {
-    setCurrentlyPlaying(dataFromSocket);
-  }, [dataFromSocket]);
-
-
-
-  function add(songId) {
-    addSongToQueue(id, songId);
-  }
+    // addSongToQueue(id, addSong.id);
+  }, [addSong])
 
   if (exists) {
     return (
@@ -95,14 +90,12 @@ const Adding = () => {
               )}
             </div>
           </div>
-          <AddButton id = {id} />
+          <AddButton id = {id} setter = {setAddSong} />
         </div>
       </div>
     );
   } else {
-    setTimeout(() => {
       return <Home />;
-    }, 150);
   }
 };
 
