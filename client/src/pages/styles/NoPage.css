@@ -1,0 +1,29 @@
+#error-container{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+  background-color: #105e48;
+  height: calc(100vh - 50px);
+  overflow: hidden;
+}
+
+#error-head{
+  font-size: 140px;
+  color: white;
+  margin: 0px;
+  text-align: center;
+}
+
+#error-subhead{
+  font-size: 30px;
+  margin: 0px;
+  color: white;
+  text-align: center;
+}
+
+#error-back-home{
+  font-size: 30px;
+  color: white;
+  text-align: center;
+}

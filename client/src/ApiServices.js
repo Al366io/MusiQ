@@ -28,18 +28,6 @@ exports.createParty = async (user_email, ownerOptions) => {
   return response;
 };
 
-exports.getCurrentlyPlaying = (id) => {
-  try {
-    const response = fetch(`http://localhost:3001/party/playing/${id}`).then(
-      (response) => response.json()
-    );
-    if (response) return response;
-    return {playing: 0};
-  } catch (error) {
-    return {playing: 0};
-  }
-}
-
 // call this passing partyId as parameter, gives u back the name of owner as a string
 exports.getOwnerParty = (id) => {
   try {
