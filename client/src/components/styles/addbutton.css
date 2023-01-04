@@ -12,8 +12,11 @@
 }
 
 .queryResults {
-  width: 700px;
+  width: 70vw;
   height: 300px;
   background-color: none;
   border-style: double;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

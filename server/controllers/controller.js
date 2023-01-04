@@ -426,3 +426,30 @@ exports.searchSong = async (req, res) => {
     res.sendStatus(500)
   }
 };
+
+// ******** //
+
+exports.addSongToQueue = async () => {
+  const partyId = req.params.partyId;
+  const songId = req.params.songId;
+  const token = await getPartyToken(partyId);
+  try {
+    await fetch(
+      `https://api.spotify.com/v1/me/player/queue?uri=spotify%3Atrack%3A${songId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }
+    ).then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else return 0;
+    });
+  }
+  catch(err){
+    console.log(err);
+  }
+}
