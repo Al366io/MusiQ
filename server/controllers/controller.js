@@ -398,7 +398,7 @@ exports.searchSong = async (req, res) => {
   searchQuery = query.replace(" ", "%20");
   try {
     let queryList = await fetch(
-      `https://api.spotify.com/v1/search?q=${searchQuery}&type=track&limit=8`,
+      `https://api.spotify.com/v1/search?q=${searchQuery}&type=track&limit=4`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
