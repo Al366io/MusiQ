@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import './styles/Adder.css'
 import AnimatedBackground from "../components/AnimatedBackground";
-import LoginButton from '../components/LoginButton'
 import { checkRoom } from "../ApiServices";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
@@ -10,7 +9,7 @@ import NoPage from "./NoPage";
 const Adder = () => {
 
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
-  const [exists, setExist] = useState(false)
+  const [exists, setExist] = useState(true)
 
   let {id} = useParams()
 

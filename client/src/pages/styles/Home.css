@@ -76,7 +76,7 @@ span#hey-user{
   margin-right: 20px;
 }
 
-span.musiq{
+.musiq{
   background-color: white;
   color: #52B69A;
   padding: 4px 8px 4px 8px;
@@ -120,7 +120,7 @@ h2#section-1-header{
 
 #section-2{
   background-color: #52B69A;
-  margin-top: -10px;
+  margin-top: -8vh ;
   display : flex;
   flex-direction : column;
   justify-content : center;
@@ -161,9 +161,9 @@ h2#section-1-header{
 
 #wrapper-right-section-3{
   position: relative;
-  width: 20vw;
+  max-width: 25vw;
+  min-width: 260px;
   aspect-ratio: 1 / 2;
-  background-color: #136a51;
   border-radius: 38.5px;
 }
 
@@ -174,7 +174,7 @@ h2#section-1-header{
   left: 50%;
   transform: translate(-50%);
   border-radius: 0px 0px 15px 15px;
-  position: relative;
+  position: absolute;
 }
 
 #speaker-phone-home{
@@ -211,6 +211,31 @@ h2#section-1-header{
   text-decoration: underline;
   cursor: pointer;
 }
+
+.active{
+  text-decoration: underline;
+}
+
+#selection-phone{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 30px;
+  transform: translate(-50%, -50%);
+  animation: fade-in-right 1s ease-in-out;
+}
+
+@keyframes fade-in-right {
+  0% {
+    transform: translateX(50px) translate(-50%, -50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
 
 @media screen and (min-width : 620px) {
   
@@ -314,6 +339,10 @@ h2#section-1-header{
     margin-top: 50px;
   }
 
+  #section-2{
+    margin-top: -3vh;
+  }
+
   #wrapper-section-2{
     width: 80vw;
     background-color: white;
@@ -325,5 +354,17 @@ h2#section-1-header{
     gap: 30px;
     padding-top: 50px;
     padding-bottom: 50px;
-   }
+  }
+
+   #section-3{
+    gap: 6vw;
+  }
+
+  #wrapper-right-section-3{
+    margin-right: 10px;
+  }
+
+  .option-button-home{
+    font-size: 20px;
+  }
 }

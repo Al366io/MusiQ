@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Track from "../components/Adding/Track";
-import Separator from "../components/Adding/Separator";
 import NextTrack from "../components/Adding/NextTrack";
 import NoPage from "./NoPage";
 import "./styles/Dashboard.css";
@@ -12,7 +11,7 @@ import { checkRoom, getSocketRoomId } from "../ApiServices";
 const Dashboard = () => {
 
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
-  const [exists, setExist] = useState(false)
+  const [exists, setExist] = useState(true)
   const [queue, setQueue] = useState([]);
   const [copied, setCopied] = useState(false);
   const { id } = useParams();
@@ -31,14 +30,16 @@ const Dashboard = () => {
     
     socket.on("queue", (data) => {
       setCurrentlyPlaying(data[0]);
+      console.log(queue)
       if(queue.length === 0) {
-        setQueue(data.slice(1))
+        setQueue(data)
       } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {
-        setQueue(data.slice(1))
+        setQueue(data)
       }
-    })
+    });
+    
     socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
-    checkRoom(id).then(response => {setExist(response)})
+    checkRoom(id).then((response) => setExist(response));
   }, []);
 
   const handleCopyLink = () => {
@@ -67,36 +68,22 @@ const Dashboard = () => {
               <span id="queue-text">Queue</span>
             </div>
             {!queue.length ? (
-              <h1> 😞 No songs in Queue 😞 </h1>
+              <h1> No songs in Queue </h1>
             ) : (
               queue.map((song) => {
                 return (
                   <Track
                     key={song.id}
                     song={song}
-                    // songName="I love being a little pokemon Man"
                   />
                 );
               })
             )}
-            {/* ADD SEPARATOR INSIDE TRACK COMPONENT */}
-            {/* <Track />
-            <Separator />
-            <Track />
-            <Separator />
-            <Track />
-            <Separator />
-            <Track />
-            <Separator />
-            <Track /> */}
-            {/* {MAP TRACKS AND ADD SEPARATOR} */}
           </div>
         </div>
       );
   } else {
-    return (
-      <NoPage/>
-    )
+    return <NoPage/>
   }
 
   

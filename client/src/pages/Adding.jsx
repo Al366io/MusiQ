@@ -5,7 +5,7 @@ import NextTrack from "../components/Adding/NextTrack";
 import AddButton from "../components/Adding/AddButton";
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import Home from "./Home";
+import NoPage from "./NoPage";
 import {
   getOwnerParty,
   checkRoom,
@@ -37,21 +37,17 @@ const Adding = () => {
 
     socket.on("queue", (data) => {
       setCurrentlyPlaying(data[0]);
-      if (queue.length === 0) {
-        setQueue(data.slice(1));
-      } else if (
-        data[1].name !== queue[0].name &&
-        data.length >= queue.length - 1
-      ) {
-        setQueue(data.slice(1));
+      if(queue.length === 0) {
+        setQueue(data)
+      } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {
+        setQueue(data)
       }
     });
-    socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
-    checkRoom(id).then((response) => {
-      setExist(response);
-    });
 
-    getOwnerParty(id).then(response => setOwnerName(response))
+    socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
+    checkRoom(id).then((response) => setExist(response));
+
+    // getOwnerParty(id).then(response => setOwnerName(response))
 
   }, []);
 
@@ -95,7 +91,7 @@ const Adding = () => {
       </div>
     );
   } else {
-      return <Home />;
+      return <NoPage />;
   }
 };
 
