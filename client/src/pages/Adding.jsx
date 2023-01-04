@@ -3,15 +3,13 @@ import "./styles/Adding.css";
 import Track from "../components/Adding/Track";
 import NextTrack from "../components/Adding/NextTrack";
 import AddButton from "../components/Adding/AddButton";
-import Separator from "../components/Adding/Separator";
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import NoPage from "./NoPage";
+import Home from "./Home";
 import {
   getOwnerParty,
   checkRoom,
   getSocketRoomId,
-  getQueryResult,
   addSongToQueue,
 } from "../ApiServices";
 
@@ -51,35 +49,21 @@ const Adding = () => {
     checkRoom(id).then((response) => {
       setExist(response);
     });
+
+    getOwnerParty(id).then(response => setOwnerName(response))
+
   }, []);
 
   useEffect(() => {
     setCurrentlyPlaying(dataFromSocket);
   }, [dataFromSocket]);
 
-  const [query, setQuery] = useState("");
-  const [searchResponse, setSearchResponse] = useState([]);
 
-  useEffect(() => {
-    console.log(query);
-    async function search() {
-      let res = await getQueryResult(id, query);
-      setSearchResponse(res);
-    }
-    if (query) {
-      search();
-    }
-  }, [query]);
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    let res = await getQueryResult(id, query);
-    setSearchResponse(res);
-  }
 
   function add(songId) {
     addSongToQueue(id, songId);
   }
+
   if (exists) {
     return (
       <div id="dash-back">
@@ -105,41 +89,20 @@ const Adding = () => {
                     <Track
                       key={song.id}
                       song={song}
-                      // songName="I love being a little pokemon Man"
                     />
                   );
                 })
               )}
             </div>
           </div>
-          <AddButton />
-          {/* here im gonna mess with it to implement a fast search and add to queue, just to consume the api */}
-          <form action="" id="owner-options" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="song name"
-              onChange={(e) => {
-                setQuery(e.target.value);
-              }}
-            ></input>
-            <input type="submit" value="Search"></input>
-            <div className="queryResults">
-              {searchResponse.map((song) => {
-                return (
-                  <Track
-                  key={song.id}
-                  song={song}
-                  // onClick={add(song.id)}
-                />
-                );
-              })}
-            </div>
-          </form>
+          <AddButton id = {id} />
         </div>
       </div>
     );
   } else {
-    return <NoPage />;
+    setTimeout(() => {
+      return <Home />;
+    }, 150);
   }
 };
 
