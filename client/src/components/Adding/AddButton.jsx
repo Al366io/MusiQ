@@ -1,8 +1,9 @@
 import "../styles/addbutton.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getQueryResult } from "../../ApiServices";
+import {useCombobox} from 'downshift'
 
-const AddButton = ({id}) => {
+const AddButton = ({id, setter}) => {
   // when clicking the + button, we should open a modal panel that let the adder search for a song
   // and then insert it. when doing so, send a request to backend with the party id
   // backend retrieve the acess_token associated wih the party id and send to request to spotify
@@ -11,44 +12,48 @@ const AddButton = ({id}) => {
   const [query, setQuery] = useState("");
   const [searchResponse, setSearchResponse] = useState([]);
 
-  useEffect(() => {
-    console.log(query);
-    async function search() {
-      let res = await getQueryResult(id, query);
-      setSearchResponse(res);
-    }
-    if (query) {
-      search();
-    }
-  }, [query]);
+  let searchTimeout
+
+  const queryHelper = async (input) => {
+
+    clearTimeout(searchTimeout)
+    if (!input) return setSearchResponse([])
+
+    searchTimeout = setTimeout(() => {
+      setQuery(input)
+      getQueryResult(id, query).then(res => setSearchResponse(res))
+    }, 750)
+
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    let res = await getQueryResult(id, query);
-    setSearchResponse(res);
+    setter(searchResponse[0])
   }
 
 
   return (
     <div>
-      <button onClick={() => alert("Spotify Handler")} id="adding-song-button">
-        +
-      </button>
-      <form action="" id="owner-options" onSubmit={handleSubmit}>
+      <form id="search-bar-container" action="" onSubmit={handleSubmit}>
             <input
               type="text"
-              placeholder="song name"
+              placeholder="Song Name"
+              id="search-bar-input"
               onChange={(e) => {
-                setQuery(e.target.value);
+                queryHelper(e.target.value)
               }}
-            ></input>
-            <input type="submit" value="Search"></input>
-            <div className="queryResults">
-              {searchResponse.map((song) => {
-                console.log(song)
-              })}
-            </div>
+            />
+            <input id="adding-song-button" type="submit" value="+"/>
           </form>
+          <div id='search-results'>
+              {searchResponse.map((song) => {
+                <div id="search-result-item">
+                  <img className='cover-track' src={song.image} alt="Cover" width='25' height='25' />
+                  <span>{song.name}</span>
+                  <span>{song.artist}</span>
+                </div>
+              })}
+          </div>
     </div>
   );
 };

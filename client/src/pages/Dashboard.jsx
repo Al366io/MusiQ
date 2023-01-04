@@ -7,10 +7,10 @@ import NoPage from "./NoPage";
 import "./styles/Dashboard.css";
 import { QRCodeSVG } from "qrcode.react";
 import { io } from "socket.io-client";
-import { triggerGetPlayingSong, triggerGetQueue, checkRoom, getSocketRoomId } from "../ApiServices";
+import { checkRoom, getSocketRoomId } from "../ApiServices";
 
 const Dashboard = () => {
-  const [dataFromSocket, setDataFromSocket] = useState({});
+
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
   const [exists, setExist] = useState(false)
   const [queue, setQueue] = useState([]);
@@ -40,10 +40,6 @@ const Dashboard = () => {
     socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
     checkRoom(id).then(response => {setExist(response)})
   }, []);
-
-  useEffect(() => {
-    setCurrentlyPlaying(dataFromSocket);
-  }, [dataFromSocket]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`http://localhost:3000/adder/${id}`);
