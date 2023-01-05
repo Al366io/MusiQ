@@ -1,5 +1,6 @@
 import "../styles/addbutton.css";
 import { useState } from "react";
+import Track from "./Track";
 import { getQueryResult } from "../../ApiServices";
 
 const AddButton = ({id, setter}) => {
@@ -9,6 +10,7 @@ const AddButton = ({id, setter}) => {
   // then send the data back to frontend
 
   const [query, setQuery] = useState("");
+  const [searchFocus, setsearchFocus] = useState(false)
   const [searchResponse, setSearchResponse] = useState([]);
 
   let searchTimeout
@@ -20,6 +22,7 @@ const AddButton = ({id, setter}) => {
 
     searchTimeout = setTimeout(() => {
       setQuery(input)
+      console.log(query)
       getQueryResult(id, query).then(res => setSearchResponse(res))
     }, 750)
 
@@ -30,13 +33,17 @@ const AddButton = ({id, setter}) => {
     setter(searchResponse[0])
   }
 
-
   return (
-    <div>
-      <form id="search-bar-container" action="" onSubmit={handleSubmit}>
+    <>
+    <div id="add-button">
+      <form id="search-bar-container" 
+      onSubmit={handleSubmit}
+      onFocus={() => setsearchFocus(true)}
+      onBlur={() => setsearchFocus(false)}
+      >
             <input
               type="text"
-              placeholder="Song Name"
+              placeholder="Add Song to Queue"
               id="search-bar-input"
               onChange={(e) => {
                 queryHelper(e.target.value)
@@ -46,14 +53,18 @@ const AddButton = ({id, setter}) => {
           </form>
           <div id='search-results'>
               {searchResponse.map((song) => {
-                <div id="search-result-item">
-                  <img className='cover-track' src={song.image} alt="Cover" width='25' height='25' />
-                  <span>{song.name}</span>
-                  <span>{song.artist}</span>
-                </div>
+                <Track song={song} key={song.name} />
               })}
           </div>
-    </div>
+        </div>
+        {searchFocus 
+        ?
+          <div id="modal-back" style={{'zIndex' : `50`}}></div>
+        :
+          <div id="modal-back" style={{'zIndex' : `-1`}}></div>
+        }
+    </>
+
   );
 };
 

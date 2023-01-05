@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import '../styles/Track.css'
 import Separator from './Separator'
 
