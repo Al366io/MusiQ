@@ -144,9 +144,19 @@ const Home = () => {
           <span id="section-1-subheader">
             With only a few clicks, set up a collective Spotify queue for your
             party where everyone can participate!
+            
           </span>
         </div>
-        <img id="user-view" src={process.env.PUBLIC_URL + '/assets/temp-user-view.png'} alt="User-view queue" />
+        <div id="user-view-container">
+        <div id="user-view" 
+        style={{
+          'background' : `url(${process.env.PUBLIC_URL + '/assets/temp-user-view.png'}`,
+          'backgroundOrigin' : 'padding-box',
+          'backgroundSize' : 'contain',
+          'backgroundRepeat' : 'no-repeat'
+          }}></div>
+        <div id="user-view-shadow"></div>
+        </div>
       </div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
         <path
@@ -202,7 +212,7 @@ const Home = () => {
         </div>
         <div id="wrapper-right-section-3" 
         style={
-          selectOption == 'visibility' ?
+          selectOption === 'visibility' ?
           {background : "#4e146f"}
           :
           {background : "#4e146f"}

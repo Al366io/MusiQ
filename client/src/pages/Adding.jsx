@@ -36,20 +36,22 @@ const Adding = () => {
     fetchSocketRoomId();
 
     socket.on("queue", (data) => {
-      setCurrentlyPlaying(data[0]);
+      if(data[0] != currentlyPlaying) {
+        setCurrentlyPlaying(data[0])
+      }
       if(queue.length === 0) {
         setQueue(data.slice(1))
+      } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {
+        setQueue(data.slice(1))
       }
-      // } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {
-      //   setQueue(data.slice(1))
-      // }
     });
 
-    socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
+    // UNCOMMENT THIS LINE AFTER STYLING
+    // socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
     checkRoom(id).then((response) => setExist(response));
 
     // FOR SOME REASON, THIS CREATES TOO MANY REQUESTS
-    // getOwnerParty(id).then(response => setOwnerName(response))
+    getOwnerParty(id).then(response => setOwnerName(response))
 
   }, []);
 
@@ -77,10 +79,13 @@ const Adding = () => {
           }
         }
         >
-          <div className="adding-container">
-            <div className="next-track-container">
-              <h3 id="adding-dash">{ownerName + "'s Room"}</h3>
-              <h6 id="sub-header-adding">#{id}#</h6>
+          <h3 id="adding-dash">{ownerName + "'s Room"}</h3>
+          <h6 id="sub-header-adding">#{id}#</h6>
+          <div className="next-track-container">
+            <div className="adding-container">
+              <div id="search-container">
+                <AddButton id = {id} setter = {setAddSong} />
+              </div>
               <NextTrack
                 currentlyPlaying={currentlyPlaying}
                 BGsetter={setBGColor}
@@ -101,7 +106,6 @@ const Adding = () => {
               )}
             </div>
           </div>
-          <AddButton id = {id} setter = {setAddSong} />
         </div>
       </div>
     );

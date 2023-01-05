@@ -120,10 +120,29 @@ h2#section-1-header{
   margin-top: 0px;
 }
 
-#section-1 > img#user-view{
-  margin-top: 0px;
-  max-width: 600px;
-  max-height: 600px;
+#user-view-container{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+}
+
+div#user-view{
+  width: 55vw;
+  /* SET THE ASPECT RATIO OF THE SCREENSHOT MANUALLY */
+  aspect-ratio: 1.6949;
+  border-radius: 12px;
+  z-index: 2;
+}
+
+#user-view-shadow{
+  width: 45vw;
+  height: 50px;
+  margin-top: 30px;
+  border-radius: 40%;
+  filter: blur(7px);
+  background-image: radial-gradient(rgba(175, 175, 175, 0.4), rgba(100, 100, 100, 0.4));
+  z-index: 1;
 }
 
 #section-1-subheader{
@@ -356,8 +375,15 @@ h2#section-1-header{
     width: 80vw;
   }
 
-  #section-1 > img{
+  div#user-view{
+    width: 80vw;
     margin-top: 50px;
+  }
+
+  #user-view-shadow{
+    width: 70vw;
+    height: 50px;
+    margin-top: 20px;
   }
 
   #section-2{

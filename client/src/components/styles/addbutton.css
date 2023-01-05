@@ -1,6 +1,11 @@
+#add-button{
+  z-index: 100;
+}
+
 #search-bar-container{
   background-color: white;
   border-radius: 30px;
+  width: fit-content;
   display : flex;
   flex-direction : row;
   justify-content : center;
@@ -31,4 +36,13 @@
 
 #search-result-item{
   background-color: white;
+}
+
+#modal-back{
+  background-color: #494949aa;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
 }
