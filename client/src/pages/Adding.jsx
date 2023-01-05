@@ -16,7 +16,7 @@ import {
 const Adding = () => {
   const [BGcolor, setBGColor] = useState("#000");
   const [queue, setQueue] = useState([]);
-  const [currentlyPlaying, setCurrentlyPlaying] = useState({});
+  const [currentlyPlaying, setCurrentlyPlaying] = useState({'':''});
   const [exists, setExist] = useState(true);
   const [ownerName, setOwnerName] = useState("");
   const [addSong, setAddSong] = useState({})
@@ -38,15 +38,17 @@ const Adding = () => {
     socket.on("queue", (data) => {
       setCurrentlyPlaying(data[0]);
       if(queue.length === 0) {
-        setQueue(data)
-      } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {
-        setQueue(data)
+        setQueue(data.slice(1))
       }
+      // } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {
+      //   setQueue(data.slice(1))
+      // }
     });
 
     socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
     checkRoom(id).then((response) => setExist(response));
 
+    // FOR SOME REASON, THIS CREATES TOO MANY REQUESTS
     // getOwnerParty(id).then(response => setOwnerName(response))
 
   }, []);
@@ -59,13 +61,26 @@ const Adding = () => {
     return (
       <div id="dash-back">
         <div
+        key={currentlyPlaying[0]}
           className="adding-inner-container"
-          style={{ backgroundColor: BGcolor }}
+          style={BGcolor.full?{ 
+            
+            'backgroundColor':`${BGcolor.avg}`,
+            'backgroundImage':
+            `radial-gradient(at 40% 20%, ${BGcolor.full[0].hex} 0px, transparent 50%), radial-gradient(at 80% 0%, ${BGcolor.full[1].hex} 0px, transparent 50%),radial-gradient(at 0% 50%, ${BGcolor.full[2].hex} 0px, transparent 50%), radial-gradient(at 80% 50%, ${BGcolor.full[3].hex} 0px, transparent 50%)`,
+            'transition': 'background-image 1s ease-in-out'
+          }:
+          {
+            'backgroundColor':`${BGcolor.avg}`,
+            'transition': 'background-image 1s ease-in-out'
+
+          }
+        }
         >
           <div className="adding-container">
-            <h3 id="adding-dash">{ownerName + "'s Room"}</h3>
-            <h6 id="sub-header-adding">#{id}#</h6>
             <div className="next-track-container">
+              <h3 id="adding-dash">{ownerName + "'s Room"}</h3>
+              <h6 id="sub-header-adding">#{id}#</h6>
               <NextTrack
                 currentlyPlaying={currentlyPlaying}
                 BGsetter={setBGColor}

@@ -1,7 +1,7 @@
 #adding-background{
   height: 100vh;
   width: 100vw;
-  background-color: #0e2c44;
+  background-color: #201128;
 }
 
 #party-presenter{
@@ -19,13 +19,13 @@
   justify-content : center;
   align-items : center;
   transform: translate(-50%,-50%);
-  background-color: #2889d85f;
+  background-color: #f1f1f15f;
   border: 2px white solid ;
   border-radius: 16px;
 }
 
 .join-party{
-  background-color: #0e2c44;
+  background-color: #94457e;
   color: white;
   text-decoration: none;
   border:none;
@@ -42,6 +42,13 @@
 .join-under{
   margin-top: 10px;
   font-size: 12px;
+}
+
+#adder-back-home{
+  margin-top: 20px;
+  font-size: 20px;
+  color: white;
+  text-align: center;
 }
 
 @media screen and (max-width : 600px) {

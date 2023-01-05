@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import LoginButton from "../components/LoginButton";
-import { useNavigate } from "react-router-dom";
 import {
   getTokensFromDb,
   getSpotifyUserInfo,
@@ -87,7 +86,8 @@ const Home = () => {
   return (
     <div id="home-wrapper">
       <div id="top-wrapper">
-        <h1 id="top-header">
+      <object id="sound-wave" data={process.env.PUBLIC_URL + '/assets/sound_wave.svg'} width="1200" height="300"></object>
+      <svg id="top-svg" xmlns="http://www.w3.org/2000/svg" viewBox="220 -30 1140 320"><path fill="#000" fill-opacity="1" d="M0,0L60,53.3C120,107,240,213,360,218.7C480,224,600,128,720,80C840,32,960,32,1080,26.7C1200,21,1320,11,1380,5.3L1440,0L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg>        <h1 id="top-header">
           Welcome to <span className="musiq">MusiQ</span>
         </h1>
         {!isAuthenticated ? (
@@ -111,7 +111,7 @@ const Home = () => {
                 }
               </>
             ) : (
-              <a href={`http://localhost:3001/connectspotify/${user.email}`}>
+              <a id="connect-spotify" href={`http://localhost:3001/connectspotify/${user.email}`}>
                 CONNECT YOUR SPOTIFY
               </a>
             )}
@@ -127,10 +127,10 @@ const Home = () => {
       <svg
         id="svg-top"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1440 320"
+        viewBox="0 0 1440 250"
       >
         <path
-          fill="#52B69A"
+          fill="#3d1053"
           fillOpacity="1"
           d="M0,128L40,128C80,128,160,128,240,112C320,96,400,64,480,48C560,32,640,32,720,58.7C800,85,880,139,960,154.7C1040,171,1120,149,1200,128C1280,107,1360,85,1400,74.7L1440,64L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"
         ></path>
@@ -146,11 +146,11 @@ const Home = () => {
             party where everyone can participate!
           </span>
         </div>
-        <img src="" alt="User-view queue" />
+        <img id="user-view" src={process.env.PUBLIC_URL + '/assets/temp-user-view.png'} alt="User-view queue" />
       </div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
         <path
-          fill="#52B69A"
+          fill="#94457e"
           fillOpacity="1"
           d="M0,128L40,128C80,128,160,128,240,112C320,96,400,64,480,48C560,32,640,32,720,58.7C800,85,880,139,960,154.7C1040,171,1120,149,1200,128C1280,107,1360,85,1400,74.7L1440,64L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
         ></path>
@@ -203,9 +203,9 @@ const Home = () => {
         <div id="wrapper-right-section-3" 
         style={
           selectOption == 'visibility' ?
-          {background : "#136a51"}
+          {background : "#4e146f"}
           :
-          {background : "#136a51"}
+          {background : "#4e146f"}
           }>
           <div id="top-phone-home">
             <div id="speaker-phone-home"></div>

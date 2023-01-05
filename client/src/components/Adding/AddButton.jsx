@@ -1,7 +1,6 @@
 import "../styles/addbutton.css";
 import { useState } from "react";
 import { getQueryResult } from "../../ApiServices";
-import {useCombobox} from 'downshift'
 
 const AddButton = ({id, setter}) => {
   // when clicking the + button, we should open a modal panel that let the adder search for a song

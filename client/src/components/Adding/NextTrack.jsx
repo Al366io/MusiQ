@@ -1,17 +1,16 @@
 import "../styles/NextTrack.css";
 import { FastAverageColor } from "fast-average-color";
-import { useState } from "react";
+import {extractColors} from 'extract-colors'
 
 function NextTrack({ currentlyPlaying, BGsetter = ()=>{} }) {
   const fac = new FastAverageColor();
 
-  const [coverColor, setCoverColor] = useState();
-
   const handleLoaded = async () => {
+    let colorObj = {}
     fac.getColorAsync(currentlyPlaying.image).then((color) => {
-      setCoverColor(color.hex);
-      BGsetter(color.hex);
-    });
+      colorObj.avg = color.hex;
+      extractColors(currentlyPlaying.image, { crossOrigin: "anonymous" }).then(res => colorObj.full = res)
+    }).then(BGsetter(colorObj))
   };
 
   const capitalize = (str) => {
