@@ -30,7 +30,6 @@ const Dashboard = () => {
     
     socket.on("queue", (data) => {
       setCurrentlyPlaying(data[0]);
-      console.log(queue)
       if(queue.length === 0) {
         setQueue(data)
       } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {

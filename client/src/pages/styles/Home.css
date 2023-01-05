@@ -1,21 +1,32 @@
 h1#top-header {
-  background-color: #52B69A;
   color: white;
   margin: 0;
   padding: 30px 0px 10px 0px;
   margin-left: 40px;
   margin-right: 20px;
-
+  position: relative;
   border-bottom: white 1.5px solid;
   width: fit-content;
+  z-index: 3;
+}
+
+#sound-wave{
+  left: 100px;
+  position: absolute;
+}
+
+#top-svg{
+  position: absolute;
+  z-index: 0;
 }
 
 #top-wrapper {
-  background-color: #52B69A;
+  background-color: #3d1053;
   display : flex;
   flex-direction : row;
   justify-content : space-between;
   align-items : center;
+  position: relative;
 }
 
 .logout{
@@ -74,11 +85,19 @@ span#hey-user{
   justify-content : center;
   align-items : center;
   margin-right: 20px;
+  z-index: 3;
+}
+
+#connect-spotify{
+  color: pink;
+}
+#connect-spotify:visited{
+  color: rgb(226, 169, 179);
 }
 
 .musiq{
   background-color: white;
-  color: #52B69A;
+  color: #3d1053;
   padding: 4px 8px 4px 8px;
   border-radius: 6px;
   font-family:'PublicPixel';
@@ -90,7 +109,7 @@ span#hey-user{
   flex-direction : row;
   justify-content : space-around;
   align-items : center;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
 h2#section-1-header{
@@ -101,17 +120,19 @@ h2#section-1-header{
   margin-top: 0px;
 }
 
-#section-1 > img{
-  margin-top: 50px;
+#section-1 > img#user-view{
+  margin-top: 0px;
+  max-width: 600px;
+  max-height: 600px;
 }
 
 #section-1-subheader{
- color: #113655;
+ color: #04080c;
 }
 
 .perfect{
   text-transform: uppercase;
-  color: #52B69A;
+  color: #3d1053;
   letter-spacing: 2px;
   padding-left: 2px;
   font-family:'PublicPixel';
@@ -119,7 +140,7 @@ h2#section-1-header{
 }
 
 #section-2{
-  background-color: #52B69A;
+  background-color: #94457e;
   margin-top: -8vh ;
   display : flex;
   flex-direction : column;
@@ -140,7 +161,7 @@ h2#section-1-header{
 }
 
 #section-3{
-  background-color: #105e48;
+  background-color: #3d1053;
   display : flex;
   flex-direction : row;
   justify-content : center;
@@ -170,7 +191,7 @@ h2#section-1-header{
 #top-phone-home{
   width: 100px;
   height: 22px;
-  background-color: #105e48;
+  background-color: #3d1053;
   left: 50%;
   transform: translate(-50%);
   border-radius: 0px 0px 15px 15px;
@@ -184,7 +205,7 @@ h2#section-1-header{
   left: 45%;
   transform: translate(-50%, -50%);
   border-radius: 10px;
-  background-color: #136a51;
+  background-color: #4e146f;
   position: absolute;
 }
 
@@ -195,7 +216,7 @@ h2#section-1-header{
   left: 73%;
   transform: translate(-50%, -50%);
   border-radius: 10px;
-  background-color: #136a51;
+  background-color: #4e146f;
   position: absolute;
 }
 

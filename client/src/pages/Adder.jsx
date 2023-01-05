@@ -28,6 +28,7 @@ const Adder = () => {
           <button className="join-party" onClick={() => loginWithRedirect()}>Join the Party</button>
           }
           <Link to={`/adding/${id}`} className="join-party join-under">As Guest</Link>
+          <Link to='/' id="adder-back-home">Go Back Home ?</Link>
         </div>
       </div>
     );

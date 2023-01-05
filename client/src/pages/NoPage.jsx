@@ -9,7 +9,7 @@ const NoPage = () => {
     <div id="error-container">
       <h3 id="error-head">404</h3>
       <h3 id="error-subhead">You're looking for the wrong queue</h3>
-      <Link to='./' id="error-back-home">Go Back Home ?</Link>
+      <Link to='/' id="error-back-home">Go Back Home ?</Link>
     </div>
     </>
   );
