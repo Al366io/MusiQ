@@ -87,7 +87,7 @@ const Home = () => {
     <div id="home-wrapper">
       <div id="top-wrapper">
       <object id="sound-wave" data={process.env.PUBLIC_URL + '/assets/sound_wave.svg'} width="1200" height="300"></object>
-      <svg id="top-svg" xmlns="http://www.w3.org/2000/svg" viewBox="220 -30 1140 320"><path fill="#000" fill-opacity="1" d="M0,0L60,53.3C120,107,240,213,360,218.7C480,224,600,128,720,80C840,32,960,32,1080,26.7C1200,21,1320,11,1380,5.3L1440,0L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg>        <h1 id="top-header">
+      <svg id="top-svg" xmlns="http://www.w3.org/2000/svg" viewBox="220 -30 1140 320"><path fill="#000" fillOpacity="1" d="M0,0L60,53.3C120,107,240,213,360,218.7C480,224,600,128,720,80C840,32,960,32,1080,26.7C1200,21,1320,11,1380,5.3L1440,0L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg>        <h1 id="top-header">
           Welcome to <span className="musiq">MusiQ</span>
         </h1>
         {!isAuthenticated ? (
