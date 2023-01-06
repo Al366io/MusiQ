@@ -27,7 +27,6 @@ const Adding = () => {
   const [exists, setExist] = useState(true);
   const [ownerName, setOwnerName] = useState("");
   const [addSong, setAddSong] = useState({})
-  // let [refresh, setRefresh] = useState(1)
   let [atProps, setAtProps] = useState({});
 
   let { id } = useParams();
@@ -80,13 +79,20 @@ const Adding = () => {
     // SET THE INTERVAL TO REFRESH THE BACKGROUND FOR FUNKY ANIMATIONS
     let itv = setInterval(() => {
       // setRefresh( refresh++ )
-      setAtProps({
-        1 : `${rand(40, 30)}% ${rand(20, 30)}%`,
-        2 : `${rand(80, 20)}% ${rand(0, 40)}%`,
-        3 : `${rand(0, 40)}% ${rand(50, 30)}%`,
-        4 : `${rand(80, 10)}% ${rand(50, 30)}%`
-      })
+      // setAtProps({
+      //   1 : `${rand(40, 30)}% ${rand(20, 30)}%`,
+      //   2 : `${rand(80, 20)}% ${rand(0, 40)}%`,
+      //   3 : `${rand(0, 40)}% ${rand(50, 30)}%`,
+      //   4 : `${rand(80, 10)}% ${rand(50, 30)}%`
+      // })
     }, 2000);
+
+    setAtProps({
+      1 : `${rand(40, 20)}% ${rand(20, 10)}%`,
+      2 : `${rand(80, 10)}% ${rand(0, 0)}%`,
+      3 : `${rand(0, 0)}% ${rand(50, 20)}%`,
+      4 : `${rand(80, 10)}% ${rand(50, 20)}%`
+    })
 
     return () => {
       clearInterval(itv)
@@ -95,6 +101,7 @@ const Adding = () => {
   }, []);
 
   useEffect(() => {
+    console.log(addSong);
     // addSongToQueue(id, addSong.id);
   }, [addSong])
 
@@ -105,7 +112,7 @@ const Adding = () => {
 
   if (exists) {
     return (
-      <div id="dash-back">
+      <div id="dash-back" style={{'backgroundColor':`${BGcolor.avg}`}}>
           <div
             className="adding-inner-container"
             style={BGcolor.full && BGcolor.full.length >= 3 && BGcolor.full[3] ? { 
@@ -118,6 +125,7 @@ const Adding = () => {
                 // '--gradient-color2': BGcolor.full[1].hex,
                 // '--gradient-color3': BGcolor.full[2].hex,
                 // '--gradient-color4': BGcolor.full[3].hex,
+              'backgroundColor':`${BGcolor.avg}`,
               'background':
               `radial-gradient(at ${atProps[1]}, ${BGcolor.full[0].hex} 0px, transparent 50%), radial-gradient(at ${atProps[2]}, ${BGcolor.full[1].hex} 0px, transparent 50%),radial-gradient(at ${atProps[3]}, ${BGcolor.full[2].hex} 0px, transparent 50%), radial-gradient(at ${atProps[4]}, ${BGcolor.full[3].hex} 0px, transparent 50%)`
             } 
@@ -144,12 +152,13 @@ const Adding = () => {
                 <h1> No songs in queue </h1>
               ) : (
                 queue.map((song) => {
-                  return (
-                    <Track
-                      key={song.id}
-                      song={song}
-                    />
-                  );
+                  return(
+                  song !== queue[queue.length-1] 
+                  ?
+                  <Track key={song.id} song={song} />
+                  :
+                  <Track key={song.id} song={song} last= {true} />
+                  )
                 })
               )}
             </div>

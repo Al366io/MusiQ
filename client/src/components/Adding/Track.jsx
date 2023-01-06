@@ -1,7 +1,7 @@
 import '../styles/Track.css'
 import Separator from './Separator'
 
-function Track({song, last = false}) {
+function Track({song, last = false, search = false, setter = () => {}}) {
   const songName = song.name
   const artistName = song.artist
   const coverArt = song.image
@@ -9,9 +9,15 @@ function Track({song, last = false}) {
   // TODO Calculate minutes left with minutes left before previous song + length of song before
   const minutesLeft = 12
 
+  const handleClick = () => {
+    if (search) {
+      setter(song)
+    }
+  }
+
   return (
     <>
-      <div className="track-container">
+      <div className={`track-container${search ? ' clickable' : ''}`} onClick={handleClick}>
         <div className="artist-cover-list">
           <img className='cover-track' src={coverArt} alt="Cover" width='75' height='75' />
         </div>
@@ -35,7 +41,12 @@ function Track({song, last = false}) {
           }
         </div>
       </div>
+      {!last
+      ?
       <Separator/>
+      :
+      ''
+      }
     </>
   );
 };

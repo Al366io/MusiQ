@@ -70,12 +70,13 @@ const Dashboard = () => {
               <h1> No songs in Queue </h1>
             ) : (
               queue.map((song) => {
-                return (
-                  <Track
-                    key={song.id}
-                    song={song}
-                  />
-                );
+                return(
+                  song !== queue[queue.length-1] 
+                  ?
+                  <Track key={song.id} song={song} />
+                  :
+                  <Track key={song.id} song={song} last= {true} />
+                  )
               })
             )}
           </div>
