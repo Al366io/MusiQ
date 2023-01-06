@@ -6,19 +6,22 @@ function NextTrack({ currentlyPlaying, BGsetter = ()=>{} }) {
   const fac = new FastAverageColor();
 
   const handleLoaded = async () => {
+    const img = currentlyPlaying.image
     let colorObj = {}
-    fac.getColorAsync(currentlyPlaying.image).then((color) => {
+    fac.getColorAsync(img).then((color) => {
       colorObj.avg = color.hex;
-      extractColors(currentlyPlaying.image, { crossOrigin: "anonymous" }).then(res => colorObj.full = res)
-    }).then(BGsetter(colorObj))
+      extractColors(img, { crossOrigin: "anonymous" }).then(res => {
+        colorObj.full = res.slice(0,4)
+        BGsetter(colorObj)
+      })
+    })
   };
 
   const capitalize = (str) => {
     let arr = str.split(' - ')
     return arr.map(string => string.charAt(0).toUpperCase() + string.slice(1)).slice(0,2).join(' - ')
   }
-// console.log(currentlyPlaying);
-  // TODO Implement dynamic song/genre/artist/minutes
+
   return (
     <div className="track-next">
         {currentlyPlaying.name ? (
