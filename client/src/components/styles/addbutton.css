@@ -34,15 +34,19 @@
   border: 2px white solid;
 }
 
-#search-result-item{
-  background-color: white;
+#search-results{
+  margin-top: 20vh;
 }
 
 #modal-back{
-  background-color: #494949aa;
+  background-color: #4949499a;
   position: absolute;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100vw;
+  display : flex;
+  flex-direction : column;
+  justify-content : flex-start;
+  align-items : center;
 }

@@ -12,6 +12,11 @@
   max-width: 75vw;
 }
 
+.clickable:hover{
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+}
+
 .song-list{
   text-align: center;
 }
