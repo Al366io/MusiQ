@@ -11,7 +11,7 @@ function Track({song, last = false, search = false, setter = () => {}}) {
 
   const handleClick = () => {
     if (search) {
-      setter(song)
+      setter(song.id)
     }
   }
 
