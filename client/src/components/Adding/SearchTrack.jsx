@@ -1,6 +1,6 @@
 import '../styles/searchTrack.css'
 
-function SearchTrack({song, setter = () => {}}) {
+function SearchTrack({song, setter}) {
   const songName = song.name
   const artistName = song.artist
   const coverArt = song.image
@@ -8,7 +8,7 @@ function SearchTrack({song, setter = () => {}}) {
   // TODO Calculate minutes left with minutes left before previous song + length of song before
 
   const handleClick = () => {
-      setter(song.id)
+    setter(song.id)
   }
 
   return (

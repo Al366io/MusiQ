@@ -49,7 +49,7 @@ const AddButton = ({id, setter}) => {
           <div id="modal-back" style={{'zIndex' : `50`}} onClick={() => setsearchFocus(false)}>
             <div id="search-results">
             {searchResponse.map((song) => 
-              <SearchTrack key={song.id} song={song} />
+              <SearchTrack key={song.id} song={song} setter={setter}/>
               )}
             </div>
           </div>
