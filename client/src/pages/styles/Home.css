@@ -284,6 +284,7 @@ div#user-view{
     margin-right: 60px;
     margin-top: 30px;
   }
+  
 
   #section-1{
     padding-bottom: 70px;
@@ -329,6 +330,15 @@ div#user-view{
   
   h1#top-header{
     border-bottom: none;
+  }
+
+  #top-svg{
+    top: -35px;
+    width: 1030px;
+    left: 0px;
+  }
+  .logout{
+    color: white;
   }
 }
 
