@@ -4,10 +4,6 @@ import Track from "./Track";
 import { getQueryResult, addSongToQueue } from "../../ApiServices";
 
 const AddButton = ({id, setter}) => {
-  // when clicking the + button, we should open a modal panel that let the adder search for a song
-  // and then insert it. when doing so, send a request to backend with the party id
-  // backend retrieve the acess_token associated wih the party id and send to request to spotify
-  // then send the data back to frontend
 
   const [searchFocus, setsearchFocus] = useState(false)
   const [searchResponse, setSearchResponse] = useState([]);
@@ -27,7 +23,7 @@ const AddButton = ({id, setter}) => {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setter(searchResponse[0])
+    setter(searchResponse[0].id)
   }
 
   return (

@@ -97,13 +97,19 @@ const Adding = () => {
     return () => {
       clearInterval(itv)
     }
-    
   }, []);
 
-  useEffect(() => {
-    console.log(addSong);
-    // addSongToQueue(id, addSong.id);
-  }, [addSong])
+  // // TERRENCE this will get triggered on page load first time so it's buggy
+  // useEffect(() => {
+  //   console.log(addSong);
+  //   // addSongToQueue(id, addSong.id);
+  // }, [addSong])
+
+  const addSongFunction = (id) => {
+    //call apiservices on song id passed here
+    console.log(id);
+    // addSongToQueue(id);
+  } 
 
   // HELPER FUNTION TO MODIFY GRADIENT SMOOTHLY
   const rand = (input, variance) => {
@@ -140,7 +146,7 @@ const Adding = () => {
           <div className="next-track-container">
             <div className="adding-container">
               <div id="search-container">
-                <AddButton id = {id} setter = {setAddSong} />
+                <AddButton id = {id} setter = {addSongFunction} />
               </div>
               <NextTrack
                 currentlyPlaying={currentlyPlaying}
