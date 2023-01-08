@@ -32,7 +32,11 @@
 #search-results{
   margin-top: 20vh;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  width: 80vw;
+  max-width: 850px;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, 200px);
   gap: 10px;
 }
 
@@ -47,4 +51,18 @@
   flex-direction : column;
   justify-content : flex-start;
   align-items : center;
+}
+
+@media screen and (max-width : 780px) {
+  #search-results{
+    margin-top: 20vh;
+    width: 85vw;
+    max-height: 70vh;
+    display : flex;
+    flex-direction : column;
+    justify-content : flex-start;
+    align-items : center;
+    gap: 10px;
+    overflow-y: scroll;
+  }
 }
