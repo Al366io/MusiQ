@@ -6,15 +6,12 @@
   align-items : center;
   border-radius: 6px;
   color: white;
-  grid-template-columns: 75px minmax(120px, auto) 75px;
-  grid-column-gap: 20px;
   gap: 20px;
   width: 200px;
   max-width: 75vw;
 }
 
 .cover-search{
-  aspect-ratio: auto;
   height: 200px;
   width: 200px;
   border-radius: 6px;
@@ -26,4 +23,29 @@
   flex-direction : column;
   justify-content : center;
   align-items : center;
+}
+
+@media screen and (max-width : 780px) {
+  .searchtrack-container{
+    background: rgba(0,0,0,0.4);
+    display : flex;
+    flex-direction : row;
+    justify-content : space-between;
+    align-items : center;
+    gap: 20px;
+    width: 85vw;
+    height: 100px;
+    max-width: 85vw;
+  }
+
+  .artist-cover-search{
+    align-self: center;
+  }
+
+  .cover-search{
+    height: 100px;
+    width: 100px;
+    border-radius: 6px;
+    align-self: center;
+  }
 }
