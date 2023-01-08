@@ -92,9 +92,11 @@ exports.getQueryResult = (partyId, query) => {
 exports.addSongToQueue = (partyId, songId) => {
   try {
     const response = fetch(`http://localhost:3001/party/queue/add/${partyId}/${songId}`).then(
-      (response) => response.json()
+      (response) => response.text()
     );
+    return response;
   } catch (error) {
     console.log(error);
+    return 'false';
   }
 }

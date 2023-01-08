@@ -436,7 +436,7 @@ exports.searchSong = async (req, res) => {
 
 // ******** //
 
-exports.addSongToQueue = async () => {
+exports.addSongToQueue = async (req, res) => {
   const partyId = req.params.partyId;
   const songId = req.params.songId;
   const token = await getPartyToken(partyId);
@@ -454,9 +454,16 @@ exports.addSongToQueue = async () => {
       if (response.status === 200) {
         return response.json();
       } else return 0;
-    });
+    })
+    .then((response)=>{
+      console.log(response);
+      res.status(204)
+      res.send('true')
+    })
   }
   catch(err){
     console.log(err);
+    res.status(500)
+    res.send('false')
   }
 }

@@ -105,10 +105,10 @@ const Adding = () => {
   //   // addSongToQueue(id, addSong.id);
   // }, [addSong])
 
-  const addSongFunction = (id) => {
+  const addSongFunction = (songId) => {
     //call apiservices on song id passed here
-    console.log(id);
-    // addSongToQueue(id);
+    console.log(id + '' + songId);
+    addSongToQueue(id,songId);
   } 
 
   // HELPER FUNTION TO MODIFY GRADIENT SMOOTHLY

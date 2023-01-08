@@ -13,7 +13,7 @@
 }
 
 .clickable:hover{
-  background: rgba(255,255,255,0.2);
+  background: rgb(87, 87, 87);
   cursor: pointer;
 }
 
