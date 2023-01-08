@@ -1,6 +1,6 @@
 import "../styles/addbutton.css";
 import { useState } from "react";
-import Track from "./Track";
+import SearchTrack from "./SearchTrack";
 import { getQueryResult, addSongToQueue } from "../../ApiServices";
 
 const AddButton = ({id, setter}) => {
@@ -18,7 +18,7 @@ const AddButton = ({id, setter}) => {
 
     searchTimeout = setTimeout(() => {
       getQueryResult(id, input).then(res => setSearchResponse(res))
-    }, 750)
+    }, 600)
   }
 
   async function handleSubmit(e) {
@@ -35,13 +35,13 @@ const AddButton = ({id, setter}) => {
       >
             <input
               type="text"
-              placeholder="Add Song to Queue"
-              id="search-bar-input"
+              placeholder="Type Song to Add"
+              id={searchFocus ? 'search-focused' : ''}
+              className="search-bar-input"
               onInput={(e) => {
                 queryHelper(e.target.value)
               }}
             />
-            <input id="adding-song-button" type="submit" value="+"/>
           </form>
         </div>
         {searchFocus 
@@ -49,11 +49,7 @@ const AddButton = ({id, setter}) => {
           <div id="modal-back" style={{'zIndex' : `50`}} onClick={() => setsearchFocus(false)}>
             <div id="search-results">
             {searchResponse.map((song) => 
-              song !== searchResponse[searchResponse.length-1] 
-              ?
-              <Track key={song.id} song={song} search={true} setter = {setter} />
-              :
-              <Track key={song.id} song={song} search={true} setter = {setter} last= {true} />
+              <SearchTrack key={song.id} song={song} />
               )}
             </div>
           </div>

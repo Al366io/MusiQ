@@ -41,6 +41,10 @@
   background-color: #000;
 }
 
+#top-adding-container{
+  max-height: fit-content;
+}
+
 .next-track-container{
   margin-bottom: 20px;
 }
@@ -54,7 +58,7 @@
   radial-gradient at var(--at-gradient4), var(--gradient-color4) 0px, transparent 50%; */
   transition: background 1s ease-in-out;
   width: 100vw;
-  min-height: 100%;
+  min-height: 100vh;
   display : flex;
   flex-direction : column;
   justify-content:space-between;

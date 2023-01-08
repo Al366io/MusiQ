@@ -2,23 +2,18 @@
   z-index: 100;
 }
 
-#search-bar-container{
-  background-color: white;
-  border-radius: 30px;
-  width: fit-content;
-  display : flex;
-  flex-direction : row;
-  justify-content : center;
-  align-items : center;
-  padding-left: 20px;
-  gap: 2px;
-}
 
-#search-bar-input{
+.search-bar-input{
   border: none;
   align-self: center;
   font-size: 20px;
-  padding: 12px 0px 12px 0px;
+  padding: 12px 12px 12px 12px;
+  border-radius: 10px;
+  transition: all .25s ease-in-out;
+}
+
+#search-focused{
+  padding: 12px 32px 12px 32px;
 }
 
 #adding-song-button{
@@ -36,10 +31,13 @@
 
 #search-results{
   margin-top: 20vh;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 #modal-back{
-  background-color: #4949499a;
+  background-color: #3d3d3da9;
   position: absolute;
   top: 0;
   left: 0;

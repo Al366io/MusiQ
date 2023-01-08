@@ -141,19 +141,21 @@ const Adding = () => {
             }
           }
           >
-          <h3 id="adding-dash">{ownerName + "'s Room"}</h3>
-          <h6 id="sub-header-adding">#{id}#</h6>
-          <div className="next-track-container">
-            <div className="adding-container">
-              <div id="search-container">
-                <AddButton id = {id} setter = {addSongFunction} />
+            <div id="top-adding-container">
+            <h3 id="adding-dash">{ownerName + "'s Room"}</h3>
+            <h6 id="sub-header-adding">#{id}#</h6>
+            <div className="next-track-container">
+              <div className="adding-container">
+                <div id="search-container">
+                  <AddButton id = {id} setter = {addSongFunction} />
+                </div>
+                <NextTrack
+                  currentlyPlaying={currentlyPlaying}
+                  BGsetter={setBGColor}
+                />
               </div>
-              <NextTrack
-                currentlyPlaying={currentlyPlaying}
-                BGsetter={setBGColor}
-              />
-            </div>
-            <div className="track-list-container">
+              </div>
+              <div className="track-list-container">
               {!queue.length ? (
                 <h1> No songs in queue </h1>
               ) : (
@@ -167,8 +169,8 @@ const Adding = () => {
                   )
                 })
               )}
+              </div>
             </div>
-          </div>
         </div>
       </div>
     );
