@@ -97,7 +97,6 @@ const Adding = () => {
     return () => {
       clearInterval(itv)
     }
-    
   }, []);
 
   useEffect(() => {
