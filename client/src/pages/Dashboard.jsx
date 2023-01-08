@@ -48,7 +48,6 @@ const Dashboard = () => {
 
   if (exists) {
       return (
-        // TODO : RETURN ALL OF THIS ONLY IF ROOM EXISTS
         <div id="dash-container">
           <h3 id="room-dash">Room {id}</h3>
           <div id="container-dash-top">

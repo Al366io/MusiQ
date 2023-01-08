@@ -124,9 +124,16 @@ exports.checkIfHasToken = async (req, res) => {
       const response = await refreshExpiredToken(userInDb.refresh_token);
       // here insert new access_token in DB
       userInDb.access_token = response;
-      // TODO : dont use updateOrCreate one, just update it.
-      await updateOrCreate(userInDb);
-      // }
+
+      await AuthTable.update(
+        {
+        access_token: response
+        },
+        {
+        where: {user_email: userInDb.user_email}
+        }
+      )
+      
       res.status(200);
       res.send(userInDb.access_token);
     } else {
