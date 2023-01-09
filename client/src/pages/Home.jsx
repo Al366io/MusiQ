@@ -183,7 +183,7 @@ const Home = () => {
           className={`option-button-home ${selectOption === 'visibility' ? 'active' : ''}`}
           onClick={(e) => setSelectOption(e.target.value)} 
           value='visibility'>
-            Visibility
+            Options
             </button>
           <button 
           className={`option-button-home ${selectOption === 'join' ? 'active' : ''}`}
