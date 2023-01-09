@@ -10,7 +10,7 @@ import {
   getOwnerParty,
   checkRoom,
   getSocketRoomId,
-  addSongToQueue,
+  postAddedSong,
 } from "../ApiServices";
 
 const Adding = () => {
@@ -26,8 +26,8 @@ const Adding = () => {
   const [currentlyPlaying, setCurrentlyPlaying] = useState({'':''});
   const [exists, setExist] = useState(true);
   const [ownerName, setOwnerName] = useState("");
-  const [addSong, setAddSong] = useState({})
   let [atProps, setAtProps] = useState({});
+  let [remainingTime, setRemainingTime] = useState(0)
 
   let { id } = useParams();
 
@@ -47,6 +47,7 @@ const Adding = () => {
     fetchSocketRoomId();
 
     socket.on("queue", (data) => {
+      setRemainingTime(data[0].duration - data[0].progress)
 
       const renderNext = () => {
         setCurrentlyPlaying(data[0])
@@ -87,7 +88,7 @@ const Adding = () => {
   const addSongFunction = (songId) => {
     //call apiservices on song id passed here
     console.log(id + '' + songId);
-    addSongToQueue(id,songId);
+    postAddedSong(id,songId);
   } 
 
   // HELPER FUNTION TO MODIFY GRADIENT SMOOTHLY

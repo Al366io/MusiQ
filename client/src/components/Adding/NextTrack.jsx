@@ -1,8 +1,9 @@
 import "../styles/NextTrack.css";
 import { FastAverageColor } from "fast-average-color";
 import {extractColors} from 'extract-colors'
+import { useEffect } from "react";
 
-function NextTrack({ currentlyPlaying, BGsetter = ()=>{} }) {
+function NextTrack({ currentlyPlaying, BGsetter = ()=>{}, timeSetter = () => {} }) {
   const fac = new FastAverageColor();
 
   const handleLoaded = async () => {
