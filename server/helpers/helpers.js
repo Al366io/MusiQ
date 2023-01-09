@@ -99,3 +99,29 @@ exports.getArtistGenre = (id, token) => {
     return []
   }
 }
+
+// to get duration and progress of currently playing song 
+// returns the progress of the song in ms
+
+exports.getProgressOfPlaying = async (token) => {
+  try {
+    let prog = fetch("https://api.spotify.com/v1/me/player", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else return 0;
+      })
+      .then((response) => {
+        return response.progress_ms;
+      });
+      return prog;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+} 
