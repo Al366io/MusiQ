@@ -456,7 +456,6 @@ exports.addSongToQueue = async (req, res) => {
       } else return 0;
     })
     .then((response)=>{
-      console.log(response);
       res.status(204)
       res.send('true')
     })
