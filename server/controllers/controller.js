@@ -370,7 +370,7 @@ exports.socketIoGetQueue = async (socketRoomId, partyId) => {
         } else return 0;
       })
       .then(async (response) => {
-        // let q = [];
+        let q = [];
         // let arrayTenElemQueue = response.queue.slice(0, 10);
         // arrayTenElemQueue.forEach((song) => {
         //   let buff = {};
