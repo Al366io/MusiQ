@@ -6,6 +6,7 @@ import AddButton from "../components/Adding/AddButton";
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import NoPage from "./NoPage";
+import Navbar from "../components/Navbar";
 import {
   getOwnerParty,
   checkRoom,
@@ -98,6 +99,7 @@ const Adding = () => {
 
   if (exists) {
     return (
+      <>
       <div id="dash-back" style={{'backgroundColor':`${BGcolor.avg}`}}>
           <div
             className="adding-inner-container"
@@ -112,6 +114,7 @@ const Adding = () => {
             }
           }
           >
+          <Navbar transparent={true} />
             <div id="top-adding-container">
             <h3 id="adding-dash">{ownerName + "'s Room"}</h3>
             <h6 id="sub-header-adding">#{id}#</h6>
@@ -123,27 +126,28 @@ const Adding = () => {
                 <NextTrack
                   currentlyPlaying={currentlyPlaying}
                   BGsetter={setBGColor}
-                />
+                  />
               </div>
               </div>
               <div className="track-list-container">
               {!queue.length ? (
                 <h1> No songs in queue </h1>
-              ) : (
-                queue.map((song) => {
-                  return(
-                  song !== queue[queue.length-1] 
-                  ?
-                  <Track key={song.id} song={song} />
-                  :
-                  <Track key={song.id} song={song} last= {true} />
-                  )
-                })
-              )}
+                ) : (
+                  queue.map((song) => {
+                    return(
+                      song !== queue[queue.length-1] 
+                      ?
+                      <Track key={song.id} song={song} />
+                      :
+                      <Track key={song.id} song={song} last= {true} />
+                      )
+                    })
+                    )}
               </div>
             </div>
         </div>
       </div>
+      </>
     );
   } else {
       return <NoPage />;
