@@ -7,6 +7,7 @@ const {
   getPartyToken,
   getArtistGenre,
   getProgressOfPlaying,
+  sortByVote,
 } = require("../helpers/helpers");
 const { CLIENT_ID, CLIENT_SECRET } = require("../config");
 const { rawListeners } = require("process");
@@ -129,13 +130,13 @@ exports.checkIfHasToken = async (req, res) => {
 
       await AuthTable.update(
         {
-        access_token: response
+          access_token: response,
         },
         {
-        where: {user_email: userInDb.user_email}
+          where: { user_email: userInDb.user_email },
         }
-      )
-      
+      );
+
       res.status(200);
       res.send(userInDb.access_token);
     } else {
@@ -205,7 +206,7 @@ exports.createParty = async (req, res) => {
     newParty.party_id = partyId;
     newParty.socket_room_id = socketIoRoomId;
     // queue is just an array of objects where every object is a song and the index is the actual order of playing
-    newParty.queue = JSON.stringify([])
+    newParty.queue = JSON.stringify([]);
 
     await PartiesTable.create(newParty);
     console.log(newParty);
@@ -249,7 +250,7 @@ exports.getPlayingSong = async (req, res) => {
             genres: genreString,
             playing: 1,
             duration: response.item.duration_ms,
-            progress: response.progress_ms
+            progress: response.progress_ms,
           };
           console.log(songPlaying);
           res.send(JSON.stringify(songPlaying));
@@ -357,9 +358,6 @@ exports.triggerSocket = async (socketRoom, partyId) => {
 exports.socketIoGetQueue = async (socketRoomId, partyId) => {
   const token = await getPartyToken(partyId);
   try {
-    // let clients = io.sockets.clients();
-    // console.log(io.sockets.sockets);
-    // console.log('Connections: ' + io.sockets.clients('1rkQxJE5TEOf'));
     let queueArray = await fetch("https://api.spotify.com/v1/me/player/queue", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -371,18 +369,18 @@ exports.socketIoGetQueue = async (socketRoomId, partyId) => {
           return response.json();
         } else return 0;
       })
-      .then( async (response) => {
-        let q = [];
-        let arrayTenElemQueue = response.queue.slice(0, 10);
-        arrayTenElemQueue.forEach((song) => {
-          let buff = {};
-          buff.name = song.name;
-          buff.artist = song.artists[0].name;
-          buff.image = song.album.images[0].url;
-          buff.id = song.id;
-          buff.duration = song.duration_ms;
-          q.push(buff);
-        });
+      .then(async (response) => {
+        // let q = [];
+        // let arrayTenElemQueue = response.queue.slice(0, 10);
+        // arrayTenElemQueue.forEach((song) => {
+        //   let buff = {};
+        //   buff.name = song.name;
+        //   buff.artist = song.artists[0].name;
+        //   buff.image = song.album.images[0].url;
+        //   buff.id = song.id;
+        //   buff.duration = song.duration_ms;
+        //   q.push(buff);
+        // });
         let prog = await getProgressOfPlaying(token);
         let playing = {
           name: response.currently_playing.name,
@@ -395,6 +393,14 @@ exports.socketIoGetQueue = async (socketRoomId, partyId) => {
         q.unshift(playing);
         return q;
       });
+    const partyObj = await PartiesTable.findOne({
+      where: { party_id: partyId },
+    });
+    let currentQueue = JSON.parse(partyObj.queue);
+    currentQueue.forEach((song) => {
+      queueArray.push(song);
+    });
+    queueArray = sortByVote(queueArray);
     io.to(socketRoomId).emit("queue", queueArray);
   } catch (error) {
     console.log(error);
@@ -432,20 +438,20 @@ exports.searchSong = async (req, res) => {
         return response.json();
       } else return 0;
     });
-    let arrayOfSongs = []
-    queryList.tracks.items.forEach((song) => { 
-      let buff = {}
+    let arrayOfSongs = [];
+    queryList.tracks.items.forEach((song) => {
+      let buff = {};
       buff.name = song.name;
       buff.artist = song.artists[0].name;
       buff.image = song.album.images[0].url;
       buff.id = song.id;
-      arrayOfSongs.push(buff)
-    })
-    res.status(200)
-    res.send(arrayOfSongs)
+      arrayOfSongs.push(buff);
+    });
+    res.status(200);
+    res.send(arrayOfSongs);
   } catch (error) {
     console.log(error);
-    res.sendStatus(500)
+    res.sendStatus(500);
   }
 };
 
@@ -465,75 +471,72 @@ exports.addSongToQueue = async (req, res) => {
         },
         method: "POST",
       }
-    ).then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else return 0;
-    })
-    .then((response)=>{
-      res.status(204)
-      res.send('true')
-    })
-  }
-  catch(err){
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else return 0;
+      })
+      .then((response) => {
+        res.status(204);
+        res.send("true");
+      });
+  } catch (err) {
     console.log(err);
-    res.status(500)
-    res.send('false')
+    res.status(500);
+    res.send("false");
   }
-}
+};
 
 exports.anotherAddToQueue = async (req, res) => {
   try {
-  const partyId = req.params.partyId;
-  const body = req.body
-  const songId = body.id
-  const name = body.name
-  const url = body.image
-  const genres = body.genres
-  const duration = body.duration
-  // take the queue of the party, parse it, add the song that is being sent to it, stringify it and reinsert it in db  
-  const partyObj = await PartiesTable.findOne({
-    where: { party_id: partyId },
-  });
-  let queue = JSON.parse(partyObj.queue)
-  // make the song obj of the song that is being added to the queue
-  let songToAdd = {
-    id: songId,
-    name: name,
-    image: url,
-    genres: genres,
-    duration: duration,
-    vote: 1,
-  }
-  queue.push(songToAdd);
-
-  // sort
-  function sortByVote (obj) {
-    return obj.sort((a,b) => {a.vote - b.vote})
-  }
-  queue = sortByVote(queue);
-
-  // stringify
-  strQueue = JSON.stringify(queue)
-
-  // update the db table with new queue
-  await PartiesTable.update(
-    {
-      queue: strQueue
-    },
-    {
+    const partyId = req.params.partyId;
+    const body = req.body;
+    const songId = body.id;
+    const name = body.name;
+    const url = body.image;
+    const genres = body.genres;
+    const duration = body.duration;
+    const artist = body.artist;
+    // take the queue of the party, parse it, add the song that is being sent to it, stringify it and reinsert it in db
+    const partyObj = await PartiesTable.findOne({
       where: { party_id: partyId },
-    }
-  );
-  // send to frontend
-  res.status(200);
-  res.send(strQueue);
+    });
+    let queue = JSON.parse(partyObj.queue);
+    // make the song obj of the song that is being added to the queue
+    let songToAdd = {
+      id: songId,
+      artist: artist,
+      name: name,
+      image: url,
+      genres: genres,
+      duration: duration,
+      vote: 1,
+    };
+    queue.push(songToAdd);
+
+    // sort
+    queue = sortByVote(queue);
+
+    // stringify
+    strQueue = JSON.stringify(queue);
+
+    // update the db table with new queue
+    await PartiesTable.update(
+      {
+        queue: strQueue,
+      },
+      {
+        where: { party_id: partyId },
+      }
+    );
+    // send to frontend
+    res.status(200);
+    res.send(strQueue);
   } catch (error) {
     console.log(error);
-    res.sendStatus(500)
-  } 
-}
+    res.sendStatus(500);
+  }
+};
 
-exports.voteSong = (req, res) => {
-
-}
+exports.voteSong = (req, res) => {};
