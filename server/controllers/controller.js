@@ -540,3 +540,41 @@ exports.anotherAddToQueue = async (req, res) => {
 };
 
 exports.voteSong = (req, res) => {};
+
+exports.playNextSong = (req, res) => {
+  const partyId = req.params.partyId
+  const songId = req.params.songId
+  const token = await getPartyToken(partyId);
+  try {
+    await fetch(
+      `https://api.spotify.com/v1/me/player/queue?uri=spotify%3Atrack%3A${songId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }
+    ).then((response) => {
+      if (response.status === 200) {
+        // call the next endpoint 
+        await fetch(
+          `https://api.spotify.com/v1/me/player/next`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            method: "POST",
+          }
+        )
+      } else return 0;
+    })
+    res.status(200)
+    res.send('true')
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+    res.send("false");
+  }
+}
