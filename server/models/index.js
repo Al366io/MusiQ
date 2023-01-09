@@ -1,7 +1,10 @@
 // npm i pg sequelize
 const Sequelize = require('sequelize');
 sequelize = new Sequelize(
-  'postgresql://localhost:5432/musiqtestdb'
+  'postgresql://localhost:5432/musiqtestdb',
+  {
+    logging: false
+  }
 );
 
 async function start() {

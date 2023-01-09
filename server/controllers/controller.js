@@ -207,7 +207,7 @@ exports.createParty = async (req, res) => {
     await PartiesTable.create(newParty);
     console.log(newParty);
     // here call the function that will set the interval to update this particular room
-    this.triggerSocket(partyId, socketIoRoomId);
+    this.triggerSocket(socketIoRoomId, partyId);
 
     res.send(partyId);
     res.status(201);
@@ -328,12 +328,12 @@ exports.checkIfRoomExists = async (req, res) => {
 
 exports.getSocketIdRoom = async (req, res) => {
   try {
-    console.log("entra nel try");
+    // console.log("entra nel try");
     const partyId = req.params.partyId;
     let party = await PartiesTable.findOne({
       where: { party_id: partyId },
     });
-    console.log("fine try, socket: ", party.socket_room_id);
+    // console.log("fine try, socket: ", party.socket_room_id);
     res.status(200);
     res.send(party.socket_room_id);
   } catch (error) {
@@ -354,6 +354,9 @@ exports.triggerSocket = async (socketRoom, partyId) => {
 exports.socketIoGetQueue = async (socketRoomId, partyId) => {
   const token = await getPartyToken(partyId);
   try {
+    // let clients = io.sockets.clients();
+    // console.log(io.sockets.sockets);
+    // console.log('Connections: ' + io.sockets.clients('1rkQxJE5TEOf'));
     let queueArray = await fetch("https://api.spotify.com/v1/me/player/queue", {
       headers: {
         Authorization: `Bearer ${token}`,
