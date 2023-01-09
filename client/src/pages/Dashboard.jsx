@@ -31,9 +31,9 @@ const Dashboard = () => {
     socket.on("queue", (data) => {
       setCurrentlyPlaying(data[0]);
       if(queue.length === 0) {
-        setQueue(data)
+        setQueue(data.slice(1))
       } else if (data[1].name !== queue[0].name && data.length >= queue.length-1) {
-        setQueue(data)
+        setQueue(data.slice(1))
       }
     });
     
@@ -62,9 +62,6 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="track-dash-container">
-            <div id="extend-container">
-              <span id="queue-text">Queue</span>
-            </div>
             {!queue.length ? (
               <h1> No songs in Queue </h1>
             ) : (

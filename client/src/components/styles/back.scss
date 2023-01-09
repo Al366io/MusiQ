@@ -20,6 +20,7 @@
   display: block;
   font-size: 52px;
   color: rgb(13, 18, 37);
+  overflow: hidden;
 }
 
 .bg3::before, .bg3::after,
@@ -29,6 +30,7 @@
   left: 50%;
   width: 3em;
   height: 3em;
+  overflow: hidden;
   content: '.';
   mix-blend-mode: screen;
   animation: 25s -27s move infinite ease-in-out alternate;
@@ -39,24 +41,28 @@
   @include dots(50);
   animation-duration: 25s;
   animation-delay: -15s;
+  overflow: hidden;
 }
 
 .bg2::after {
   @include dots(40);
   animation-duration: 22s;
   animation-delay: -18s;
+  overflow: hidden;
 }
 
 .bg3::before {
   @include dots(40);
   animation-duration: 21s;
   animation-delay: -18s;
+  overflow: hidden;
 }
 
 .bg3::after {
   @include dots(40);
   animation-duration: 20s;
   animation-delay: -12s;
+  overflow: hidden;
 }
 
 

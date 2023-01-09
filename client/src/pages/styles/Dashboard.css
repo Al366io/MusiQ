@@ -106,8 +106,4 @@ h3#room-dash{
   .button-dash{
     width: 45vw;
   }
-  .track-dash-container:before {
-    top: 71.8%;
-    left: 50%;
-  }
 }
