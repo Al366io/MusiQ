@@ -541,7 +541,7 @@ exports.anotherAddToQueue = async (req, res) => {
 
 exports.voteSong = (req, res) => {};
 
-exports.playNextSong = (req, res) => {
+exports.playNextSong = async (req, res) => {
   const partyId = req.params.partyId
   const songId = req.params.songId
   const token = await getPartyToken(partyId);
@@ -558,7 +558,7 @@ exports.playNextSong = (req, res) => {
     ).then((response) => {
       if (response.status === 200) {
         // call the next endpoint 
-        await fetch(
+        fetch(
           `https://api.spotify.com/v1/me/player/next`,
           {
             headers: {

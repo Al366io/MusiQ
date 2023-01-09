@@ -112,3 +112,7 @@ exports.postAddedSong = (songName, artist, image, songId, partyId, genres, durat
     return 'error'
   }
 }
+
+exports.playNext = (partyId, id) => {
+  fetch(`http://localhost:3001/play/${partyId}/${id}`)
+}
