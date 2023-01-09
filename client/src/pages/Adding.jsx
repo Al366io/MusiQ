@@ -71,21 +71,10 @@ const Adding = () => {
       });
 
     // UNCOMMENT THIS LINE AFTER STYLING
-    // socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
+    socket.on("disconnect", () => setCurrentlyPlaying({ error: "error" }));
 
     // FOR SOME REASON, THIS CREATES TOO MANY REQUESTS
     getOwnerParty(id).then(response => setOwnerName(response))
-
-    // SET THE INTERVAL TO REFRESH THE BACKGROUND FOR FUNKY ANIMATIONS
-    let itv = setInterval(() => {
-      // setRefresh( refresh++ )
-      // setAtProps({
-      //   1 : `${rand(40, 30)}% ${rand(20, 30)}%`,
-      //   2 : `${rand(80, 20)}% ${rand(0, 40)}%`,
-      //   3 : `${rand(0, 40)}% ${rand(50, 30)}%`,
-      //   4 : `${rand(80, 10)}% ${rand(50, 30)}%`
-      // })
-    }, 2000);
 
     setAtProps({
       1 : `${rand(40, 20)}% ${rand(20, 10)}%`,
@@ -93,10 +82,6 @@ const Adding = () => {
       3 : `${rand(0, 0)}% ${rand(50, 20)}%`,
       4 : `${rand(80, 10)}% ${rand(50, 20)}%`
     })
-
-    return () => {
-      clearInterval(itv)
-    }
   }, []);
 
   const addSongFunction = (songId) => {
@@ -116,15 +101,6 @@ const Adding = () => {
           <div
             className="adding-inner-container"
             style={BGcolor.full && BGcolor.full.length >= 3 && BGcolor.full[3] ? { 
-              // MIGHT BE A WORKING APPROACH DO NOT DELETE
-                // '--at-gradient1': atProps[1],
-                // '--at-gradient2': atProps[2],
-                // '--at-gradient3': atProps[3],
-                // '--at-gradient4': atProps[4],
-                // '--gradient-color1': BGcolor.full[0].hex,
-                // '--gradient-color2': BGcolor.full[1].hex,
-                // '--gradient-color3': BGcolor.full[2].hex,
-                // '--gradient-color4': BGcolor.full[3].hex,
               'backgroundColor':`${BGcolor.avg}`,
               'background':
               `radial-gradient(at ${atProps[1]}, ${BGcolor.full[0].hex} 0px, transparent 50%), radial-gradient(at ${atProps[2]}, ${BGcolor.full[1].hex} 0px, transparent 50%),radial-gradient(at ${atProps[3]}, ${BGcolor.full[2].hex} 0px, transparent 50%), radial-gradient(at ${atProps[4]}, ${BGcolor.full[3].hex} 0px, transparent 50%)`

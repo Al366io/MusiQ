@@ -39,6 +39,9 @@ h3#room-dash{
 }
 
 .track-dash-container{
+  min-height: 25vh;
+  min-width: 68vw;
+  max-height: 265px;
   position: relative;
   margin-top: 40px;
   padding: 10px 20px 10px 20px;
@@ -46,25 +49,9 @@ h3#room-dash{
   border-radius: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 265px;
   display : flex;
   flex-direction : column;
   gap: 10px;
-  z-index: 1;
-}
-
-#queue-text {
-  position: absolute;
-  color: white;
-  font-size: 18px;
-  width: 100px;
-  height: 20px;
-  text-align: center;
-  background-color: #000;
-  left: 50%;
-  top: -5%;
-  transform: translate(-50%);
-  z-index: 10;
 }
 
 .button-dash{
@@ -105,5 +92,10 @@ h3#room-dash{
   }
   .button-dash{
     width: 45vw;
+  }
+
+  #dash-qr{
+    width: 150px;
+    aspect-ratio: 1/1;
   }
 }

@@ -29,6 +29,7 @@ const Dashboard = () => {
     fetchSocketRoomId();
     
     socket.on("queue", (data) => {
+      console.log(data)
       setCurrentlyPlaying(data[0]);
       if(queue.length === 0) {
         setQueue(data.slice(1))
@@ -52,7 +53,7 @@ const Dashboard = () => {
           <h3 id="room-dash">Room {id}</h3>
           <div id="container-dash-top">
             <div id="container-dash-left">
-              <QRCodeSVG size="200px" value={`http://localhost:3000/adder/${id}`} />
+              <QRCodeSVG id="dash-qr" size="200px" value={`http://localhost:3000/adder/${id}`} />
               <button className="button-dash" onClick={handleCopyLink}>
                 {copied ? <span>Copied!</span> : <span>Copy Link</span>}
               </button>
