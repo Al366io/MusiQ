@@ -7,6 +7,7 @@ import "./styles/Dashboard.css";
 import { QRCodeSVG } from "qrcode.react";
 import { io } from "socket.io-client";
 import { checkRoom, getSocketRoomId } from "../ApiServices";
+import Navbar from "../components/Navbar";
 
 const Dashboard = () => {
 
@@ -51,6 +52,8 @@ const Dashboard = () => {
 
   if (exists) {
       return (
+        <>
+        <Navbar transparent={true} />
         <div id="dash-container">
           <h3 id="room-dash">Room {id}</h3>
           <div id="container-dash-top">
@@ -67,19 +70,20 @@ const Dashboard = () => {
           <div className="track-dash-container">
             {!queue.length ? (
               <h1> No songs in Queue </h1>
-            ) : (
-              queue.map((song) => {
-                return(
-                  song !== queue[queue.length-1] 
-                  ?
-                  <Track key={song.id} song={song} />
-                  :
-                  <Track key={song.id} song={song} last= {true} />
-                  )
-              })
-            )}
+              ) : (
+                queue.map((song) => {
+                  return(
+                    song !== queue[queue.length-1] 
+                    ?
+                    <Track key={song.id} song={song} />
+                    :
+                    <Track key={song.id} song={song} last= {true} />
+                    )
+                  })
+                  )}
           </div>
         </div>
+        </>
       );
   } else {
     return <NoPage/>

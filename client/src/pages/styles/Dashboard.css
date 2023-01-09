@@ -3,7 +3,7 @@
   flex-direction : column;
   justify-content : center;
   align-items : center;
-  height: 100vh;
+  height: 93.8vh;
   max-width: 100vw;
   background-color: #000000;
 }
@@ -79,9 +79,9 @@ h3#room-dash{
   .track-dash-container{
     max-width: 80vw;
   }
-  #container-dash-top{
+  /* #container-dash-top{
     flex-direction : column;
-  }
+  } */
   #dash-container{
     display : flex;
     flex-direction : column;
