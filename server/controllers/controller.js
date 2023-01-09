@@ -369,13 +369,16 @@ exports.socketIoGetQueue = async (socketRoomId, partyId) => {
           buff.artist = song.artists[0].name;
           buff.image = song.album.images[0].url;
           buff.id = song.id;
+          buff.duration = song.duration_ms;
           q.push(buff);
         });
+        console.log(response.currently_playing);
         let playing = {
           name: response.currently_playing.name,
           artist: response.currently_playing.artists[0].name,
           image: response.currently_playing.album.images[0].url,
           id: response.currently_playing.id,
+          duration: response.currently_playing.duration_ms,
         };
         q.unshift(playing);
         return q;
