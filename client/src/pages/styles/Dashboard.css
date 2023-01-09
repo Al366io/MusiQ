@@ -71,7 +71,7 @@ h3#room-dash{
   align-self: center;
 }
 
-@media screen and (max-width : 650px) {
+@media screen and (max-width : 680px) {
   h3#room-dash{
     margin-bottom: 20px;
   }
