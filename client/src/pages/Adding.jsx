@@ -64,7 +64,7 @@ const Adding = () => {
       }
 
       if (data[1]){
-        if (queueLength.current === 0 || data[1].id !== nextNext.current || data.length !== queueLength.current || data[0].id !== playingRef.current) {
+        if (queueLength.current === 0 || data[1].id !== nextNext.current || data.length !== queueLength.current || data[0].id !== playingRef.current || data[9].id !== nextNext.current) {
           renderQueue()
         }
       }
@@ -98,12 +98,6 @@ const Adding = () => {
       clearInterval(itv)
     }
   }, []);
-
-  // // TERRENCE this will get triggered on page load first time so it's buggy
-  // useEffect(() => {
-  //   console.log(addSong);
-  //   // addSongToQueue(id, addSong.id);
-  // }, [addSong])
 
   const addSongFunction = (songId) => {
     //call apiservices on song id passed here
