@@ -16,7 +16,7 @@ const Home = () => {
   const [isSpotifyLoggedIn, setIsSpotifyLoggedIn] = useState(false);
   const [spotifyUser, setSpotifyUser] = useState({});
   const [userRoom, serUserRoom] = useState("");
-  const [selectOption, setSelectOption] = useState("");
+  const [selectOption, setSelectOption] = useState("dashboard");
   // when state of user changes (so basically when someone logs in)
   // call the db to see if they have a token
   useEffect(() => {
@@ -180,48 +180,41 @@ const Home = () => {
         <div id="wrapper-left-section-3">
           
           <button 
-          className={`option-button-home ${selectOption === 'visibility' ? 'active' : ''}`}
+          className={`option-button-home ${selectOption === 'options' ? 'active' : ''}`}
           onClick={(e) => setSelectOption(e.target.value)} 
-          value='visibility'>
+          value='options'>
             Options
             </button>
           <button 
-          className={`option-button-home ${selectOption === 'join' ? 'active' : ''}`}
+          className={`option-button-home ${selectOption === 'adding' ? 'active' : ''}`}
           onClick={(e) => setSelectOption(e.target.value)} 
-          value='join'>
-            Who can join
+          value='adding'>
+            Adding
           </button>
           <button 
-          className={`option-button-home ${selectOption === 'genre' ? 'active' : ''}`}
+          className={`option-button-home ${selectOption === 'adder' ? 'active' : ''}`}
           onClick={(e) => setSelectOption(e.target.value)} 
-          value='genre'>
-            Genre Respect
+          value='adder'>
+            Adder
           </button>
           <button 
-          className={`option-button-home ${selectOption === 'timeout' ? 'active' : ''}`}
+          className={`option-button-home ${selectOption === 'dashboard' ? 'active' : ''}`}
           onClick={(e) => setSelectOption(e.target.value)} 
-          value='timeout'>
-            Duplicate Timeout
-          </button>
-          <button 
-          className={`option-button-home ${selectOption === 'upvote' ? 'active' : ''}`}
-          onClick={(e) => setSelectOption(e.target.value)} 
-          value='upvote'>
-            Upvote/Downvote
+          value='dashboard'>
+            Dashboard
           </button>
         </div>
-        <div id="wrapper-right-section-3" 
+        <div id="wrapper-right-section-3" key={selectOption}
         style={
-          selectOption === 'visibility' ?
-          {background : "#4e146f"}
-          :
-          {background : "#4e146f"}
-          }>
+          {background : `url(${process.env.PUBLIC_URL + `/assets/${selectOption}.png`})`,
+          backgroundSize: '100%',
+          backgroundRepeat: 'no-repeat'}}
+          >
           <div id="top-phone-home">
             <div id="speaker-phone-home"></div>
             <div id="camera-phone-home"></div>
           </div>
-            <span key={selectOption} id="selection-phone">{selectOption}</span>
+            {/* <img id="selection-phone" src={process.env.PUBLIC_URL + `/assets/${selectOption}.png`} alt="" /> */}
         </div>
       </div>
       <Footer />

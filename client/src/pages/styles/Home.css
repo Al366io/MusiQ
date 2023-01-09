@@ -207,6 +207,9 @@ div#user-view{
   min-width: 260px;
   aspect-ratio: 1 / 2;
   border-radius: 38.5px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: all .5s ease-in-out;
 }
 
 #top-phone-home{
@@ -256,15 +259,6 @@ div#user-view{
 
 .active{
   text-decoration: underline;
-}
-
-#selection-phone{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: 30px;
-  transform: translate(-50%, -50%);
-  animation: fade-in-right 1s ease-in-out;
 }
 
 @keyframes fade-in-right {
