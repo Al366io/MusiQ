@@ -12,6 +12,7 @@ const {
   getSocketIdRoom,
   searchSong,
   addSongToQueue,
+  anotherAddToQueue,
 } = require("./controllers/controller");
 
 // user to connects Spotify ( grab the email, grab the tokens, insert the user in DB )
@@ -57,4 +58,8 @@ router.get('/party/search/:partyId/:query', searchSong)
 
 // add song to queue, gets the partyId and songId and returns true or false as a string
 router.get('/party/queue/add/:partyId/:songId', addSongToQueue)
+
+
+// new add to queue
+router.post('/party/queue/add/:partyId', anotherAddToQueue)
 module.exports = router;

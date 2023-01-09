@@ -8,8 +8,8 @@ function SearchTrack({song, setter}) {
   // TODO Calculate minutes left with minutes left before previous song + length of song before
 
   const handleClick = () => {
-    console.log(song)
-    setter(song.id)
+    // console.log(song)
+    setter(song)
   }
 
   return (

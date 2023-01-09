@@ -27,6 +27,10 @@ const AuthTable = sequelize.define('AuthTable', {
 })
 
 const PartiesTable = sequelize.define('PartiesTable', {
+  queue: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
   owner_email: {
     type: DataTypes.STRING,
     allowNull: false
