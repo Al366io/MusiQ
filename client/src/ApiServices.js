@@ -89,14 +89,25 @@ exports.getQueryResult = (partyId, query) => {
   }
 }
 
-exports.addSongToQueue = (partyId, songId) => {
+exports.postAddedSong = (partyId, img, songName, songId, genres, duration) => {
+  const data = {
+    id : songId,
+    image : img,
+    name: songName,
+    genres,
+    duration
+  }
   try {
-    const response = fetch(`http://localhost:3001/party/queue/add/${partyId}/${songId}`).then(
-      (response) => response.text()
-    );
-    return response;
+    const response = fetch(`http://localhost:3001/party/queue/add/${partyId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(response => response.text())
+    return response.json()
   } catch (error) {
-    console.log(error);
-    return 'false';
+    console.log(error)
+    return 'error'
   }
 }

@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [exists, setExist] = useState(true)
   const [queue, setQueue] = useState([]);
   const [copied, setCopied] = useState(false);
+  let [remainingTime, setRemainingTime] = useState(0)
   const { id } = useParams();
 
   useEffect(() => {
@@ -29,7 +30,8 @@ const Dashboard = () => {
     fetchSocketRoomId();
     
     socket.on("queue", (data) => {
-      console.log(data)
+      setRemainingTime(data[0].duration - data[0].progress)
+
       setCurrentlyPlaying(data[0]);
       if(queue.length === 0) {
         setQueue(data.slice(1))
