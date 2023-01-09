@@ -1,3 +1,4 @@
+<h1 align="center"> DEVELOPMENT MODE: ON - UNSTABLE </h1>
 <h1 align="center"> MusiQ </h1>
 
 <p align="center"> MusiQ is an app that lets an host create a party connecting his spotify account (or other services)</p>
