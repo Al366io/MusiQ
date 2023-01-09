@@ -55,6 +55,6 @@ router.get('/party/socketRoom/:partyId', getSocketIdRoom)
 // receive partyId and a query, and returns an array of obj with the songs
 router.get('/party/search/:partyId/:query', searchSong)
 
-
+// add song to queue, gets the partyId and songId and returns true or false as a string
 router.get('/party/queue/add/:partyId/:songId', addSongToQueue)
 module.exports = router;
