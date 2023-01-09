@@ -12,6 +12,7 @@ import {
   checkRoom,
   getSocketRoomId,
   postAddedSong,
+  playNext
 } from "../ApiServices";
 
 const Adding = () => {
@@ -27,9 +28,14 @@ const Adding = () => {
   const [exists, setExist] = useState(true);
   const [ownerName, setOwnerName] = useState("");
   let [atProps, setAtProps] = useState({});
-  let [remainingTime, setRemainingTime] = useState(0);
+  let [remainingTime, setRemainingTime] = useState(10000);
 
   let { id } = useParams();
+
+  const handleNext = () => {
+    console.log(queue)
+    sendNewPlaying(queue[0])
+  }
 
   useEffect(() => {
     checkRoom(id).then((response) => setExist(response));
@@ -48,6 +54,10 @@ const Adding = () => {
     socket.on("queue", (data) => {
       setRemainingTime(data[0].duration - data[0].progress);
 
+      if(remainingTime < 4000) {
+        sendNewPlaying(data[1])
+      }
+
       const renderNext = () => {
         setCurrentlyPlaying(data[0]);
         playingRef.current = data[0].id;
@@ -62,18 +72,7 @@ const Adding = () => {
       if (data[0].id !== playingRef.current) {
         renderNext();
       }
-
-      if (data[1]) {
-        if (
-          queueLength.current === 0 ||
-          data[1].id !== nextNext.current ||
-          data.length !== queueLength.current ||
-          data[0].id !== playingRef.current ||
-          data[9].id !== nextNext.current
-        ) {
-          renderQueue();
-        }
-      }
+        renderQueue();
     });
 
     // UNCOMMENT THIS LINE AFTER STYLING
@@ -89,6 +88,11 @@ const Adding = () => {
       4: `${rand(80, 10)}% ${rand(50, 20)}%`,
     });
   }, []);
+
+  const sendNewPlaying = (nextSong) => {
+    console.log(id)
+    playNext(id,nextSong.id)
+  }
 
   const addSongFunction = (song) => {
     //call apiservices on song id passed here
@@ -147,6 +151,7 @@ const Adding = () => {
                 )}
               </div>
             </div>
+          <button style={{'width' : '100px', 'height' : '100px'}} onClick={handleNext}></button>
           </div>
         </div>
       </>
