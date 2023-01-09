@@ -86,10 +86,10 @@ const Adding = () => {
     })
   }, []);
 
-  const addSongFunction = (songId) => {
+  const addSongFunction = (song) => {
     //call apiservices on song id passed here
-    console.log(id + '' + songId);
-    postAddedSong(id,songId);
+    // console.log(song);
+    postAddedSong(song.name, song.artist, song.image, song.id, id);
   } 
 
   // HELPER FUNTION TO MODIFY GRADIENT SMOOTHLY

@@ -89,13 +89,14 @@ exports.getQueryResult = (partyId, query) => {
   }
 }
 
-exports.postAddedSong = (partyId, img, songName, songId, genres, duration) => {
+exports.postAddedSong = (songName, artist, image, songId, partyId, genres, duration) => {
   const data = {
     id : songId,
-    image : img,
+    artist: artist,
+    image : image,
     name: songName,
-    genres,
-    duration
+    genres: genres,
+    duration: duration,
   }
   try {
     const response = fetch(`http://localhost:3001/party/queue/add/${partyId}`, {
@@ -105,7 +106,7 @@ exports.postAddedSong = (partyId, img, songName, songId, genres, duration) => {
       },
       body: JSON.stringify(data)
     }).then(response => response.text())
-    return response.json()
+    return response
   } catch (error) {
     console.log(error)
     return 'error'
