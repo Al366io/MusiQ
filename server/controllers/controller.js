@@ -6,6 +6,7 @@ const {
   refreshExpiredToken,
   getPartyToken,
   getArtistGenre,
+  getProgressOfPlaying,
 } = require("../helpers/helpers");
 const { CLIENT_ID, CLIENT_SECRET } = require("../config");
 
@@ -237,13 +238,17 @@ exports.getPlayingSong = async (req, res) => {
             response.item.artists[0].id,
             token
           );
+          console.log(response);
           const songPlaying = {
             title: response.item.name,
             artist: response.item.artists[0].name,
             cover: response.item.album.images[0].url,
             genres: genreString,
             playing: 1,
+            duration: response.item.duration_ms,
+            progress: response.progress_ms
           };
+          console.log(songPlaying);
           res.send(JSON.stringify(songPlaying));
           res.status(200);
         } else {
@@ -360,7 +365,7 @@ exports.socketIoGetQueue = async (socketRoomId, partyId) => {
           return response.json();
         } else return 0;
       })
-      .then((response) => {
+      .then( async (response) => {
         let q = [];
         let arrayTenElemQueue = response.queue.slice(0, 10);
         arrayTenElemQueue.forEach((song) => {
@@ -372,13 +377,14 @@ exports.socketIoGetQueue = async (socketRoomId, partyId) => {
           buff.duration = song.duration_ms;
           q.push(buff);
         });
-        console.log(response.currently_playing);
+        let prog = await getProgressOfPlaying(token);
         let playing = {
           name: response.currently_playing.name,
           artist: response.currently_playing.artists[0].name,
           image: response.currently_playing.album.images[0].url,
           id: response.currently_playing.id,
           duration: response.currently_playing.duration_ms,
+          progress: prog,
         };
         q.unshift(playing);
         return q;
