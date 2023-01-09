@@ -13,7 +13,7 @@
   text-align: center;
   min-width: 200px;
   box-shadow: 1px 1px 6px 4px #ffffff66;
-  transition: all .25s ease-in-out;
+  transition: all 250ms ease-in-out,transform 5ms;
 }
 
 #search-focused{
@@ -21,6 +21,10 @@
   width: 25vw;
   max-width: 600px;
   box-shadow: 1px 1px 13px 10px #ffffff33;
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
 #adding-song-button{

@@ -33,7 +33,6 @@ const Adding = () => {
   let { id } = useParams();
 
   const handleNext = () => {
-    console.log(queue)
     sendNewPlaying(queue[0])
   }
 
@@ -53,10 +52,6 @@ const Adding = () => {
 
     socket.on("queue", (data) => {
       setRemainingTime(data[0].duration - data[0].progress);
-
-      if(remainingTime < 4000) {
-        sendNewPlaying(data[1])
-      }
 
       const renderNext = () => {
         setCurrentlyPlaying(data[0]);
@@ -88,6 +83,12 @@ const Adding = () => {
       4: `${rand(80, 10)}% ${rand(50, 20)}%`,
     });
   }, []);
+
+  useEffect(()=>{
+    if(remainingTime < 6000) {
+      sendNewPlaying(queue[0])
+    }
+  }, [remainingTime])
 
   const sendNewPlaying = (nextSong) => {
     console.log(id)
@@ -151,7 +152,7 @@ const Adding = () => {
                 )}
               </div>
             </div>
-          <button style={{'width' : '100px', 'height' : '100px'}} onClick={handleNext}></button>
+          <button style={{'width' : '50px', 'height' : '25px'}} onClick={handleNext}>Next</button>
           </div>
         </div>
       </>
