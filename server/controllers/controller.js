@@ -9,6 +9,7 @@ const {
   getProgressOfPlaying,
 } = require("../helpers/helpers");
 const { CLIENT_ID, CLIENT_SECRET } = require("../config");
+const { rawListeners } = require("process");
 
 const tempUser = {};
 
@@ -203,6 +204,8 @@ exports.createParty = async (req, res) => {
     newParty.owner_email = userEmail;
     newParty.party_id = partyId;
     newParty.socket_room_id = socketIoRoomId;
+    // queue is just an array of objects where every object is a song and the index is the actual order of playing
+    newParty.queue = JSON.stringify([])
 
     await PartiesTable.create(newParty);
     console.log(newParty);
@@ -477,4 +480,60 @@ exports.addSongToQueue = async (req, res) => {
     res.status(500)
     res.send('false')
   }
+}
+
+exports.anotherAddToQueue = async (req, res) => {
+  try {
+  const partyId = req.params.partyId;
+  const body = req.body
+  const songId = body.id
+  const name = body.name
+  const url = body.image
+  const genres = body.genres
+  const duration = body.duration
+  // take the queue of the party, parse it, add the song that is being sent to it, stringify it and reinsert it in db  
+  const partyObj = await PartiesTable.findOne({
+    where: { party_id: partyId },
+  });
+  let queue = JSON.parse(partyObj.queue)
+  // make the song obj of the song that is being added to the queue
+  let songToAdd = {
+    id: songId,
+    name: name,
+    image: url,
+    genres: genres,
+    duration: duration,
+    vote: 1,
+  }
+  queue.push(songToAdd);
+
+  // sort
+  function sortByVote (obj) {
+    return obj.sort((a,b) => {a.vote - b.vote})
+  }
+  queue = sortByVote(queue);
+
+  // stringify
+  strQueue = JSON.stringify(queue)
+
+  // update the db table with new queue
+  await PartiesTable.update(
+    {
+      queue: strQueue
+    },
+    {
+      where: { party_id: partyId },
+    }
+  );
+  // send to frontend
+  res.status(200);
+  res.send(strQueue);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500)
+  } 
+}
+
+exports.voteSong = (req, res) => {
+
 }

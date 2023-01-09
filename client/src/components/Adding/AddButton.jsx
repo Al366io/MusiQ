@@ -23,7 +23,7 @@ const AddButton = ({id, setter}) => {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setter(searchResponse[0].id)
+    setter(searchResponse[0])
   }
 
   return (
