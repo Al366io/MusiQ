@@ -113,6 +113,13 @@ exports.postAddedSong = (songName, artist, image, songId, partyId, genres, durat
   }
 }
 
-exports.playNext = (partyId, id) => {
-  fetch(`http://localhost:3001/play/${partyId}/${id}`)
+exports.playNext = (partyId) => {
+  fetch(`http://localhost:3001/play/next/${partyId}/`)
+}
+
+exports.callUpvote = (partyId, songId) => {
+  fetch(`http://localhost:3001/upvote/${partyId}/${songId}/`)
+}
+exports.callDownvote = (partyId, songId) => {
+  fetch(`http://localhost:3001/downvote/${partyId}/${songId}/`)
 }

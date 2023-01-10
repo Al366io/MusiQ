@@ -13,7 +13,9 @@ const {
   searchSong,
   addSongToQueue,
   anotherAddToQueue,
-  playNextSong
+  playNextSong,
+  upVoteSong,
+  downVoteSong
 } = require("./controllers/controller");
 
 // user to connects Spotify ( grab the email, grab the tokens, insert the user in DB )
@@ -60,10 +62,14 @@ router.get('/party/search/:partyId/:query', searchSong)
 // add song to queue, gets the partyId and songId and returns true or false as a string
 router.get('/party/queue/add/:partyId/:songId', addSongToQueue)
 
-router.get('/play/:partyId/:songId', playNextSong)
+// play nect song, gets partyId and takes the song to play from the queue that is stored in the db 
+router.get('/play/next/:partyId', playNextSong)
 
 // new add to queue
 router.post('/party/queue/add/:partyId', anotherAddToQueue)
 
+router.get('/upvote/:partyId/:songId', upVoteSong)
+
+router.get('/downvote/:partyId/:songId', downVoteSong)
 
 module.exports = router;
