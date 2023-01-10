@@ -355,6 +355,7 @@ exports.triggerSocket = async (socketRoom, partyId) => {
   return;
 };
 
+// TODO: here call the get currently playing, not get queue
 exports.socketIoGetQueue = async (socketRoomId, partyId) => {
   const token = await getPartyToken(partyId);
   try {
@@ -505,8 +506,8 @@ exports.anotherAddToQueue = async (req, res) => {
       where: { party_id: partyId },
     });
     let queue = JSON.parse(partyObj.queue);
-    if(!queue.length) {
-      queue = []
+    if (!queue.length) {
+      queue = [];
     }
     // make the song obj of the song that is being added to the queue
     let songToAdd = {
@@ -544,15 +545,87 @@ exports.anotherAddToQueue = async (req, res) => {
   }
 };
 
-exports.voteSong = (req, res) => {};
+exports.upVoteSong = async (req, res) => {
+  partyId = req.params.partyId;
+  songId = req.params.songId;
+  console.log(partyId, ' ', songId);
+  try {
+    // take array queue from db
+    const partyObj = await PartiesTable.findOne({
+      where: { party_id: partyId },
+    });
+    let q = JSON.parse(partyObj.queue)
+    // search for the song with given id
+    // increment its vote by 1
+    q.forEach((song) => {
+      if(song.id == songId) {
+        song.vote++
+      }
+    })
+    // update the db table with new queue
+    await PartiesTable.update(
+      {
+        queue: JSON.stringify(q),
+      },
+      {
+        where: { party_id: partyId },
+      }
+    );
+    res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500)
+  }
+};
+
+exports.downVoteSong = async (req, res) => {
+  partyId = req.params.partyId;
+  songId = req.params.songId;
+  try {
+    // take array queue from db
+    const partyObj = await PartiesTable.findOne({
+      where: { party_id: partyId },
+    });
+    let q = JSON.parse(partyObj.queue)
+    // search for the song with given id
+    // increment its vote by 1
+    q.forEach((song) => {
+      if(song.id == songId) {
+        song.vote--
+      }
+    })
+    // update the db table with new queue
+    await PartiesTable.update(
+      {
+        queue: JSON.stringify(q),
+      },
+      {
+        where: { party_id: partyId },
+      }
+    );
+    res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500)
+  }
+};
 
 exports.playNextSong = async (req, res) => {
   const partyId = req.params.partyId;
   const songId = req.params.songId;
   const token = await getPartyToken(partyId);
+
+  // here retrieve head of queue, delete it, update queue in db.
+  const partyObj = await PartiesTable.findOne({
+    where: { party_id: partyId },
+  });
+  let queue = JSON.parse(partyObj.queue);
+  let next = queue.shift();
+  // stringify
+  let strQueue = JSON.stringify(queue);
   try {
     await fetch(
-      `https://api.spotify.com/v1/me/player/queue?uri=spotify%3Atrack%3A${songId}`,
+      `https://api.spotify.com/v1/me/player/queue?uri=spotify%3Atrack%3A${next.id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -569,29 +642,21 @@ exports.playNextSong = async (req, res) => {
             "Content-Type": "application/json",
           },
           method: "POST",
+        }).then(async (response) => {
+          if (response.status.toString()[0] === "2") {
+            // update the db table with new queue
+            await PartiesTable.update(
+              {
+                queue: strQueue,
+              },
+              {
+                where: { party_id: partyId },
+              }
+            );
+          }
         });
       } else return 0;
     });
-    // here retrieve head of queue, delete it, update queue in db.
-    const partyObj = await PartiesTable.findOne({
-      where: { party_id: partyId },
-    });
-    let queue = JSON.parse(partyObj.queue);
-    console.log('1 ' + queue);
-    queue.shift();
-    console.log('2 ' + queue);
-    // stringify
-    let strQueue = JSON.stringify(queue);
-
-    // update the db table with new queue
-    await PartiesTable.update(
-      {
-        queue: strQueue,
-      },
-      {
-        where: { party_id: partyId },
-      }
-    );
     res.status(200);
     res.send("true");
   } catch (err) {

@@ -66,3 +66,14 @@
     -webkit-box-orient: vertical;
   }
 }
+
+.upvote-downvote {
+  display: flex;
+  flex-direction: column;
+}
+
+.leftThings {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}

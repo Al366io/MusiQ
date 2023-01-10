@@ -33,7 +33,9 @@ const Adding = () => {
   let { id } = useParams();
 
   const handleNext = () => {
-    sendNewPlaying(queue[0])
+    if(queue[0].id) {
+      sendNewPlaying(queue[0])
+    }
   }
 
   useEffect(() => {
@@ -86,12 +88,14 @@ const Adding = () => {
 
   useEffect(()=>{
     if(remainingTime < 6000) {
-      sendNewPlaying(queue[0])
+      if(queue[0].id) {
+        sendNewPlaying(queue[0])
+      }
     }
   }, [remainingTime])
 
   const sendNewPlaying = (nextSong) => {
-    console.log(id)
+    // console.log(id)
     playNext(id,nextSong.id)
   }
 
@@ -144,9 +148,9 @@ const Adding = () => {
                 ) : (
                   queue.map((song) => {
                     return song !== queue[queue.length - 1] ? (
-                      <Track key={song.id} song={song} />
+                      <Track key={song.id} song={song} partyId={id}/>
                     ) : (
-                      <Track key={song.id} song={song} last={true} />
+                      <Track key={song.id} song={song} partyId={id} last={true} />
                     );
                   })
                 )}
