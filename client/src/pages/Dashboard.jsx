@@ -46,6 +46,15 @@ const Dashboard = () => {
   }, []);
 
   const handleCopyLink = () => {
+    // if navigator has share method, use it
+    if (navigator.share) {
+      navigator.share({
+        title: "Join my room on MusiQ",
+        text: `Room ${id}`,
+        url: `http://localhost:3000/adder/${id}`,
+      });
+      return;
+    }
     navigator.clipboard.writeText(`http://localhost:3000/adder/${id}`);
     setCopied(true);
   };
