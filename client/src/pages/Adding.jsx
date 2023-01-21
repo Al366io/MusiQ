@@ -69,10 +69,7 @@ const Adding = () => {
       if (data[0].id !== playingRef.current) {
         renderNext();
       }
-      if(data[1] && data[1].id !== nextNext.current){
-        console.log(data)
         renderQueue();
-      }
     });
 
     // UNCOMMENT THIS LINE AFTER STYLING
@@ -143,6 +140,11 @@ const Adding = () => {
                     currentlyPlaying={currentlyPlaying}
                     BGsetter={setBGColor}
                   />
+                  <button 
+                  id="next-button"
+                  onClick={handleNext}>
+                  <i class="fa-solid fa-angle-right"></i>
+                  </button>
                 </div>
               </div>
               <div className="track-list-container">
@@ -164,12 +166,6 @@ const Adding = () => {
                 )}
               </div>
             </div>
-            <button
-              style={{ width: "50px", height: "25px" }}
-              onClick={handleNext}
-            >
-              Next
-            </button>
           </div>
         </div>
       </>
