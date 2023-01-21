@@ -12,7 +12,7 @@ import {
   checkRoom,
   getSocketRoomId,
   postAddedSong,
-  playNext
+  playNext,
 } from "../ApiServices";
 
 const Adding = () => {
@@ -33,10 +33,10 @@ const Adding = () => {
   let { id } = useParams();
 
   const handleNext = () => {
-    if(queue[0].id) {
-      sendNewPlaying(queue[0])
+    if (queue[0].id) {
+      sendNewPlaying(queue[0]);
     }
-  }
+  };
 
   useEffect(() => {
     checkRoom(id).then((response) => setExist(response));
@@ -69,7 +69,10 @@ const Adding = () => {
       if (data[0].id !== playingRef.current) {
         renderNext();
       }
+      if(data[1] && data[1].id !== nextNext.current){
+        console.log(data)
         renderQueue();
+      }
     });
 
     // UNCOMMENT THIS LINE AFTER STYLING
@@ -86,18 +89,18 @@ const Adding = () => {
     });
   }, []);
 
-  useEffect(()=>{
-    if(remainingTime < 6000) {
-      if(queue[0].id) {
-        sendNewPlaying(queue[0])
+  useEffect(() => {
+    if (remainingTime < 6000) {
+      if (queue[0] && queue[0].id && queue[0].id !== nextNext.current) {
+        console.log(queue)
+        sendNewPlaying(queue[0]);
       }
     }
-  }, [remainingTime])
+  }, [remainingTime]);
 
   const sendNewPlaying = (nextSong) => {
-    // console.log(id)
-    playNext(id,nextSong.id)
-  }
+    playNext(id, nextSong.id);
+  };
 
   const addSongFunction = (song) => {
     //call apiservices on song id passed here
@@ -148,15 +151,25 @@ const Adding = () => {
                 ) : (
                   queue.map((song) => {
                     return song !== queue[queue.length - 1] ? (
-                      <Track key={song.id} song={song} partyId={id}/>
+                      <Track key={song.id} song={song} partyId={id} />
                     ) : (
-                      <Track key={song.id} song={song} partyId={id} last={true} />
+                      <Track
+                        key={song.id}
+                        song={song}
+                        partyId={id}
+                        last={true}
+                      />
                     );
                   })
                 )}
               </div>
             </div>
-          <button style={{'width' : '50px', 'height' : '25px'}} onClick={handleNext}>Next</button>
+            <button
+              style={{ width: "50px", height: "25px" }}
+              onClick={handleNext}
+            >
+              Next
+            </button>
           </div>
         </div>
       </>
