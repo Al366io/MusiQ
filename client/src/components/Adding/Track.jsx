@@ -49,10 +49,18 @@ function Track({ partyId, song, last = false, search = false, setter = () => {} 
         </div>
         <div className="leftThings">
           <div className="upvote-downvote">
-            <button onClick={upvote}>+</button>
-            <button onClick={downvote}>-</button>
+            <div className='vote-button-container'>
+            <button className="vote-button" onClick={upvote}>
+              <i className="fa-solid fa-angle-up"></i>
+            </button>
+            <button className="vote-button" onClick={downvote}>
+              <i className="fa-solid fa-angle-down"></i>
+            </button>
+            </div>
+          <div id='vote-count-container'>
+            <span id="vote-count"> {song.vote} </span>
           </div>
-          <span> {song.vote} </span>
+          </div>
           <div className="minutes-left-list">
             <span className="minutes-left-num">{minutesLeft}</span>
             {minutesLeft > 1 ? (
