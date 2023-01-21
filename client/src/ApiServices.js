@@ -2,89 +2,86 @@
 // this will automatically return a valid token.
 // if token in DB is expired it will refresh it and send it new
 exports.getTokensFromDb = async (user_email) => {
-  const response = await fetch(
+  const res = await fetch(
     `http://localhost:3001/users/token/${user_email}`
   );
-  if (response.status === 200) return response;
+  if (res.status === 200) return res;
   return null;
 };
 
 exports.getSpotifyUserInfo = async (user_email) => {
-  const response = fetch(`http://localhost:3001/users/info/${user_email}`).then(
-    (response) => response.json()
+  return fetch(`http://localhost:3001/users/info/${user_email}`).then(
+    (res) => res.json()
   );
-  return response;
 };
 
 exports.createParty = async (user_email, ownerOptions) => {
-  const response = fetch(`http://localhost:3001/party/create/${user_email}`, {
+  return fetch(`http://localhost:3001/party/create/${user_email}`, {
     method: "POST",
     headers: {
       Accept: "application/json, text/plain",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(ownerOptions)
-  }).then((response) => response.text());
-  return response;
+  }).then((res) => res.text());
+  ;
 };
 
 // call this passing partyId as parameter, gives u back the name of owner as a string
 exports.getOwnerParty = (id) => {
   try {
-    const response = fetch(`http://localhost:3001/party/owner/${id}`).then(
-      (response) => response.text()
+    return fetch(`http://localhost:3001/party/owner/${id}`).then(
+      (res) => res.text()
     );
-    return response;
-  } catch (error) {
-    console.log(error);
+    ;
+  } catch (err) {
+    console.log(err);
     return '';
   }
 }
 
 exports.getUserRoom = async (email) => {
   try {
-    const response = fetch(`http://localhost:3001/users/info/party/${email}`).then(
-      (response) => response.text()
+    return fetch(`http://localhost:3001/users/info/party/${email}`).then(
+      (res) => res.text()
     );
-    return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
     return '';
   }
 }
 
 exports.checkRoom = async (id) => {
   try {
-    const response = fetch(`http://localhost:3001/party/${id}`).then(
-      (response) => response.json()
+    return fetch(`http://localhost:3001/party/${id}`).then(
+      (res) => res.json()
     );
-    return response;
-  } catch (error) {
-    console.log(error);
-    return 'error';
+  } catch (err) {
+    console.log(err);
+    return 'err';
   }
 }
 
 exports.getSocketRoomId = async (partyId) => {
   try {
-    const response = fetch(`http://localhost:3001/party/socketRoom/${partyId}`).then(
-      (response) => response.text()
+    return fetch(`http://localhost:3001/party/socketRoom/${partyId}`).then(
+      (res) => res.text()
     );
-    return response;
-  } catch (error) {
-    console.log(error);
+    ;
+  } catch (err) {
+    console.log(err);
     return '';
   }
 }
 
 exports.getQueryResult = (partyId, query) => {
   try {
-    const response = fetch(`http://localhost:3001/party/search/${partyId}/${query}`).then(
-      (response) => response.json()
+    return fetch(`http://localhost:3001/party/search/${partyId}/${query}`).then(
+      (res) => res.json()
     );
-    return response;
-  } catch (error) {
-    console.log(error);
+    ;
+  } catch (err) {
+    console.log(err);
     return [];
   }
 }
@@ -99,17 +96,17 @@ exports.postAddedSong = (songName, artist, image, songId, partyId, genres, durat
     duration: duration,
   }
   try {
-    const response = fetch(`http://localhost:3001/party/queue/add/${partyId}`, {
+    return fetch(`http://localhost:3001/party/queue/add/${partyId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-    }).then(response => response.text())
-    return response
-  } catch (error) {
-    console.log(error)
-    return 'error'
+    }).then(res => res.text())
+    
+  } catch (err) {
+    console.log(err)
+    return 'err'
   }
 }
 

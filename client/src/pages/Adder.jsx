@@ -8,7 +8,6 @@ import NoPage from "./NoPage";
 
 const Adder = () => {
 
-  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [exists, setExist] = useState(true)
 
   let {id} = useParams()
@@ -22,12 +21,7 @@ const Adder = () => {
         <AnimatedBackground/>
         <div id="adder-container">
           <h2 id="party-presenter">Party #{id}</h2>
-          {isAuthenticated ?
-          <Link to={`/adding/${id}`} className="join-party">Join as {user.given_name}</Link>
-          :
-          <button className="join-party" onClick={() => loginWithRedirect()}>Join the Party</button>
-          }
-          <Link to={`/adding/${id}`} className="join-party join-under">As Guest</Link>
+          <Link to={`/adding/${id}`} className="join-party join-under">Join As Guest</Link>
           <Link to='/' id="adder-back-home">Go Back Home ?</Link>
         </div>
       </div>
