@@ -55,15 +55,27 @@
   min-height: 100vh;
   display : flex;
   flex-direction : column;
-  justify-content:space-between;
   align-items : center;
-  padding-bottom: 50px;
+  justify-content: center;
 }
 
 .track-list-container{
   display : flex;
   flex-direction : column;
   gap: 5px;
+}
+
+#next-button{
+    position: absolute;
+    top: 50%;
+    right: 3.5%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 70px;
+    color: whitesmoke;
 }
 
 @media screen and (max-width: 680px) {

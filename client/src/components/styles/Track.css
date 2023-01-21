@@ -44,6 +44,41 @@
   font-weight: 700;
 }
 
+.upvote-downvote {
+  display: flex;
+  flex-direction: row;
+  margin-left: -30%;
+  margin-right: 15px;
+}
+
+.vote-button-container{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+}
+
+.vote-button{
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+#vote-count-container{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+}
+
+#vote-count{
+  font-size: 1.5em;
+  text-align: center;
+  margin-left: 5px;
+}
+
 @media screen and (max-width : 650px) {
   .track-container{
     max-width: 99vw;
@@ -65,11 +100,6 @@
             line-clamp: 2; 
     -webkit-box-orient: vertical;
   }
-}
-
-.upvote-downvote {
-  display: flex;
-  flex-direction: column;
 }
 
 .leftThings {
