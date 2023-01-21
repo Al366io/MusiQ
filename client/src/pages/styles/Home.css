@@ -116,7 +116,7 @@ span#hey-user{
 
 h2#section-1-header{
   text-align: center;
-  font-size: 28px;
+  font-size: 5vw;
   font-weight: 800;
   color: #0e2c44;
   margin-top: 0px;
@@ -149,6 +149,7 @@ div#user-view{
 
 #section-1-subheader{
  color: #04080c;
+ font-size: 2vw;
 }
 
 .perfect{
@@ -157,7 +158,7 @@ div#user-view{
   letter-spacing: 2px;
   padding-left: 2px;
   font-family:'PublicPixel';
-  font-size: 23px;
+  font-size: 3vw;
 }
 
 #section-2{
