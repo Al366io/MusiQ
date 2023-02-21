@@ -7,7 +7,6 @@ const {
   getPartyToken,
   getArtistGenre,
   getProgressOfPlaying,
-  sortByVote,
 } = require("../helpers/helpers");
 const { CLIENT_ID, CLIENT_SECRET } = require("../config");
 const { rawListeners } = require("process");
@@ -403,7 +402,7 @@ exports.socketIoGetQueue = async (socketRoomId, partyId) => {
         queueArray.push(song);
       });
     }
-    queueArray = sortByVote(queueArray);
+    queueArray.sort((a,b) => b.vote - a.vote)
     io.to(socketRoomId).emit("queue", queueArray);
   } catch (error) {
     console.log(error);
@@ -460,6 +459,8 @@ exports.searchSong = async (req, res) => {
 
 // ******** //
 
+// NOT USED
+
 exports.addSongToQueue = async (req, res) => {
   const partyId = req.params.partyId;
   const songId = req.params.songId;
@@ -490,6 +491,7 @@ exports.addSongToQueue = async (req, res) => {
     res.send("false");
   }
 };
+
 
 exports.anotherAddToQueue = async (req, res) => {
   try {
@@ -522,7 +524,7 @@ exports.anotherAddToQueue = async (req, res) => {
     queue.push(songToAdd);
 
     // sort
-    queue = sortByVote(queue);
+    //q.sort((a,b) => b.vote - a.vote)
 
     // stringify
     strQueue = JSON.stringify(queue);
@@ -548,20 +550,22 @@ exports.anotherAddToQueue = async (req, res) => {
 exports.upVoteSong = async (req, res) => {
   partyId = req.params.partyId;
   songId = req.params.songId;
-  console.log(partyId, ' ', songId);
+  // console.log(partyId, ' ', songId);
   try {
     // take array queue from db
     const partyObj = await PartiesTable.findOne({
       where: { party_id: partyId },
     });
-    let q = JSON.parse(partyObj.queue)
+    let q = JSON.parse(partyObj.queue);
     // search for the song with given id
     // increment its vote by 1
     q.forEach((song) => {
-      if(song.id == songId) {
-        song.vote++
+      if (song.id == songId) {
+        song.vote++;
       }
-    })
+    });
+    // sort the queue
+    //q.sort((a,b) => b.vote - a.vote)
     // update the db table with new queue
     await PartiesTable.update(
       {
@@ -574,7 +578,7 @@ exports.upVoteSong = async (req, res) => {
     res.sendStatus(204);
   } catch (error) {
     console.log(error);
-    res.sendStatus(500)
+    res.sendStatus(500);
   }
 };
 
@@ -586,14 +590,19 @@ exports.downVoteSong = async (req, res) => {
     const partyObj = await PartiesTable.findOne({
       where: { party_id: partyId },
     });
-    let q = JSON.parse(partyObj.queue)
+    let q = JSON.parse(partyObj.queue);
+    console.log(q);
     // search for the song with given id
     // increment its vote by 1
     q.forEach((song) => {
-      if(song.id == songId) {
-        song.vote--
+      if (song.id == songId) {
+        song.vote--;
       }
-    })
+    });
+    // sort
+    //q.sort((a,b) => b.vote - a.vote)
+    console.log(".......");
+    console.log(q);
     // update the db table with new queue
     await PartiesTable.update(
       {
@@ -606,7 +615,7 @@ exports.downVoteSong = async (req, res) => {
     res.sendStatus(204);
   } catch (error) {
     console.log(error);
-    res.sendStatus(500)
+    res.sendStatus(500);
   }
 };
 

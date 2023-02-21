@@ -26,11 +26,6 @@ io.on("connection", (socket) => {
     console.log(reason);
   });
   // to disconnect sockets from room: io.in("room1").disconnectSockets(true);
-
-  // this function is here because now we setInterval when room is created.
-  // SO for development porpuses (we start/stop the server a bunch of times) i will look into db,
-  // and manually start the set interval of the rooms that are there.
-  // this is needed to have dashboard/adder page work even with a room created before restarting the server
 });
 
 setTimeout(() => {

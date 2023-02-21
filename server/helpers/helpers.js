@@ -126,6 +126,6 @@ exports.getProgressOfPlaying = async (token) => {
   }
 } 
 
-exports.sortByVote = (obj) => {
-  return obj.sort((a,b) => {a.vote - b.vote})
-}
+// exports.sortByVote = (q) => {
+//   q.sort((a,b) => b.vote - a.vote)
+// }
