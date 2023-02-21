@@ -17,7 +17,9 @@ const AddButton = ({id, setter}) => {
     if (!input) return setSearchResponse([])
 
     searchTimeout = setTimeout(() => {
-      getQueryResult(id, input).then(res => setSearchResponse(res))
+      getQueryResult(id, input).then(res => {
+        setSearchResponse(res)
+      } )
     }, 600)
   }
 

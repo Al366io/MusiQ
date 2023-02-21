@@ -86,14 +86,14 @@ const Adding = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (remainingTime < 6000) {
-      if (queue[0] && queue[0].id && queue[0].id !== nextNext.current) {
-        console.log(queue)
-        sendNewPlaying(queue[0]);
-      }
-    }
-  }, [remainingTime]);
+  // useEffect(() => {
+  //   if (remainingTime < 6000) {
+  //     if (queue[0] && queue[0].id && queue[0].id !== nextNext.current) {
+  //       console.log(queue)
+  //       sendNewPlaying(queue[0]);
+  //     }
+  //   }
+  // }, [remainingTime]);
 
   const sendNewPlaying = (nextSong) => {
     playNext(id, nextSong.id);
@@ -101,8 +101,7 @@ const Adding = () => {
 
   const addSongFunction = (song) => {
     //call apiservices on song id passed here
-    // console.log(song);
-    postAddedSong(song.name, song.artist, song.image, song.id, id);
+    postAddedSong(song.name, song.artist, song.image, song.id, id, song.duration);
   };
 
   // HELPER FUNTION TO MODIFY GRADIENT SMOOTHLY

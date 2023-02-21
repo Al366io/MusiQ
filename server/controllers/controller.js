@@ -449,6 +449,7 @@ exports.searchSong = async (req, res) => {
       buff.artist = song.artists[0].name;
       buff.image = song.album.images[0].url;
       buff.id = song.id;
+      buff.duration = song.duration_ms;
       arrayOfSongs.push(buff);
     });
     res.status(200);
@@ -495,6 +496,7 @@ exports.addSongToQueue = async (req, res) => {
 };
 
 exports.anotherAddToQueue = async (req, res) => {
+  console.log(req.params.partyId);
   try {
     const partyId = req.params.partyId;
     const body = req.body;
@@ -504,6 +506,7 @@ exports.anotherAddToQueue = async (req, res) => {
     const genres = body.genres;
     const duration = body.duration;
     const artist = body.artist;
+    // console.log(duration);
     // take the queue of the party, parse it, add the song that is being sent to it, stringify it and reinsert it in db
     const partyObj = await PartiesTable.findOne({
       where: { party_id: partyId },

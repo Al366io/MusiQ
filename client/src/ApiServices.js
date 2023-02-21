@@ -86,13 +86,13 @@ exports.getQueryResult = (partyId, query) => {
   }
 }
 
-exports.postAddedSong = (songName, artist, image, songId, partyId, genres, duration) => {
+exports.postAddedSong = (songName, artist, image, songId, partyId, duration) => {
   const data = {
     id : songId,
     artist: artist,
     image : image,
     name: songName,
-    genres: genres,
+    // genres: genres,
     duration: duration,
   }
   try {

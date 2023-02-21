@@ -8,8 +8,10 @@ function Track({ partyId, song, last = false, search = false, setter = () => {} 
   const coverArt = song.image;
   // TODO Implement dynamic song/genre/artist Get info from api and pass in props
   // TODO Calculate minutes left with minutes left before previous song + length of song before
-  const minutesLeft = 12;
+  
+  let ms = song.duration, min = 0|(ms/1000/60), sec = 0|(ms/1000) % 60;
 
+  const minutesLeft = ( min + ":" + sec);
   const handleClick = () => {
     if (search) {
       setter(song.id);
