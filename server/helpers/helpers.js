@@ -53,7 +53,9 @@ exports.refreshExpiredToken = async (RT) => {
 // TODO make a function that create an instance of herself whenever a token gets added in the db, then runs every 59 minutes
 // to refresh them. Is this overkill ? IDK but it will assure us that every token is constantly OK
 
-exports.getPartyToken = async (partyId) => {
+exports.getPartyToken = async (partyId, queueRequest) => {
+  // if queueRequested is 1, we also return the queue of the party.
+
   try {
     // in PartiesTable search for the room and get email
     const party = await PartiesTable.findOne({
@@ -72,8 +74,8 @@ exports.getPartyToken = async (partyId) => {
       token = await this.refreshExpiredToken(user.refresh_token);
     }
 
-    // send back a non-expired token
-    return token.toString()
+    // send back a non-expired token (if queueRequest is 1 we send back an obj with the queue and the token)
+    return queueRequest ? {queue: party.queue, token: token.toString()} : token.toString()
 
   } catch (error) {
     console.log(error);

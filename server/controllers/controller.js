@@ -118,6 +118,7 @@ exports.checkIfHasToken = async (req, res) => {
       where: { user_email: userEmail },
     });
 
+    if (!userInDb) return res.sendStatus(404);
     if (userInDb.access_token) {
       // user and token found. Check for token validity.
       // const isTokenValid = await checkTokenValidity(userInDb.access_token);
@@ -208,7 +209,7 @@ exports.createParty = async (req, res) => {
     newParty.queue = JSON.stringify([]);
 
     await PartiesTable.create(newParty);
-    console.log(newParty);
+
     // here call the function that will set the interval to update this particular room
     this.triggerSocket(socketIoRoomId, partyId);
 
@@ -349,14 +350,17 @@ exports.getSocketIdRoom = async (req, res) => {
 
 exports.triggerSocket = async (socketRoom, partyId) => {
   setInterval(() => {
-    this.socketIoGetQueue(socketRoom, partyId);
+    this.socketIoUpdateRoom(socketRoom, partyId);
   }, 2000);
   return;
 };
 
-// TODO: here call the get currently playing, not get queue
-exports.socketIoGetQueue = async (socketRoomId, partyId) => {
-  const token = await getPartyToken(partyId);
+// this function is meant to get the currently playing song, if there is one,
+// and also take the queue from the db, sort it, and breadcast it to the room
+exports.socketIoUpdateRoom = async (socketRoomId, partyId) => {
+  const { token, queue } = await getPartyToken(partyId, 1);
+  let currentQueue = JSON.parse(queue);
+
   try {
     let queueArray = await fetch("https://api.spotify.com/v1/me/player/queue", {
       headers: {
@@ -371,38 +375,36 @@ exports.socketIoGetQueue = async (socketRoomId, partyId) => {
       })
       .then(async (response) => {
         let q = [];
-        // let arrayTenElemQueue = response.queue.slice(0, 10);
-        // arrayTenElemQueue.forEach((song) => {
-        //   let buff = {};
-        //   buff.name = song.name;
-        //   buff.artist = song.artists[0].name;
-        //   buff.image = song.album.images[0].url;
-        //   buff.id = song.id;
-        //   buff.duration = song.duration_ms;
-        //   q.push(buff);
-        // });
-        let prog = await getProgressOfPlaying(token);
-        let playing = {
-          name: response.currently_playing.name,
-          artist: response.currently_playing.artists[0].name,
-          image: response.currently_playing.album.images[0].url,
-          id: response.currently_playing.id,
-          duration: response.currently_playing.duration_ms,
-          progress: prog,
-        };
-        q.unshift(playing);
+        if (response.currently_playing) {
+          let prog = await getProgressOfPlaying(token);
+          let playing = {
+            name: response.currently_playing.name,
+            artist: response.currently_playing.artists[0].name,
+            image: response.currently_playing.album.images[0].url,
+            id: response.currently_playing.id,
+            duration: response.currently_playing.duration_ms,
+            progress: prog,
+          };
+          q.unshift(playing);
+        }
         return q;
       });
-    const partyObj = await PartiesTable.findOne({
-      where: { party_id: partyId },
-    });
-    let currentQueue = JSON.parse(partyObj.queue);
+
     if (currentQueue.length) {
       currentQueue.forEach((song) => {
         queueArray.push(song);
       });
     }
-    queueArray.sort((a,b) => b.vote - a.vote)
+    // here i could take care of putting the next song of the room, since im calling this every
+    // 2 seconds, i could calculate the remaining time ( or based on prog ) and call the next song 
+    // when it's >4 seconds from the end
+    let remainingTimeOfcurrentlyPlayingInMs = queueArray[0].duration - queueArray[0].progress;
+    
+    if (remainingTimeOfcurrentlyPlayingInMs < 4000) {
+      // call the next of the queue
+    }
+
+    queueArray.sort((a, b) => b.vote - a.vote);
     io.to(socketRoomId).emit("queue", queueArray);
   } catch (error) {
     console.log(error);
@@ -411,7 +413,7 @@ exports.socketIoGetQueue = async (socketRoomId, partyId) => {
 
 exports.startSetIntervals = async () => {
   // go into partiesTable, take every party_id, with every socket_room_id
-  // and call socketIoGetQueue on them.
+  // and call socketIoUpdateRoom on them.
   let parties = await PartiesTable.findAll();
   for (party of parties) {
     this.triggerSocket(
@@ -491,7 +493,6 @@ exports.addSongToQueue = async (req, res) => {
     res.send("false");
   }
 };
-
 
 exports.anotherAddToQueue = async (req, res) => {
   try {
