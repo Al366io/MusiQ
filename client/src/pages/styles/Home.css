@@ -116,7 +116,7 @@ span#hey-user {
 
 h2#section-1-header {
   text-align: center;
-  font-size: 5vw;
+  font-size: 7vw;
   font-weight: 800;
   color: #0e2c44;
   margin-top: 0px;
@@ -152,7 +152,7 @@ div#user-view {
 
 #section-1-subheader {
   color: #04080c;
-  font-size: 2vw;
+  font-size: 4vw;
 }
 
 .perfect {
@@ -161,7 +161,7 @@ div#user-view {
   letter-spacing: 2px;
   padding-left: 2px;
   font-family: "PublicPixel";
-  font-size: 3vw;
+  font-size: 4vw;
 }
 
 #section-2 {
@@ -291,7 +291,12 @@ div#user-view {
 
   h2#section-1-header {
     text-align: left;
-    line-height: 9vh;
+    line-height: 9.5vh;
+    font-size: 5vw;
+  }
+
+  #section-1-subheader {
+    font-size: 2vw;
   }
 
   .points-section-2 {
