@@ -52,9 +52,9 @@ h1#top-header {
   border-radius: 6px;
   color: #0e2c44;
   font-weight: 700;
-  font-size: 14px;
+  font-size: clamp(14px, 1.2vw, 25px);
   cursor: pointer;
-  box-shadow: inset 1px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 2px 4px 0px rgba(0, 0, 0, 0.5);
   font-family: 'PublicPixel';
   z-index: 500;
 }
@@ -296,18 +296,13 @@ div#user-view {
   }
 
   h2#section-1-header {
-    font-size: 2.8vw;
     text-align: left;
-    line-height: 9.5vh;
-    font-size: 5vw;
-  }
-
-  #section-1-subheader {
-    font-size: 2vw;
+    line-height: 5vw;
+    font-size: 4vw;
   }
 
   #section-1-subheader{
-    font-size: 2vw;
+    font-size: 1.8vw;
    }
 
   .perfect {
