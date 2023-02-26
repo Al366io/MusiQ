@@ -4,6 +4,9 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import LoginButton from "../components/LoginButton";
+import {SlSocialSpotify} from 'react-icons/sl'
+import {GiPartyPopper, GiMusicalNotes} from 'react-icons/gi'
+import {MdRule} from 'react-icons/md'
 import {
   getTokensFromDb,
   getSpotifyUserInfo,
@@ -104,7 +107,7 @@ const Home = () => {
               <>
                 {userRoom ?
                 <Link className="nologin" to={`/dashboard/${userRoom}`}> GO TO YOUR ROOM </Link>
-                : 
+                :
               <Link to="/owner" className="nologin">
                 Create a Party?
               </Link>
@@ -144,11 +147,11 @@ const Home = () => {
           <span id="section-1-subheader">
             With only a few clicks, set up a collective Spotify queue for your
             party where everyone can participate!
-            
+
           </span>
         </div>
         <div id="user-view-container">
-        <div id="user-view" 
+        <div id="user-view"
         style={{
           'background' : `url(${process.env.PUBLIC_URL + '/assets/temp-user-view.png'}`,
           'backgroundOrigin' : 'padding-box',
@@ -167,39 +170,47 @@ const Home = () => {
       </svg>
       <div id="section-2">
         <div id="wrapper-section-2">
-          <span className="points-section-2">Connect through Spotify</span>
+          <span className="points-section-2">Connect through Spotify
+          <SlSocialSpotify/>
+          </span>
           <span className="down-arrow">&#8595;</span>
-          <span className="points-section-2">Create your party</span>
+          <span className="points-section-2">Create your party
+          <GiPartyPopper/>
+          </span>
           <span className="down-arrow">&#8595;</span>
-          <span className="points-section-2">Set some ground rules</span>
+          <span className="points-section-2">Set some ground rules
+          <MdRule/>
+          </span>
           <span className="down-arrow">&#8595;</span>
-          <span className="points-section-2">Enjoy great MusiQ</span>
+          <span className="points-section-2">Enjoy great MusiQ
+          <GiMusicalNotes/>
+          </span>
         </div>
       </div>
       <div id="section-3">
         <div id="wrapper-left-section-3">
-          
-          <button 
+
+          <button
           className={`option-button-home ${selectOption === 'options' ? 'active' : ''}`}
-          onClick={(e) => setSelectOption(e.target.value)} 
+          onClick={(e) => setSelectOption(e.target.value)}
           value='options'>
             Options
             </button>
-          <button 
+          <button
           className={`option-button-home ${selectOption === 'adding' ? 'active' : ''}`}
-          onClick={(e) => setSelectOption(e.target.value)} 
+          onClick={(e) => setSelectOption(e.target.value)}
           value='adding'>
             Adding
           </button>
-          <button 
+          <button
           className={`option-button-home ${selectOption === 'adder' ? 'active' : ''}`}
-          onClick={(e) => setSelectOption(e.target.value)} 
+          onClick={(e) => setSelectOption(e.target.value)}
           value='adder'>
             Adder
           </button>
-          <button 
+          <button
           className={`option-button-home ${selectOption === 'dashboard' ? 'active' : ''}`}
-          onClick={(e) => setSelectOption(e.target.value)} 
+          onClick={(e) => setSelectOption(e.target.value)}
           value='dashboard'>
             Dashboard
           </button>
