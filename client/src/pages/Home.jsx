@@ -171,18 +171,22 @@ const Home = () => {
       <div id="section-2">
         <div id="wrapper-section-2">
           <span className="points-section-2">Connect through Spotify
+          <br/>
           <SlSocialSpotify/>
           </span>
           <span className="down-arrow">&#8595;</span>
           <span className="points-section-2">Create your party
+          <br/>
           <GiPartyPopper/>
           </span>
           <span className="down-arrow">&#8595;</span>
           <span className="points-section-2">Set some ground rules
+          <br/>
           <MdRule/>
           </span>
           <span className="down-arrow">&#8595;</span>
           <span className="points-section-2">Enjoy great MusiQ
+          <br/>
           <GiMusicalNotes/>
           </span>
         </div>

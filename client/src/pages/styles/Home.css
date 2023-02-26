@@ -178,6 +178,7 @@ div#user-view {
 .points-section-2 {
   font-size: 20px;
   font-weight: 400;
+  text-align: center;
 }
 
 .down-arrow {
@@ -374,6 +375,7 @@ div#user-view {
   .login {
     margin-bottom: 20px;
     margin-right: 0px;
+  font-size: 16px;
   }
 
   #logged {
