@@ -55,7 +55,7 @@ h1#top-header {
   font-size: 14px;
   cursor: pointer;
   box-shadow: inset 1px 2px 4px 0px rgba(0, 0, 0, 0.5);
-  font-family: "PublicPixel";
+  font-family: 'PublicPixel';
   z-index: 500;
 }
 
@@ -78,7 +78,7 @@ span#hey-user {
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
-  font-family: "PublicPixel";
+  font-family: 'PublicPixel';
 }
 
 #logged {
@@ -93,6 +93,7 @@ span#hey-user {
 #connect-spotify {
   color: pink;
 }
+
 #connect-spotify:visited {
   color: rgb(226, 169, 179);
 }
@@ -102,7 +103,7 @@ span#hey-user {
   color: #3d1053;
   padding: 4px 8px 4px 8px;
   border-radius: 6px;
-  font-family: "PublicPixel";
+  font-family: 'PublicPixel';
   font-size: 28px;
 }
 
@@ -152,7 +153,6 @@ div#user-view {
 
 #section-1-subheader {
   color: #04080c;
-  font-size: 4vw;
 }
 
 .perfect {
@@ -160,8 +160,8 @@ div#user-view {
   color: #3d1053;
   letter-spacing: 2px;
   padding-left: 2px;
-  font-family: "PublicPixel";
-  font-size: 4vw;
+  font-family: 'PublicPixel';
+  font-size: 23px;
 }
 
 #section-2 {
@@ -173,6 +173,7 @@ div#user-view {
   align-items: center;
   padding-bottom: 60px;
 }
+
 
 .points-section-2 {
   font-size: 20px;
@@ -269,13 +270,16 @@ div#user-view {
     transform: translateX(50px) translate(-50%, -50%);
     opacity: 0;
   }
+
   100% {
     transform: translateX(0) translate(-50%, -50%);
     opacity: 1;
   }
 }
 
-@media screen and (min-width: 620px) {
+
+@media screen and (min-width : 620px) {
+
   #logged {
     margin-right: 60px;
     margin-top: 30px;
@@ -283,6 +287,8 @@ div#user-view {
 
   #section-1 {
     padding-bottom: 70px;
+    margin: 0 12vw;
+    gap: 100px;
   }
 
   #section-1-left {
@@ -290,6 +296,7 @@ div#user-view {
   }
 
   h2#section-1-header {
+    font-size: 2.8vw;
     text-align: left;
     line-height: 9.5vh;
     font-size: 5vw;
@@ -297,6 +304,14 @@ div#user-view {
 
   #section-1-subheader {
     font-size: 2vw;
+  }
+
+  #section-1-subheader{
+    font-size: 2vw;
+   }
+
+  .perfect {
+    font-size: 3vw;
   }
 
   .points-section-2 {
@@ -312,6 +327,7 @@ div#user-view {
     justify-content: center;
     align-items: center;
   }
+
   #wrapper-section-2 {
     display: flex;
     flex-direction: row;
@@ -321,12 +337,15 @@ div#user-view {
     padding-right: 25px;
     padding-left: 25px;
   }
+
   .down-arrow {
     visibility: hidden;
   }
+
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width : 680px) {
+
   h1#top-header {
     border-bottom: none;
   }
@@ -336,12 +355,15 @@ div#user-view {
     width: 1030px;
     left: 0px;
   }
+
   .logout {
     color: white;
   }
 }
 
-@media screen and (max-width: 620px) {
+
+@media screen and (max-width : 620px) {
+
   #top-wrapper {
     flex-direction: column;
   }
